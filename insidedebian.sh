@@ -28,9 +28,9 @@ dpkg-reconfigure --frontend noninteractive tzdata
 echo "configuring systemd for poweroff"
 mkdir -p /etc/systemd/system/networking.service.d/
 mkdir -p /etc/systemd/system/ifup@.service.d/
-echo "[Service]" >> /etc/systemd/system/ifup@.service.d/override.conf
+echo "[Service]" > /etc/systemd/system/ifup@.service.d/override.conf
 echo "ExecStop=" >> /etc/systemd/system/ifup@.service.d/override.conf
-echo "[Service]" >> /etc/systemd/system/networking.service.d/override.conf
+echo "[Service]" > /etc/systemd/system/networking.service.d/override.conf
 echo "ExecStop=" >> /etc/systemd/system/networking.service.d/override.conf
 
 #configure systemd to store journal in RAM, not in disk
@@ -38,6 +38,7 @@ echo "configuring systemd to sotre journal"
 sed -i.bak 's/#Storage=auto/Storage=volatile/g' /etc/systemd/journald.conf
 
 #install minimum packages
+#openssl is necesary for adding a password to users created with userad. see last line of the script
 echo "installing packages"
 apt-get -y install linux-image-amd64 live-boot sudo openssl
 #this is optional, install debian standard system utilities with tasksel
