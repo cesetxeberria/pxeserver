@@ -8,7 +8,7 @@ After powering up our computer, it tries to get an ip from a dhcp server. This s
 
 ![](https://github.com/cesetxeberria/pxeserver/blob/master/scheme.png)
 
-### We have 3 different approaches for this
+### There are 3 different approaches for this
 1. Use the same computer as dhcp and pxe server. It will offer an ip address and all the necessary files to boot.
 2. Use two different computers: one for dhcp and another one for pxe. The first one will offer an ip and point the client to the pxe server.
 3. Use two computers: one for dhcp and another one for dhcp proxy & pxe. The first one will only offer an ip. The second one will offer auxiliary boot information.
