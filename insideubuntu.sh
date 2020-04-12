@@ -35,7 +35,7 @@ apt-get -y install linux-image-generic grub*- live-boot tasksel
 #this is optional, install ubuntu standard system utilities with tasksel
 #tasksel --new-install install server
 #tasksel --new-install install ubuntu-desktop-minimal
-tasksel --new-install
+tasksel --new-install standard
 
 #prepare dns
 echo "set dns"
