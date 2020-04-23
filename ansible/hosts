@@ -1,2 +1,5 @@
-[gelak]
+[servers]
+/home/tftp/livecds/customdebian		distro=debian suite=buster	arch=amd64
+
+[desktops]
 /home/tftp/livecds/customubuntu		distro=ubuntu suite=focal	arch=amd64
