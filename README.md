@@ -15,3 +15,35 @@ After powering up our computer, it tries to get an ip from a dhcp server. This s
 
 I will focus on the third approach, because we already have a dhcp server at home (our router).
 More info on [the wiki](https://github.com/cesetxeberria/pxeserver/wiki).
+
+# Automatize it with [ansible](https://www.ansible.com)
+I've created some ansible roles to automatize the process.
+
+So, install ansible and git.
+```
+apt-get install ansible git
+```
+
+Clone the repo
+```
+git clone https://github.com/cesetxeberria/pxeserver
+```
+
+And let ansible do his magic
+```
+cd pxeserver/ansible
+ansible-playbook pxe.yml
+```
+
+It will configure your server as a nfs and pxe server, with syslinux, grub and ipxe configured. By default bios based clients will boot using syslinux and uefi ones will boot with ipxe. Edit '/etc/dnsmasq.d/custom' file if you want to change this.
+
+This is the default menu for syslinux.
+
+men
+
+First 3 options won't be available at first. To use them livecd images must be created.
+```
+ansible-playbook -i hosts createlivecds.yml
+```
+
+Last menu option won't be available neither. It needs Windows installation cd's files. See here.
