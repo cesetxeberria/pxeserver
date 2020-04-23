@@ -17,8 +17,8 @@ I will focus on the third approach, because we already have a dhcp server at hom
 
 More info on [the wiki](https://github.com/cesetxeberria/pxeserver/wiki).
 
-# Automatize it with [ansible](https://www.ansible.com)
-I've created some ansible roles to automatize the process.
+# Automatize it with ansible
+I've created some [ansible](https://www.ansible.com) roles to automatize the process.
 
 So, install ansible and git.
 ```
