@@ -14,6 +14,7 @@ After powering up our computer, it tries to get an ip from a dhcp server. This s
 3. Use two computers: one for dhcp and another one for dhcp proxy & pxe. The first one will only offer an ip. The second one will offer auxiliary boot information.
 
 I will focus on the third approach, because we already have a dhcp server at home (our router).
+
 More info on [the wiki](https://github.com/cesetxeberria/pxeserver/wiki).
 
 # Automatize it with [ansible](https://www.ansible.com)
@@ -38,12 +39,11 @@ ansible-playbook pxe.yml
 It will configure your server as a nfs and pxe server, with syslinux, grub and ipxe configured. By default bios based clients will boot using syslinux and uefi ones will boot with ipxe. Edit '/etc/dnsmasq.d/custom' file if you want to change this.
 
 This is the default menu for syslinux.
-
-men
+![](https://github.com/cesetxeberria/pxeserver/blob/master/syslinuxcustom.png)
 
 First 3 options won't be available at first. To use them livecd images must be created.
 ```
 ansible-playbook -i hosts createlivecds.yml
 ```
 
-Last menu option won't be available neither. It needs Windows installation cd's files. See here.
+Last menu option won't be available neither. It needs Windows installation cd's files. See [here](https://github.com/cesetxeberria/pxeserver/wiki/Windows-installer).
