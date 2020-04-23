@@ -1,0 +1,36 @@
+---
+- name: formateatudenabios kopiatzen
+  copy:
+    src: "{{ role_path }}/files/root/formateatudenabios"
+    dest: "/root/formateatudenabios"
+    mode: 0744
+
+- name: formateatudenauefi kopiatzen
+  copy:
+    src: "{{ role_path }}/files/root/formateatudenauefi"
+    dest: "/root/formateatudenauefi"
+    mode: 0744
+
+- name: syslinux.cfg kopiatzen
+  copy:
+    src: "{{ role_path }}/files/root/syslinux.cfg"
+    dest: "/root/syslinux.cfg"
+    mode: 0644
+
+- name: syslinux_local.cfg kopiatzen
+  copy:
+    src: "{{ role_path }}/files/root/syslinux_local.cfg"
+    dest: "/root/syslinux_local.cfg"
+    mode: 0644
+
+- name: copy gethardinfo script
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/gethardinfo"
+    dest: "/usr/local/bin/gethardinfo"
+    mode: 0755
+
+- name: copy getnamebymac cript
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/getnamebymac"
+    dest: "/usr/local/bin/getnamebymac"
+    mode: 0755

@@ -1,0 +1,52 @@
+if loadfont /grub/font.pf2 ; then
+set gfxmode=auto
+insmod efi_gop
+insmod efi_uga
+insmod gfxterm
+terminal_output gfxterm
+fi
+
+set menu_color_normal=white/black
+set menu_color_highlight=black/light-gray
+set timeout=5
+
+menuentry "Custom Debian live" {
+ echo "Loadig Custom Debian live..."
+ linux /livecds/customdebian/vmlinuz panic=10 ro boot=live root=/dev/nfs nfsroot={{ ansible_default_ipv4.address }}:{{ tftp_root }}/livecds/customdebian ksdevice=bootif
+ initrd /livecds/customdebian/initrd.img
+}
+
+menuentry "Custom Ubuntu live" {
+ echo "Loadig Custom Ubuntu live..."
+ linux /livecds/customubuntu/vmlinuz panic=10 ro boot=live root=/dev/nfs nfsroot={{ ansible_default_ipv4.address }}:{{ tftp_root }}/livecds/customubuntu ksdevice=bootif
+ initrd /livecds/customubuntu/initrd.img
+}
+
+menuentry "Stretch installer (i386)" {
+ echo "Loadig Debian installer (i386)..."
+ set gfxpayload=800x600x16,800x600
+ linux /installers/debian/i386/linux --- quiet
+ initrd /installers/debian/i386/initrd.gz
+}
+
+menuentry "Stretch installer (amd64)" {
+ echo "Loadig Debian installer (amd64)..."
+ set gfxpayload=800x600x16,800x600
+ linux /installers/debian/amd64/linux --- quiet
+ initrd /installers/debian/amd64/initrd.gz
+}
+
+menuentry "Windows PE" {
+ echo "Loadig wimboot..."
+ linux /windows/wimboot
+ initrd /windows/bcd
+ initrd /windows/boot.sdi
+ initrd /windows/boot.wim
+}
+
+menuentry "Windows PE img" {
+ echo "Loadig Windows PE memdisk..."
+ linux /windows/memdisk raw
+ initrd /windows/winpe.img
+}
+

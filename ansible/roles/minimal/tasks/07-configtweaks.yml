@@ -1,0 +1,57 @@
+---
+- name: Create a folder for ifup@.service
+  file:
+    path: "/etc/systemd/system/ifup@.service.d/"
+    state: directory
+  when: ansible_distribution == 'Debian'
+
+- name: Create a folder for networking.service
+  file:
+    path: "/etc/systemd/system/networking.service.d/"
+    state: directory
+  when: ansible_distribution == 'Debian'
+
+- name: Override default networking configuration. Now Debian won't disconnect before shutting down.
+  copy:
+    src: "{{ role_path }}/files/etc/systemd/system/networking.service.d/override.conf"
+    dest: "/etc/systemd/system/networking.service.d/override.conf"
+    mode: 0644
+  when: ansible_distribution == 'Debian'
+
+- name: Override default ifup configuration. Now Debian won't disconnect before shutting down.
+  copy:
+    src: "{{ role_path }}/files/etc/systemd/system/networking.service.d/override.conf"
+    dest: "/etc/systemd/system/ifup@.service.d/override.conf"
+    mode: 0644
+  when: ansible_distribution == 'Debian'
+
+- name: Set OpenNIC dns for Ubuntu. 
+  replace:
+    dest: /etc/systemd/resolved.conf
+    regexp: '#DNS='
+    replace: 'DNS=10.10.0.11'
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Power button will power off the system.
+  replace:
+    dest: /etc/systemd/logind.conf
+    regexp: '#HandlePowerKey=poweroff'
+    replace: 'HandlePowerKey=poweroff'
+
+- name: Don't save systemd journal.
+  replace:
+    dest: /etc/systemd/journald.conf
+    regexp: '#Storage=auto'
+    replace: 'Storage=volatile'
+
+- name: Copy getnamebymac service.
+  copy:
+    src: "{{ role_path }}/files/etc/systemd/system/getnamebymac.service"
+    dest: "/etc/systemd/system/getnamebymac.service"
+    mode: 0644
+
+- name: Enable getnamebymac service.
+  file:
+    src: /etc/systemd/system/getnamebymac.service
+    dest: /etc/systemd/system/multi-user.target.wants/getnamebymac.service
+    state: link

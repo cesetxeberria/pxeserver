@@ -1,0 +1,69 @@
+#!ipxe
+prompt --timeout 2000 Press any key to show the boot menu... && goto MENU || goto default 
+
+:MENU
+menu
+item --gap -- ---------------- iPXE boot menu ----------------
+item customdebianlive        Custom Debian live
+item customubuntulive        Custom Ubuntu live
+item debianinstall32         Debian installer i386
+item debianinstall64         Debian installer amd64
+item winpe                   Windows PE
+item local                   Local disk
+item shell                   ipxe shell
+item exit                    exit
+choose target && goto ${target}
+
+:default
+goto customdebianlive ||
+goto MENU
+ 
+:customdebianlive
+kernel /livecds/customdebian/vmlinuz
+initrd /livecds/customdebian/initrd.img
+imgargs vmlinuz initrd=initrd.img panic=10 ro boot=live root=/dev/nfs nfsroot={{ ansible_default_ipv4.address }}:{{ tftp_root }}/livecds/customdebian ksdevice=bootif BOOTIF=${netX/mac}      
+boot ||
+goto MENU
+
+:customubuntulive
+kernel /livecds/customubuntu/vmlinuz
+initrd /livecds/customubuntu/initrd.img
+imgargs vmlinuz initrd=initrd.img panic=10 ro boot=live root=/dev/nfs nfsroot={{ ansible_default_ipv4.address }}:{{ tftp_root }}/livecds/customubuntu ksdevice=bootif BOOTIF=${netX/mac}      
+boot ||
+goto MENU
+
+:debianinstall32
+kernel /installers/debian/i386/linux
+initrd /installers/debian/i386/initrd.gz
+imgargs linux initrd=initrd.gz vga=788
+boot ||
+goto MENU
+
+:debianinstall64
+kernel /installers/debian/amd64/linux
+initrd /installers/debian/amd64/initrd.gz
+imgargs linux initrd=initrd.gz vga=788
+boot ||
+goto MENU
+
+:winpe
+kernel /windows/wimboot gui
+initrd /windows/bcd BCD
+initrd /windows/boot.sdi boot.sdi
+initrd /windows/boot.wim boot.wim
+boot ||
+goto MENU
+
+:local
+sanboot --no-describe --drive 0x80
+||
+goto MENU
+
+:shell
+shell ||
+goto MENU
+
+:exit
+exit
+ 
+autoboot

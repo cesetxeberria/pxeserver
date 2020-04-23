@@ -1,0 +1,10 @@
+#!ipxe
+dhcp && goto netboot || goto dhcperror
+
+:dhcperror
+prompt --key s --timeout 10000 DHCP failed, hit 's' for the iPXE shell; reboot in 10 seconds && shell || reboot
+
+:netboot
+chain tftp://{{ ansible_default_ipv4.address }}/ipxe/default.ipxe ||
+prompt --key s --timeout 2 Chainloading failed, hit 's' for the iPXE shell; exit in 10 seconds && shell || exit
+

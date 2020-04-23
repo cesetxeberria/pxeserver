@@ -1,0 +1,23 @@
+---
+- name: Disable pcspeaker.
+  blockinfile:
+    create: yes
+    dest: "/etc/modprobe.d/nobeep"
+    block: |
+      blacklist pcspkr
+
+- name: Install i386 kernel for Debian.
+  apt: name=linux-image-5.4.0-0.bpo.4-686-pae
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_architecture == 'i386'
+
+- name: Install amd64 kernel for Debian.
+  apt: name=linux-image-5.4.0-0.bpo.4-amd64
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_architecture == 'x86_64'
+
+- name: Install amd kernel for Ubuntu.
+  apt: name=linux-image-generic
+  when: ansible_distribution == 'Ubuntu'

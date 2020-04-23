@@ -1,0 +1,38 @@
+---
+- name: Install wimtools
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - wimtools
+    - cabextract
+    - genisoimage
+
+- name: Create winpe dir
+  file:
+    path: "{{ tftp_root }}/windows"
+    state: directory
+    mode: 0755
+
+- name: Download and extract wimboot
+  unarchive:
+    src: http://git.ipxe.org/releases/wimboot/wimboot-latest.tar.gz
+    dest: "{{ tftp_root }}/windows"
+    remote_src: yes
+
+- name: Copy wimboot
+  copy:
+    src: "{{ tftp_root }}/windows/wimboot-2.6.0-signed/wimboot"
+    dest: "{{ tftp_root }}/windows/wimboot"
+    mode: 0644
+
+- name: Delete wimboot dir
+  file:
+    path: "{{ tftp_root }}/windows/wimboot-2.6.0-signed"
+    state: absent
+
+- name: Copy memdisk
+  copy:
+    src: "/usr/lib/syslinux/memdisk"
+    dest: "{{ tftp_root }}/windows/memdisk"
+    mode: 0644

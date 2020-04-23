@@ -1,0 +1,26 @@
+---
+- name: Install needed pacakges.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - debootstrap
+    - squashfs-tools
+    - whois
+#whois package will be used to create user passwords
+
+- name: Create customubuntu dir.
+  file:
+    path: "{{ tftp_root }}/livecds/customubuntu"
+    state: directory
+    mode: 0755
+
+- name: Create customdebian dir.
+  file:
+    path: "{{ tftp_root }}/livecds/customdebian"
+    state: directory
+    mode: 0755
+
+- name: Install focal focus debootstrap
+  apt:
+    deb: http://es.archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/debootstrap_1.0.118ubuntu1_all.deb

@@ -1,0 +1,4 @@
+---
+include_packages: openssh-server,python-apt,python-is-python2,tasksel
+repo: http://es.archive.ubuntu.com/ubuntu
+compo: main,restricted,universe,multiverse

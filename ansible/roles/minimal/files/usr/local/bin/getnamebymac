@@ -1,0 +1,4 @@
+#!/bin/bash
+#ip -o link | grep "state UP" | awk '{print $17}'
+address=$(ip -o link | grep "BROADCAST" | awk '{print $17}')
+hostnamectl set-hostname ${adress//:}

@@ -1,0 +1,26 @@
+---
+  - include_vars: "{{ distro }}.yml"
+
+  - name: Create client's folder
+    file:
+      path: "{{ inventory_hostname }}/live/squashfs-root"
+      state: directory
+      mode: 0755
+
+  - name: Check if it already exists
+    stat:
+      path: "{{ inventory_hostname }}/../filesystem.squashfs"
+    register: stat_result
+
+  - name: It exists
+    fail: msg="There is a filesystem.squash file"
+    when: stat_result.stat.exists == True
+
+  - name: Create new installation using debootstrap
+    command: /usr/sbin/debootstrap
+             --arch={{ arch }}
+             --include={{ include_packages }}
+             --components={{ compo }}
+             --merged-usr
+             {{ suite }} {{ inventory_hostname }}/live/squashfs-root {{ repo }}
+    when: stat_result.stat.exists == False 

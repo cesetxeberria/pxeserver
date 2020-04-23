@@ -1,0 +1,9 @@
+#!ipxe
+ifopen
+echo Booting Windows Installer...
+set root-path tftp://192.168.1.65/kernelak
+kernel ${root-path}/winpe/wimboot gui
+initrd ${root-path}/winpe/bcd BCD
+initrd ${root-path}/winpe/boot.sdi boot.sdi
+initrd ${root-path}/winpe/boot.wim boot.wim
+boot

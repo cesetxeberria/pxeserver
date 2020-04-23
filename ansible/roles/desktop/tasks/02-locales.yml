@@ -1,0 +1,31 @@
+---
+- name: Install spanish locale packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - aspell-es
+    - ispanish
+    - wspanish
+    - debian-reference-es
+    - util-linux-locales
+    - myspell-es
+
+- name: Install spanish locale for QT applications in Ubuntu.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - manpages-es-extra
+    - language-pack-kde-es
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install spanish locale for QT applications in Debian.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - manpages-es
+    - kde-l10n-es
+  when: ansible_distribution == 'Debian'
+

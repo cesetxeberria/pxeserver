@@ -1,0 +1,15 @@
+---
+- name: Umount /dev/pts
+  command: umount -df /dev/pts
+  args:
+    warn: no
+
+- name: Umount /sys
+  command: umount -df /sys
+  args:
+    warn: no
+
+- name: Umount /proc
+  command: umount -df /proc
+  args:
+    warn: no

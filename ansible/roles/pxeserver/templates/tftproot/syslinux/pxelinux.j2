@@ -1,0 +1,35 @@
+ui menu.c32
+prompt 0
+default CustomDebianlive
+timeout 20
+
+label CustomDebianlive
+ menu clear
+ kernel tftp/livecds/customdebian/vmlinuz
+ initrd tftp/livecds/customdebian/initrd.img
+ append panic=10 ro boot=live root=/dev/nfs nfsroot={{ ansible_default_ipv4.address }}:{{ tftp_root }}/livecds/customdebian swap
+ ipappend 2 
+
+label CustomUbuntulive
+ menu clear
+ kernel tftp/livecds/customubuntu/vmlinuz
+ initrd tftp/livecds/customubuntu/initrd.img
+ append panic=10 ro boot=live root=/dev/nfs nfsroot={{ ansible_default_ipv4.address }}:{{ tftp_root }}/livecds/customubuntu swap
+ ipappend 2 
+
+label Stretch installer (amd64)
+ menu clear
+ kernel tftp/installers/debian/amd64/linux
+ initrd tftp/installers/debian/amd64/initrd.gz
+ append vga=788 --- quiet
+
+label Stretch installer (i386)
+ menu clear
+ kernel tftp/installers/debian/i386/linux
+ initrd tftp/installers/debian/i386/initrd.gz
+ append vga=788 --- quiet
+
+label WindowsPE
+ kernel tftp/windows/memdisk  
+ initrd tftp/windows/winpe.img    
+ append raw

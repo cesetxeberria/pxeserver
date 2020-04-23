@@ -1,0 +1,20 @@
+---
+- name: mount proc
+  command: /bin/mount -t proc none /proc
+  args:
+    warn: no
+
+- name: mount sys
+  command: /bin/mount -t sysfs none /sys
+  args:
+    warn: no
+
+- name: mount devpts
+  command: /bin/mount -t devpts none /dev/pts
+  args:
+    warn: no
+
+- name: inside chroot ansible gets server's architecture, so we fix it
+  set_fact:
+    ansible_architecture: i386
+  when: arch == 'i386'

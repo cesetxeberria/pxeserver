@@ -1,0 +1,128 @@
+---
+- name: Install pxelinux packages.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - pxelinux
+    - syslinux-efi
+
+- name: Create syslinux folder for bios clients.
+  file:
+    path: "{{ tftp_root }}/syslinux/bios/pxelinux.cfg"
+    state: directory
+    mode: 0755
+
+- name: Create syslinux folder for uefi clients.
+  file:
+    path: "{{ tftp_root }}/syslinux/efi"
+    state: directory
+    mode: 0755
+
+- name: Link both config files so we only need to update one.
+  file:
+    src: "{{ tftp_root }}/syslinux/bios/pxelinux.cfg"
+    dest: "{{ tftp_root }}/syslinux/efi/pxelinux.cfg"
+    state: link
+
+- name: Crate a link to the tftp-root inside syslinux bios folder.
+  file:
+    src: "{{ tftp_root }}"
+    dest: "{{ tftp_root }}/syslinux/bios/tftp"
+    state: link
+
+- name: Crate a link to the tftp-root inside syslinux uefi folder.
+  file:
+    src: "{{ tftp_root }}"
+    dest: "{{ tftp_root }}/syslinux/efi/tftp"
+    state: link
+
+- name: Copy syslinux.0
+  copy:
+    src: "/usr/lib/PXELINUX/pxelinux.0"
+    dest: "{{ tftp_root }}/syslinux/bios/syslinux.0"
+    mode: 0644
+
+- name: Copy syslinux.efi
+  copy:
+    src: "/usr/lib/SYSLINUX.EFI/efi64/syslinux.efi"
+    dest: "{{ tftp_root }}/syslinux/efi/syslinux.efi"
+    mode: 0644
+
+- name: Copy libutil.c32 for bios clients
+  copy:
+    src: "/usr/lib/syslinux/modules/bios/libutil.c32"
+    dest: "{{ tftp_root }}/syslinux/bios/libutil.c32"
+    mode: 0644
+
+- name: Copy libutil.c32 for uefi clients
+  copy:
+    src: "/usr/lib/syslinux/modules/efi64/libutil.c32"
+    dest: "{{ tftp_root }}/syslinux/efi/libutil.c32"
+    mode: 0644
+
+- name: Copy ldlinux.c32 for bios clients
+  copy:
+    src: "/usr/lib/syslinux/modules/bios/ldlinux.c32"
+    dest: "{{ tftp_root }}/syslinux/bios/ldlinux.c32"
+    mode: 0644
+
+- name: Copy ldlinux.c32 for uefi clients
+  copy:
+    src: "/usr/lib/syslinux/modules/efi64/ldlinux.e64"
+    dest: "{{ tftp_root }}/syslinux/efi/ldlinux.e64"
+    mode: 0644
+
+- name: Copy menu.c32 for bios clients
+  copy:
+    src: "/usr/lib/syslinux/modules/bios/menu.c32"
+    dest: "{{ tftp_root }}/syslinux/bios/menu.c32"
+    mode: 0644
+
+- name: Copy menu.c32 for uefi clients
+  copy:
+    src: "/usr/lib/syslinux/modules/efi64/menu.c32"
+    dest: "{{ tftp_root }}/syslinux/efi/menu.c32"
+    mode: 0644
+
+- name: Copy libcom32.c32 for bios clients
+  copy:
+    src: "/usr/lib/syslinux/modules/bios/libcom32.c32"
+    dest: "{{ tftp_root }}/syslinux/bios/libcom32.c32"
+    mode: 0644
+
+- name: Copy libcom32.c32 for uefi clients
+  copy:
+    src: "/usr/lib/syslinux/modules/efi64/libcom32.c32"
+    dest: "{{ tftp_root }}/syslinux/efi/libcom32.c32"
+    mode: 0644
+
+- name: Copy syslinux.c32 for bios clients
+  copy:
+    src: "/usr/lib/syslinux/modules/bios/syslinux.c32"
+    dest: "{{ tftp_root }}/syslinux/bios/syslinux.c32"
+    mode: 0644
+
+- name: Copy syslinux.c32 for uefi clients
+  copy:
+    src: "/usr/lib/syslinux/modules/efi64/syslinux.c32"
+    dest: "{{ tftp_root }}/syslinux/efi/syslinux.c32"
+    mode: 0644
+
+- name: Copy chain.c32 for bios clients
+  copy:
+    src: "/usr/lib/syslinux/modules/bios/chain.c32"
+    dest: "{{ tftp_root }}/syslinux/bios/chain.c32"
+    mode: 0644
+
+- name: Copy chain.c32 for uefi clients
+  copy:
+    src: "/usr/lib/syslinux/modules/efi64/chain.c32"
+    dest: "{{ tftp_root }}/syslinux/efi/chain.c32"
+    mode: 0644
+
+- name: Copy pxelinux default config file
+  template:
+    src: "{{ role_path }}/templates/tftproot/syslinux/pxelinux.j2"
+    dest: "{{ tftp_root }}/syslinux/bios/pxelinux.cfg/default"
+    mode: 0644

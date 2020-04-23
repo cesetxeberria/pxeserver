@@ -1,0 +1,20 @@
+---
+- name: Change /etc/default/keyboard for spanish keyboard
+  lineinfile:
+    dest: /etc/default/keyboard
+    regexp: 'XKBLAYOUT="us"'
+    line: 'XKBLAYOUT="es"'
+    backrefs: yes
+
+- name: Change /etc/default/console-setup for spanish
+  lineinfile:
+    dest: /etc/default/console-setup
+    regexp: 'CHARMAP="ISO-8859-15"'
+    line: 'CHARMAP="UTF-8"'
+    backrefs: yes
+
+- name: Dpkg-reconfigure keyboard-configuration
+  command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive keyboard-configuration
+
+- name: Dpkg-reconfigure console-setup Debian
+  command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive console-setup

@@ -1,0 +1,38 @@
+---
+- name: Install needed packages.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - dnsmasq
+    - nfs-kernel-server
+    - python-distutils-extra
+    - python3-distutils-extra
+
+- name: Configure dnsmasq.
+  template:
+    src: "{{ role_path }}/templates/etc/dnsmasq.d/custom.j2"
+    dest: "/etc/dnsmasq.d/custom"
+    mode: 0644
+
+- name: Create tftp-root directory.
+  file:
+    path: "{{ tftp_root }}"
+    state: directory
+    mode: 0755
+
+- name: Export tftp-root with nfs.
+  blockinfile:
+    dest: "/etc/exports"
+    block: |
+     {{ tftp_root }}       *(ro,async,no_subtree_check)
+
+- name: Restart dnsmasq service.
+  service:
+    name: dnsmasq
+    state: restarted
+
+- name: Restart nfs service.
+  service:
+    name: nfs-kernel-server
+    state: restarted

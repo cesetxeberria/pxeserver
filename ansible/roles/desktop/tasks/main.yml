@@ -1,0 +1,7 @@
+---
+
+  - include: 01-minimal.yml
+
+  - include: 02-locales.yml
+
+  - include: 03-firefox.yml

@@ -1,0 +1,15 @@
+---
+
+  - include: 01-server.yml
+
+  - include: 02-syslinux.yml
+
+  - include: 03-grub.yml
+
+  - include: 04-ipxe.yml
+
+  - include: 05-installers.yml
+
+  - include: 06-livesystems.yml
+
+  - include: 07-windows.yml

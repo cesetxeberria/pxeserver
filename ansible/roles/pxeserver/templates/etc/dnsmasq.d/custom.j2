@@ -1,0 +1,11 @@
+interface={{ ansible_default_ipv4.interface }}
+bind-dynamic
+dhcp-range={{ ansible_default_ipv4.network }},proxy
+enable-tftp
+tftp-root={{ tftp_root }}
+pxe-service=x86PC, "syslinux (bios)", "syslinux/bios/syslinux"
+#pxe-service=X86-64_EFI, "syslinux (efi)", "syslinux/efi/syslinux.efi"
+#pxe-service=x86PC, "grub (bios)", "grub/booti386.0"
+#pxe-service=X86-64_EFI, "grub (efi)", "grub/bootx64.efi"
+#pxe-service=x86PC, "ipxe (bios)", "ipxe/undionly.kpxe"
+pxe-service=X86-64_EFI, "ipxe (efi)", "ipxe/snponly.efi"
