@@ -78,12 +78,11 @@
       greeter-hide-users=true
   when: ansible_distribution == 'Ubuntu'
 
-- name: Set vanilla xfce's theme and icons in Ubuntu.
+- name: Set vanilla xfce's theme and icons.
   copy:
     src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
     dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
     mode: 0644
-  when: ansible_distribution == 'Ubuntu'
 
 - name: Create a folder for default xfce4-terminal config.
   file:
