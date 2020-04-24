@@ -36,7 +36,7 @@ cd pxeserver/ansible
 ansible-playbook pxe.yml
 ```
 
-It will configure your server as a nfs and pxe server, with syslinux, grub and ipxe configured. By default bios based clients will boot using syslinux and uefi ones will boot with ipxe. Edit '/etc/dnsmasq.d/custom' file if you want to change this.
+It will configure your server as a nfs and pxe server, with syslinux, grub and ipxe configured. By default bios based clients will boot using syslinux and uefi ones will boot with ipxe. Edit `/etc/dnsmasq.d/custo` file if you want to change this.
 
 This is the default menu for syslinux.
 ![](https://github.com/cesetxeberria/pxeserver/blob/master/syslinuxcustom.png)
