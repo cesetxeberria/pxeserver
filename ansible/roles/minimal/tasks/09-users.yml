@@ -2,8 +2,8 @@
 #passwords are created with 'mkpasswd --method=sha-512'. you must install whois package to use it.
     - name: Create a new user in Debian.
       user:
-         name: usuario
-         password: $6$vBArPwq8I$Th2XJs3z57iisxQCEgHmsrIAFuTyMPzJ7BsDt5uqPpfg3fAGSuYLl/ij6u2tfsbigUxllkAF.FvpCscdKbV8F1
+         name: user
+         password: $6$yfBEPbX/HQai$gc0qCZdrLUiSlw21LbRrfBsDtZ9cpjBisV.b.HCiaN/17x0NEnYNvF8JGsEYaOVHiiYUOAgnAc9wMQkrQaeOu/
          shell: /bin/bash
          createhome: no
          groups: cdrom,floppy,audio,dip,video,plugdev,netdev,sudo
@@ -11,8 +11,8 @@
 
     - name: Create a new user in Ubuntu.
       user:
-         name: usuario
-         password: $6$vBArPwq8I$Th2XJs3z57iisxQCEgHmsrIAFuTyMPzJ7BsDt5uqPpfg3fAGSuYLl/ij6u2tfsbigUxllkAF.FvpCscdKbV8F1
+         name: user
+         password: $6$yfBEPbX/HQai$gc0qCZdrLUiSlw21LbRrfBsDtZ9cpjBisV.b.HCiaN/17x0NEnYNvF8JGsEYaOVHiiYUOAgnAc9wMQkrQaeOu/
          shell: /bin/bash
          createhome: no
          groups: adm,cdrom,dip,plugdev,sudo
