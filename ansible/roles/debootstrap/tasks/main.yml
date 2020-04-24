@@ -1,3 +1,4 @@
+#this role executes debootstrap using vars defined in the hosts file and the files inside "vars" dir. there is one for ubuntu and another one for debian
 ---
   - include_vars: "{{ distro }}.yml"
 

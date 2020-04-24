@@ -1,3 +1,5 @@
+#this task will configure spanish locale, keyboard and timezonne. will add some repositories and install basic packages
+#it will add some config tweaks, custom scripts and add a user with sudo privileges
 ---
   - include_vars: "{{ distro }}.yml"
 

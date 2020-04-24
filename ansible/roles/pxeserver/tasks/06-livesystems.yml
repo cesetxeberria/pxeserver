@@ -1,3 +1,4 @@
+#prepare the server to create custom livecds
 ---
 - name: Install needed pacakges.
   apt:

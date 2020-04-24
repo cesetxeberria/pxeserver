@@ -1,3 +1,4 @@
+#this task installs firefox with spanish locale in debian or ubuntu. It also sets some policies and installs two addons
 ---
 - name: Install Firefox on Debian with spanish locale.
   apt:

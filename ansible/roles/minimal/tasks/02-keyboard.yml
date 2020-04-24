@@ -1,3 +1,4 @@
+#this task configures spanish keyboard and UTF-8 charmap for the console
 ---
 - name: Change /etc/default/keyboard for spanish keyboard
   lineinfile:

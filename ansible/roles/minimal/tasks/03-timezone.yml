@@ -1,3 +1,4 @@
+#this task sets the timezone for spain
 ---
   - name: Change localtime /etc/localtime for Spain
     file: src=/usr/share/zoneinfo/Europe/Madrid dest=/etc/localtime state=link

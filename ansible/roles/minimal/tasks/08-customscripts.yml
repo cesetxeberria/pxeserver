@@ -1,35 +1,30 @@
+#some custom scripts to install the live system in local hard disk
 ---
-- name: formateatudenabios kopiatzen
+- name: Copy formatallbios script
   copy:
-    src: "{{ role_path }}/files/root/formateatudenabios"
-    dest: "/root/formateatudenabios"
+    src: "{{ role_path }}/files/root/formatallbios"
+    dest: "/root/formatallbios"
     mode: 0744
 
-- name: formateatudenauefi kopiatzen
+- name: Copy formatalluefi script
   copy:
-    src: "{{ role_path }}/files/root/formateatudenauefi"
-    dest: "/root/formateatudenauefi"
+    src: "{{ role_path }}/files/root/formatalluefi"
+    dest: "/root/formatalluefi"
     mode: 0744
 
-- name: syslinux.cfg kopiatzen
-  copy:
-    src: "{{ role_path }}/files/root/syslinux.cfg"
-    dest: "/root/syslinux.cfg"
-    mode: 0644
-
-- name: syslinux_local.cfg kopiatzen
+- name: Copy basic syslinux_local.cfg
   copy:
     src: "{{ role_path }}/files/root/syslinux_local.cfg"
     dest: "/root/syslinux_local.cfg"
     mode: 0644
 
-- name: copy gethardinfo script
+- name: Copy gethardinfo script
   copy:
     src: "{{ role_path }}/files/usr/local/bin/gethardinfo"
     dest: "/usr/local/bin/gethardinfo"
     mode: 0755
 
-- name: copy getnamebymac cript
+- name: Copy getnamebymac cript
   copy:
     src: "{{ role_path }}/files/usr/local/bin/getnamebymac"
     dest: "/usr/local/bin/getnamebymac"

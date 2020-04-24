@@ -1,2 +1,3 @@
+#set directory for tftp_root
 ---
 tftp_root: "/home/tftp"

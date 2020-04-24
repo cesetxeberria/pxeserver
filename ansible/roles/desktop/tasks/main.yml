@@ -1,3 +1,4 @@
+#this role installs minimal xfce desktop with spanish locale and firefox
 ---
 
   - include: 01-minimal.yml

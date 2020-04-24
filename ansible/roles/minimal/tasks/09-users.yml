@@ -1,6 +1,6 @@
----
 #this task will create a user named "user" with password "user"
 #passwords are created with 'mkpasswd --method=sha-512'. you must install whois package to use it.
+---
     - name: Create a new user in Debian.
       user:
          name: user

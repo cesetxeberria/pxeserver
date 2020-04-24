@@ -1,3 +1,4 @@
+#this task adds some basic packages to ur live system
 ---
 - name: Update everything to the latest version.
   apt:

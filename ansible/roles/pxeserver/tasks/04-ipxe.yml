@@ -1,3 +1,4 @@
+#install and configure ipxe for bios and uefi based clients. it will be downloaded from github and compiled with custom menu
 ---
 - name: Install git & build-essential
   apt:

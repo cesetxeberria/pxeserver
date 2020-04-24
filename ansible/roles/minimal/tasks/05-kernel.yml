@@ -1,3 +1,4 @@
+#this task installs the kernel for debian or ubuntu and disables pcspeaker
 ---
 - name: Disable pcspeaker.
   blockinfile:

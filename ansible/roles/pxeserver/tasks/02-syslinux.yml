@@ -1,3 +1,4 @@
+#install and configure pxelinux for bios and uefi based clients
 ---
 - name: Install pxelinux packages.
   apt:

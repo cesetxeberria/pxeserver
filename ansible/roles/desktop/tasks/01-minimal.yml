@@ -1,3 +1,4 @@
+#this task installs a minimal xfce desktop for ubuntu or debian
 ---
 - name: Minimal xfce packages with no-recommends. Ubuntu recommends A LOT of crap.
   apt:

@@ -1,3 +1,5 @@
+#this role will configure a pxe/nfs server with syslinux, grub and ipxe. then it will add debian installer livecds launcher and windows installer
+#livecds must be created with another role and windows installer files must be added from official isos
 ---
 
   - include: 01-server.yml

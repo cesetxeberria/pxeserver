@@ -1,3 +1,4 @@
+#this task configures the desktop environmet for spanish locale
 ---
 - name: Install spanish locale packages
   apt:

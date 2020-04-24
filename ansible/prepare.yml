@@ -1,3 +1,4 @@
+#this will be executed inside the chroot to avoid errors
 ---
 - name: mount proc
   command: /bin/mount -t proc none /proc

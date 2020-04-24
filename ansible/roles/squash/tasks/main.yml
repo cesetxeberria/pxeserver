@@ -1,3 +1,4 @@
+#this role will clean temporary files from a debootstraped system and compress it in a squashfs file
 ---
   - name: delete hostname, the client will get one at boot
     shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/etc/hostname

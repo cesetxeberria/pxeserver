@@ -1,3 +1,4 @@
+#some config tweaks
 ---
 - name: Create a folder for ifup@.service
   file:
@@ -29,7 +30,7 @@
   replace:
     dest: /etc/systemd/resolved.conf
     regexp: '#DNS='
-    replace: 'DNS=10.10.0.11'
+    replace: 'DNS=193.183.98.66 151.80.222.79'
   when: ansible_distribution == 'Ubuntu'
 
 - name: Power button will power off the system.

@@ -1,3 +1,4 @@
+#configure localhost as a dnsmasq and nfs-server
 ---
 - name: Install needed packages.
   apt:

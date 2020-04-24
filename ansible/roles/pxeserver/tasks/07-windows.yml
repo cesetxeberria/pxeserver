@@ -1,3 +1,4 @@
+#prepare the server to offer windows installer to bios and uefi based clients. windows installer files must be added
 ---
 - name: Install wimtools
   apt:

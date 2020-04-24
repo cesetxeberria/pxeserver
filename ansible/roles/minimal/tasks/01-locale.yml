@@ -1,3 +1,4 @@
+#this task configures the system to use spanish locale
 ---
 - name: Add spanish locale
   locale_gen:

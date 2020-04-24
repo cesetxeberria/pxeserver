@@ -1,3 +1,4 @@
+#this will be executed before exiting the chroot
 ---
 - name: Umount /dev/pts
   command: umount -df /dev/pts
