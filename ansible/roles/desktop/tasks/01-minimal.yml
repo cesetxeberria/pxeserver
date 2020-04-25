@@ -32,6 +32,12 @@
     - smplayer
     - tango-icon-theme
     - gnome-themes-extra
+    - ssh 
+    - sshfs 
+    - nfs-common
+    - cifs-utils
+    - gvfs-backends 
+    - gvfs-fuse
 
 - name: Extra Debian. Those aren't on Ubuntu repos.
   apt:
