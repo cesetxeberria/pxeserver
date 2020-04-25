@@ -22,6 +22,7 @@
     packages:
     - xfce4-goodies
     - pulseaudio
+    - pavucontrol
     - avahi-daemon
     - libu2f-udev
     - lxtask
