@@ -24,7 +24,7 @@
     dest: "/usr/local/bin/gethardinfo"
     mode: 0755
 
-- name: Copy getnamebymac cript
+- name: Copy getnamebymac script
   copy:
     src: "{{ role_path }}/files/usr/local/bin/getnamebymac"
     dest: "/usr/local/bin/getnamebymac"
