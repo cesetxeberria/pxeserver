@@ -7,6 +7,7 @@
   vars:
     packages:
     - xorg
+    - xserver-xorg-video-intel
     - lightdm
     - lightdm-gtk-greeter
     - xfce4
@@ -146,3 +147,10 @@
     src: "{{ role_path }}/files/etc/xdg/Trolltech.conf"
     dest: "/etc/xdg/Trolltech.conf"
     mode: 0644
+
+- name: Copy intel config for xorg
+  copy:
+    src: "{{ role_path }}/files/usr/share/X11/xorg.conf.d/20-intel.conf"
+    dest: "/usr/share/X11/xorg.conf.d/20-intel.conf"
+    mode: 0644
+
