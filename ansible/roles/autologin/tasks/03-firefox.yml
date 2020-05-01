@@ -1,0 +1,58 @@
+#this task installs firefox with spanish locale in debian or ubuntu. It also sets some policies and installs two addons
+---
+- name: Install Firefox on Debian with spanish locale.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - firefox-esr
+    - firefox-esr-l10n-es-es
+  when: ansible_distribution == 'Debian'
+
+- name: Install Firefox on Ubuntu with spanish locale.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - firefox
+    - firefox-locale-es
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Create a policies forlder for Firefox in Debian.
+  file:
+    path: "/usr/share/firefox-esr/distribution"
+    state: directory
+  when: ansible_distribution == 'Debian'
+
+- name: Create a policies forlder for Firefox in Ubuntu.
+  file:
+    path: "/usr/lib/firefox/distribution"
+    state: directory
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Set Firefox policies in Debian.
+  copy:
+    src: "{{ role_path }}/files/usr/share/firefox-esr/distribution/policies.json"
+    dest: "/usr/share/firefox-esr/distribution/policies.json"
+    mode: 0644
+  when: ansible_distribution == 'Debian'
+
+- name: Set Firefox policies in Ubuntu.
+  copy:
+    src: "{{ role_path }}/files/usr/share/firefox-esr/distribution/policies.json"
+    dest: "/usr/lib/firefox/distribution/policies.json"
+    mode: 0644
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Download Ublock extension. We will install it with policies as an example.
+  get_url:
+    url: https://addons.mozilla.org/firefox/downloads/file/3392439/
+    dest: /opt/ublock.xpi
+    mode: 0644
+
+- name: Download Duckduckgo extension. We will install it with policies as an example.
+  get_url:
+    url: https://addons.mozilla.org/firefox/downloads/file/3467553/
+    dest: /opt/duckduckgo.xpi
+    mode: 0644

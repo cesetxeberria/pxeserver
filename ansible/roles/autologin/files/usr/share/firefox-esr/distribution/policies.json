@@ -1,0 +1,22 @@
+{
+  "policies": {
+    "DisablePocket": true,
+    "DisableSystemAddonUpdate": true,
+    "DontCheckDefaultBrowser": true,
+    "NoDefaultBookmarks": true,
+    "OfferToSaveLogins": true,
+    "Homepage": {"URL": "https://www.duckduckgo.com/","Locked": true,"StartPage": "homepage"},
+    "OverrideFirstRunPage": "",
+    "Preferences": {
+      "datareporting.policy.dataSubmissionPolicyBypassNotification": true,
+      "intl.accept_languages": "es-ES",
+      "browser.cache.disk.enable": false
+    },
+    "RequestedLocales": ["es-ES"],
+    "Extensions": {"Install": ["/opt/ublock.xpi", "/opt/duckduckgo.xpi"]},
+    "Permissions": {"Notifications": {"BlockNewRequests": true}},
+    "SearchEngines": {"Default": "DuckDuckGo"},
+    "SearchBar": "separate"
+  }
+}
+

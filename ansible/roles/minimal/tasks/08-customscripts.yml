@@ -29,3 +29,16 @@
     src: "{{ role_path }}/files/usr/local/bin/getnamebymac"
     dest: "/usr/local/bin/getnamebymac"
     mode: 0755
+
+- name: Copy mute script
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/mute"
+    dest: "/usr/local/bin/mute"
+    mode: 0755
+
+- name: Copy unmute script
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/unmute"
+    dest: "/usr/local/bin/unmute"
+    mode: 0755
+

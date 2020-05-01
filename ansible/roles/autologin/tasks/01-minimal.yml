@@ -1,0 +1,172 @@
+#this task installs a minimal xfce desktop for ubuntu or debian
+---
+- name: Minimal xfce packages with no-recommends. Ubuntu recommends A LOT of crap.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - xorg
+    - xserver-xorg-video-intel
+    - xserver-xorg-video-all
+#    - lightdm
+#    - lightdm-gtk-greeter
+    - xfce4
+    - atril
+    - network-manager-gnome
+    - kfind
+    - policykit-1-gnome
+
+- name: Minimal packages with recommends.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - xfce4-goodies
+    - pulseaudio
+    - pavucontrol
+    - avahi-daemon
+    - libu2f-udev
+    - lxtask
+    - gparted
+    - usermode
+    - gpicview
+    - smplayer
+    - tango-icon-theme
+    - gnome-themes-extra
+    - ssh 
+    - sshfs 
+    - nfs-common
+    - cifs-utils
+    - gvfs-backends 
+    - gvfs-fuse
+    - lightdm-autologin-greeter
+
+- name: Extra Debian. Those aren't on Ubuntu repos.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - gtk3-engines-xfce
+  when: ansible_distribution == 'Debian'
+
+- name: Extra Ubuntu.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - adwaita-icon-theme-full
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Set xfc4-terminal as default terminal in ubuntu. If we don't do this, gnome-terminal will be default.
+  alternatives:
+    name: x-terminal-emulator
+    path: /usr/bin/xfce4-terminal.wrapper
+  when: ansible_distribution == 'Ubuntu'
+
+#- name: Put xfce desktop's background in ligthdm too. Ubuntu.
+#  blockinfile:
+#    dest: "/etc/lightdm/lightdm-gtk-greeter.conf"
+#    block: |
+#      background=/usr/share/backgrounds/xfce/xfce-stripes.png
+#      indicators=~host;~spacer;~session;~clock;~power;
+#  when: ansible_distribution == 'Ubuntu'
+
+#- name: Put xfce desktop's background in ligthdm too. Debian.
+#  blockinfile:
+#    dest: "/etc/lightdm/lightdm-gtk-greeter.conf"
+#    block: |
+#      background=/usr/share/backgrounds/xfce/xfce-teal.jpg
+#      indicators=~host;~spacer;~session;~clock;~power;
+#  when: ansible_distribution == 'Debian'
+
+- name: Let users write their username in Ubuntu. Default behaviour is to select from a list.
+  blockinfile:
+    dest: "/usr/share/lightdm/lightdm.conf.d/50-greeter-hide-users.conf"
+    create: yes
+    block: |
+      [Seat:*]
+      greeter-hide-users=true
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Set vanilla xfce's theme and icons.
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+    mode: 0644
+
+- name: Create a folder for default xfce4-terminal config.
+  file:
+    path: "/etc/xdg/xfce4/terminal"
+    state: directory
+
+- name: Set xfc4-terminal config.
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/terminal/terminalrc"
+    dest: "/etc/xdg/xfce4/terminal/terminalrc"
+    mode: 0644
+
+- name: Disable screen-saver
+  file:
+    path: "/etc/xdg/autostart/xscreensaver.desktop"
+    state: absent
+
+- name: Disable light-locker
+  file:
+    path: "/etc/xdg/autostart/light-locker.desktop"
+    state: absent
+
+- name: Disable nm-applet tray icon. This is a net thinclient, we don't need it.
+  file:
+    path: "/etc/xdg/autostart/nm-applet.desktop"
+    state: absent
+
+- name: Disable hybernation and suspend. This is a net thinclient, we don't need them.
+  copy:
+    src: "{{ role_path }}/files/etc/polkit-1/localauthority/50-local.d/suspend.pkla"
+    dest: "/etc/polkit-1/localauthority/50-local.d/suspend.pkla"
+    mode: 0644
+
+- name: Create a folder for kiosk config.
+  file:
+    path: "/etc/xdg/xfce4/kiosk"
+    state: directory
+
+- name: Set kiosk config.
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/kiosk/kioskrc"
+    dest: "/etc/xdg/xfce4/kiosk/kioskrc"
+    mode: 0644
+
+- name: Copy kfind's launcher.
+  copy:
+    src: "{{ role_path }}/files/usr/share/applications/kfind.desktop"
+    dest: "/usr/share/applications/kfind.desktop"
+    mode: 0644
+
+- name: Configure QT applications to look like GTK ones.
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/Trolltech.conf"
+    dest: "/etc/xdg/Trolltech.conf"
+    mode: 0644
+
+- name: Copy intel config for xorg
+  copy:
+    src: "{{ role_path }}/files/usr/share/X11/xorg.conf.d/20-intel.conf"
+    dest: "/usr/share/X11/xorg.conf.d/20-intel.conf"
+    mode: 0644
+
+- name: Prepare autologin lightdm
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/lightdm-autologin-greeter.conf 
+    regexp: 'autologin-user=AUTOLOGIN-USER-NOT-CONFIGURED'
+    line: 'autologin-user=user'
+    backrefs: yes
+
+- name: Prepare autologin lightdm2
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/lightdm-autologin-greeter.conf 
+    regexp: '#autologin-session=x-session-manager'
+    line: 'autologin-session=xfce'
+    backrefs: yes
+

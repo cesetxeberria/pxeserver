@@ -2,9 +2,10 @@
 ip=$(hostname -I)
 mac=$(ip -o link | grep "BROADCAST" | awk '{print $17}')
 hostname=${mac//:}
+if grep -q $hostname /etc/hosts; then
+  echo "already in hosts file"
+  exit
+fi
+#Not in hosts file, so put it
 hostnamectl set-hostname $hostname
-#addd to /etc/hosts file so sudo doesn't complain
 echo "$ip $hostname" >> /etc/hosts
-#my work is done, so disable this service for next boot
-rm /etc/systemd/system/multi-user.target.wants/getnamebymac.service
-

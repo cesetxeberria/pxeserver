@@ -1,0 +1,70 @@
+---
+- name: Install mame
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - mame
+
+#wget --no-check-certificate 'https://docs.google.com/uc?id=12wemWdJieilh5DKiDBUJvb3OhlsCi2_l&export=download' -O groovymamelinux.tar.bz2
+#- name: Download groovymamelinux
+#  get_url:
+#    url: https://docs.google.com/uc?id=12wemWdJieilh5DKiDBUJvb3OhlsCi2_l&export=download
+#    dest: /root/groovymamelinux.tar.bz2
+#    validate_certs: false
+
+- name: panela konfiguratzen
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    mode: 0644
+
+- name: panela konfiguratzen2
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    dest: "/etc/xdg/xfce4/panel/default.xml"
+    mode: 0644
+
+- name: whiskermenu
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/panel/whiskermenu-1.rc"
+    dest: "/etc/xdg/xfce4/panel/whiskermenu-1.rc"
+    mode: 0644
+
+- name: Create groovymame dir
+  file:
+    path: /opt/groovymame
+    state: directory
+
+- name: Create mame config dir in skel
+  file:
+    path: /etc/skel/.mame
+    state: directory
+
+- name: Create mame dir in skel
+  file:
+    path: /etc/skel/mame
+    state: directory
+
+- name: Copy roms
+  copy:
+    src: /root/groovymame/roms
+    dest: /etc/skel/mame/
+
+- name: Copy mame.ini
+  copy:
+    src: /root/groovymame/mame.ini
+    dest: /etc/skel/.mame/mame.ini
+    mode: 0644
+
+- name: Copy vertical.ini
+  copy:
+    src: /root/groovymame/vertical.ini
+    dest: /etc/skel/.mame/vertical.ini
+    mode: 0644
+
+- name: Copy groovymame
+  copy:
+    src: /root/groovymame/groovymame
+    dest: /usr/local/bin/groovymame
+    mode: 0755
