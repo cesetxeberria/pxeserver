@@ -1,0 +1,45 @@
+---
+- name: Create a new user in Debian.
+  user:
+     name: arcade
+     password: $6$eK09oKpkO3J$hSDmoqY8WJX5pbMYNcQ7/p8LNR8p.18vhaoIYwc9uhcbOKuYPK10P6oCSNRTp/Cd8YiSwte9VB32GyVhkPLWV.
+     shell: /bin/bash
+     createhome: no
+     groups: cdrom,floppy,audio,dip,video,plugdev,netdev,sudo
+  when: ansible_distribution == 'Debian'
+
+- name: Create a new user in Ubuntu.
+  user:
+     name: arcade
+     password: $6$eK09oKpkO3J$hSDmoqY8WJX5pbMYNcQ7/p8LNR8p.18vhaoIYwc9uhcbOKuYPK10P6oCSNRTp/Cd8YiSwte9VB32GyVhkPLWV.
+     shell: /bin/bash
+     createhome: no
+     groups: adm,cdrom,dip,plugdev,sudo
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Arcade user doesn't need password for sudo
+  blockinfile:
+    create: yes
+    dest: "/etc/sudoers"
+    marker: "#Arcade user passwordless"
+    block: |
+      arcade ALL=(ALL) NOPASSWD: ALL
+
+- name: Remove the user 'user'
+  user:
+    name: user
+    state: absent
+    remove: yes
+
+- name: Autologin with user arcade
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/lightdm-autologin-greeter.conf 
+    regexp: 'autologin-user=user'
+    line: 'autologin-user=arcade'
+    backrefs: yes
+
+- name: Autostart attract mode
+  copy:
+    src: "{{ role_path }}/files/usr/share/applications/attract-mode.desktop"
+    dest: /etc/xdg/autostart/attract-mode.desktop 
+    mode: 0644
