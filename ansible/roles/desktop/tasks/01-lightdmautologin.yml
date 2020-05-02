@@ -1,0 +1,23 @@
+#this task installs a minimal xfce desktop for ubuntu or debian
+---
+- name: Install lightdm autologin.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - lightdm-autologin-greeter
+
+- name: Prepare autologin user
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/lightdm-autologin-greeter.conf 
+    regexp: 'autologin-user=AUTOLOGIN-USER-NOT-CONFIGURED'
+    line: 'autologin-user=user'
+    backrefs: yes
+
+- name: Prepare autologin sesion
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/lightdm-autologin-greeter.conf 
+    regexp: '#autologin-session=x-session-manager'
+    line: 'autologin-session=xfce'
+    backrefs: yes
+

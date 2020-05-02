@@ -1,0 +1,25 @@
+#this task installs a minimal xfce desktop for ubuntu or debian
+---
+- name: Config panel
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    mode: 0644
+
+- name: Config panel 2
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    dest: "/etc/xdg/xfce4/panel/default.xml"
+    mode: 0644
+
+- name: Config Whiskermenu
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/panel/whiskermenu-1.rc"
+    dest: "/etc/xdg/xfce4/panel/whiskermenu-1.rc"
+    mode: 0644
+
+- name: Config keyboard shortcuts
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
+    mode: 0644

@@ -23,7 +23,7 @@
   tasks:
     - include: prepare.yml
     - include_role:
-        name: autologin
+        name: desktop
     - include: exit.yml
 
 - hosts: all

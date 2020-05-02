@@ -1,0 +1,52 @@
+---
+- name: Install mame to have all the dependencies
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - mame
+
+#wget --no-check-certificate 'https://docs.google.com/uc?id=12wemWdJieilh5DKiDBUJvb3OhlsCi2_l&export=download' -O groovymamelinux.tar.bz2
+#- name: Download groovymamelinux
+#  get_url:
+#    url: https://docs.google.com/uc?id=12wemWdJieilh5DKiDBUJvb3OhlsCi2_l&export=download
+#    dest: /root/groovymamelinux.tar.bz2
+#    validate_certs: false
+
+- name: Create groovymame dir
+  file:
+    path: /opt/groovymame
+    state: directory
+
+- name: Create mame config dir in skel
+  file:
+    path: /etc/skel/.mame
+    state: directory
+
+- name: Create mame dir in skel
+  file:
+    path: /etc/skel/mame
+    state: directory
+
+- name: Copy roms
+  copy:
+    src: /root/groovymame/roms
+    dest: /etc/skel/mame/
+
+- name: Copy mame.ini
+  copy:
+    src: /root/groovymame/mame.ini
+    dest: /etc/skel/.mame/mame.ini
+    mode: 0644
+
+- name: Copy vertical.ini
+  copy:
+    src: /root/groovymame/vertical.ini
+    dest: /etc/skel/.mame/vertical.ini
+    mode: 0644
+
+- name: Copy groovymame
+  copy:
+    src: /root/groovymame/groovymame
+    dest: /usr/local/bin/groovymame
+    mode: 0755

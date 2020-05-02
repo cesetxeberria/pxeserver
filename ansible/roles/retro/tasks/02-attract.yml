@@ -1,0 +1,79 @@
+---
+- name: Install attract mode build dependencies
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - libsfml-dev 
+    - libavutil-dev 
+    - libxft-dev 
+    - libavcodec-dev 
+    - libavformat-dev 
+    - libswscale-dev 
+    - libjpeg62-dev 
+    - libopenal-dev 
+    - libglu1-mesa-dev
+
+- name: Install attract mode dependencies
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - libjpeg62
+    - libsfml-graphics2.5
+    - fonts-freefont-ttf 
+
+- name: Create download dir for attract mode
+  file:
+    path: /root/attract
+    state: directory
+
+- name: Download and extract attract mode
+  unarchive:
+    src: https://github.com/mickelson/attract/archive/v2.6.1.tar.gz
+    dest: /root/attract
+    remote_src: yes
+
+- name: Build attract mode
+  make:
+    chdir: /root/attract/attract-2.6.1
+#    params:
+#      NUM_THREADS: 4
+
+- name: Install attract mode
+  make:
+    chdir: /root/attract/attract-2.6.1
+    target: install
+
+- name: clean attract mode sources
+  file:
+    path: /root/attract
+    state: absent
+
+- name: Remove attract mode build dependencies
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+    - libsfml-dev 
+    - libavutil-dev 
+    - libxft-dev 
+    - libavcodec-dev 
+    - libavformat-dev 
+    - libswscale-dev 
+    - libjpeg62-dev 
+    - libopenal-dev 
+    - libglu1-mesa-dev
+
+- name: Copy attract mode desktop file
+  copy:
+    src: "{{ role_path }}/files/usr/share/applications/attract-mode.desktop"
+    dest: /usr/share/applications/attract-mode.desktop 
+    mode: 0644
+
+- name: Copy attract mode icon
+  copy:
+    src: "{{ role_path }}/files/usr/share/icons/hicolor/512x512/apps/attract-mode.png"
+    dest: /usr/share/icons/hicolor/512x512/apps/attract-mode.png 
+    mode: 0644

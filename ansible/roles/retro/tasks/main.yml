@@ -5,10 +5,22 @@
 
   - include: 01-lightdmautologin.yml
 
-#  - include: 01-lightdmnormal.yml
+  - include: 01-lightdmnormal.yml
+
+  - include: 01-minimalold.yml
 
   - include: 02-locales.yml
 
   - include: 03-xfce.yml
 
   - include: 04-firefox.yml
+
+  - include: pre.yml
+
+  - include: 05-mame.yml
+
+  - include: 06-attract.yml
+
+  - include: 07-retroarch.yml
+
+  - include: scripts.yml

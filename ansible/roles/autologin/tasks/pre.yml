@@ -1,9 +1,0 @@
----
-- name: Retroarch instalatu
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - build-essential
-    - git
-
