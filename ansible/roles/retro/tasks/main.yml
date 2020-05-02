@@ -1,26 +1,14 @@
-#this role installs minimal xfce desktop with spanish locale and firefox
+#this role installs mame retroarch and attract mode
 ---
 
-  - include: 00-minimal.yml
+  - include: 00-depends.yml
 
-  - include: 01-lightdmautologin.yml
+  - include: 01-mame.yml
 
-  - include: 01-lightdmnormal.yml
+  - include: 02-attract.yml
 
-  - include: 01-minimalold.yml
+#  - include: 03-retroarch.yml
 
-  - include: 02-locales.yml
+  - include: 04-clean.yml
 
-  - include: 03-xfce.yml
-
-  - include: 04-firefox.yml
-
-  - include: pre.yml
-
-  - include: 05-mame.yml
-
-  - include: 06-attract.yml
-
-  - include: 07-retroarch.yml
-
-  - include: scripts.yml
+  - include: 05-arcadelive.yml
