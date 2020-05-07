@@ -10,7 +10,6 @@
     - xserver-xorg-video-intel
     - xserver-xorg-video-all
     - lightdm
-#    - lightdm-gtk-greeter
     - xfce4
     - atril
     - network-manager-gnome
@@ -40,7 +39,6 @@
     - cifs-utils
     - gvfs-backends 
     - gvfs-fuse
-#    - lightdm-autologin-greeter
 
 - name: Extra Debian. Those aren't on Ubuntu repos.
   apt:
@@ -131,8 +129,14 @@
     dest: "/usr/share/X11/xorg.conf.d/20-intel.conf"
     mode: 0644
 
-- name: Exec unmute at xfce start.
+- name: Start pulseaudio at xfce start.
   copy:
     src: "{{ role_path }}/files/usr/share/applications/unmute.desktop"
     dest: "/etc/xdg/autostart/unmute.desktop"
+    mode: 0644
+
+- name: Copy xrandr reset script.
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/xrandreset"
+    dest: "/usr/local/bin/xrandreset"
     mode: 0644

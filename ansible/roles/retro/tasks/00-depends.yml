@@ -26,3 +26,49 @@
     src: "{{ role_path }}/files/usr/share/applications/modelines.desktop"
     dest: "/etc/xdg/autostart/modelines.desktop"
     mode: 0644
+
+- name: Install switchres build dependencies
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - libxrandr-dev
+    - libdrm-dev
+    - pkg-config
+
+- name: Create switchres dir
+  file:
+    path: /opt/switchres
+    state: directory
+
+- name: Download switchres from git
+  git:
+    repo: https://github.com/antonioginer/switchres
+    dest: /opt/switchres
+    version: standalone
+
+- name: Build switchres
+  make:
+    chdir: /opt/switchres
+
+- name: Copy switchres to usr/local/bin
+  copy:
+    src: /opt/switchres/switchres
+    dest: /usr/local/bin/switchres
+    mode: 0755
+    remote_src: yes
+
+- name: Remove downloaded switchres files
+  file:
+    path: /opt/switchres
+    state: absent
+
+- name: Clean switchres build dependencies
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+    - libxrandr-dev
+    - libdrm-dev
+    - pkg-config

@@ -42,7 +42,6 @@ echo "/dev/${1}1        /boot/efi           vfat    defaults                0 0"
 echo "/dev/${1}2    /                   ext4    defaults                0 0" >> sda2/etc/fstab
 echo "/dev/${1}3    swap        swap    defaults                0 0" >> sda2/etc/fstab
 echo "/dev/${1}4    /home       ext4    defaults                0 0" >> sda2/etc/fstab
-echo "initrd debian"
 echo "copying kernel and initrd"
 if test -f "sda2/initrd.img"; then
     cp sda2/initrd.img sda1/
@@ -52,6 +51,8 @@ if test -f "sda2/boot/initrd.img"; then
     cp sda2/boot/initrd.img sda1/
     cp sda2/boot/vmlinuz sda1/
 fi
+echo "removing unmute"
+rm sda2/etc/xdg/autostart/unmute.desktop
 echo "restoring NetworkManager"
 if test -f "sda2/usr/share/applications/nm-applet.desktop"; then
     cp sda2/usr/share/applications/nm-applet.desktop sda2/etc/xdg/autostart/nm-applet.desktop

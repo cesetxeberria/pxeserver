@@ -2,8 +2,8 @@
 Version=1.0
 Name=Attract-Mode
 Comment=Emulator Frontend
-Exec=/usr/games/attract
+Exec=/usr/local/bin/attract
 Terminal=false
 Type=Application
 Categories=Game
-Icon=attract-mode
+Icon=/usr/share/icons/hicolor/512x512/apps/attract-mode.png

@@ -7,7 +7,7 @@
 
   - include: 02-attract.yml
 
-#  - include: 03-retroarch.yml
+  - include: 03-retroarch.yml
 
   - include: 04-clean.yml
 

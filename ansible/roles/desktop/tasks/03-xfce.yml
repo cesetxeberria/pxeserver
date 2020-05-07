@@ -23,3 +23,21 @@
     src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
     dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
     mode: 0644
+
+- name: Set bloqnum on by default
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml"
+    mode: 0644
+
+- name: Config xfwm
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
+    mode: 0644
+
+- name: Config power management
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
+    mode: 0644

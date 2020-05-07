@@ -24,6 +24,8 @@
     - squashfs-tools
     - parted
     - atool
+    - rar
+    - p7zip-full
     - dosfstools
     - ipxe
     - network-manager

@@ -30,11 +30,6 @@
         <value type="string" value="/usr/share/applications/firefox.desktop"/>
       </property>
     </property>
-    <property name="plugin-3" type="string" value="launcher">
-      <property name="items" type="array">
-        <value type="string" value="/usr/share/applications/chrome.desktop"/>
-      </property>
-    </property>
     <property name="plugin-4" type="string" value="launcher">
       <property name="items" type="array">
         <value type="string" value="/usr/share/applications/exo-file-manager.desktop"/>
@@ -48,12 +43,22 @@
     </property>
     <property name="plugin-8" type="string" value="systray">
       <property name="show-frame" type="bool" value="false"/>
+      <property name="names-hidden" type="array">
+        <value type="string" value="network"/>
+      </property>
     </property>
     <property name="plugin-9" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
     </property>
-    <property name="plugin-10" type="string" value="clock">
+    <property name="plugin-10" type="string" value="clock"/>
       <property name="digital-format" type="string" value="%H:%M"/>
     </property>
+    <property name="digital-format" type="empty"/>
   </property>
+  <property name="digital-format" type="empty"/>
 </channel>
+
+
+
+
+

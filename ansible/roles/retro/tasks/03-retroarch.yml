@@ -67,6 +67,23 @@
     chdir: /root/retroarch
     target: install
 
+- name: Create script to execute retroarch and restore video
+  blockinfile:
+    dest: "/usr/local/bin/retroarch2"
+    create: yes
+    marker: "#set modeline and reset modeline after quitting retroarch"
+    block: |
+      #!/bin/bash
+      output=`xrandr | grep " connected" | awk 'FNR == 1 {print $1}'`
+      xrandr --output $output --mode 2560x480_60.00
+      /usr/local/bin/retroarch
+      xrandr --output $output --auto
+
+- name: Change retroarch2 atributes
+  file:
+    path: /usr/local/bin/retroarch2
+    mode: 0755
+
 - name: Remove retroarch build dependencies
   apt:
     name: "{{ packages }}"
@@ -105,3 +122,30 @@
     - x11proto-xext-dev
     - zlib1g-dev
     - libx11-xcb-dev
+
+- name: Configure retroarch
+  blockinfile:
+    dest: "/etc/retroarch.cfg"
+    marker: "#custom retroarch settings ansible"
+    block: |
+     menu_driver = "rgui"
+     video_fullscreen = "true"
+     video_fullscreen_x = "2560"
+     video_fullscreen_y = "480"
+     video_windowed_fullscreen = "false"
+     aspect_ratio_index = "23"
+     custom_viewport_width = "2560"
+     custom_viewport_height = "480"
+     menu_show_advanced_settings = "true"
+     crt_switch_center_adjust = "0"
+     #0=no 1=15khz 2=31khz
+     crt_switch_resolution = "0"
+     #super=0 native #super=1 dynamic
+     crt_switch_resolution_super = "2560" 
+     crt_switch_resolution_use_custom_refresh_rate = "false"
+
+- name: Change desktop file
+  lineinfile:
+    dest: "/usr/local/share/applications/retroarch.desktop"
+    regexp: 'Exec=retroarch'
+    line: 'Exec=/usr/local/bin/retroarch2'

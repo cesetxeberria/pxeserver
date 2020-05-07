@@ -24,6 +24,8 @@
     - include: prepare.yml
     - include_role:
         name: desktop
+#    - include_role:
+#        name: retro
     - include: exit.yml
 
 - hosts: all

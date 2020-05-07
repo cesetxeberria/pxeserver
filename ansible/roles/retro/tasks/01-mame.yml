@@ -6,47 +6,69 @@
     packages:
     - mame
 
-#wget --no-check-certificate 'https://docs.google.com/uc?id=12wemWdJieilh5DKiDBUJvb3OhlsCi2_l&export=download' -O groovymamelinux.tar.bz2
-#- name: Download groovymamelinux
-#  get_url:
-#    url: https://docs.google.com/uc?id=12wemWdJieilh5DKiDBUJvb3OhlsCi2_l&export=download
-#    dest: /root/groovymamelinux.tar.bz2
-#    validate_certs: false
-
 - name: Create groovymame dir
   file:
     path: /opt/groovymame
     state: directory
 
-- name: Create mame config dir in skel
+- name: Download groovymame using wget
+  command: /usr/bin/wget -O /opt/groovymame/groovymamelinux.tar.bz2 "https://drive.google.com/uc?export=download&id=12wemWdJieilh5DKiDBUJvb3OhlsCi2_l"
+  args:
+    warn: false
+
+- name: Extract groovymame
+  unarchive:
+    src: /opt/groovymame/groovymamelinux.tar.bz2
+    dest: /opt/groovymame
+    remote_src: yes
+
+- name: Copy groovymame to /usr/local/bin
+  copy:
+    src: /opt/groovymame/groovymame
+    dest: /usr/local/bin/groovymame
+    mode: 0755
+    remote_src: yes
+
+- name: Remove mame executable
   file:
-    path: /etc/skel/.mame
-    state: directory
+    path: /usr/games/mame
+    state: absent
+
+- name: Create groovymame link
+  file:
+    src: /usr/local/bin/groovymame
+    dest: /usr/games/mame
+    state: link
+
+- name: Remove downloaded groovymame files
+  file:
+    path: /opt/groovymame
+    state: absent
 
 - name: Create mame dir in skel
   file:
     path: /etc/skel/mame
     state: directory
 
-- name: Copy roms
-  copy:
-    src: /root/groovymame/roms
-    dest: /etc/skel/mame/
+- name: Create .mame link
+  file:
+    src: "mame"
+    dest: "/etc/skel/.mame"
+    state: link
 
 - name: Copy mame.ini
   copy:
-    src: /root/groovymame/mame.ini
-    dest: /etc/skel/.mame/mame.ini
+    src: "{{ role_path }}/files/mame.ini"
+    dest: /etc/skel/mame/mame.ini
     mode: 0644
 
 - name: Copy vertical.ini
   copy:
-    src: /root/groovymame/vertical.ini
-    dest: /etc/skel/.mame/vertical.ini
+    src: "{{ role_path }}/files/vertical.ini"
+    dest: /etc/skel/mame/vertical.ini
     mode: 0644
 
-- name: Copy groovymame
+- name: Copy roms
   copy:
-    src: /root/groovymame/groovymame
-    dest: /usr/local/bin/groovymame
-    mode: 0755
+    src: /root/groovymame/roms
+    dest: /etc/skel/mame/

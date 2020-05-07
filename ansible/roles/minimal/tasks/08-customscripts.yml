@@ -41,4 +41,3 @@
     src: "{{ role_path }}/files/usr/local/bin/unmute"
     dest: "/usr/local/bin/unmute"
     mode: 0755
-

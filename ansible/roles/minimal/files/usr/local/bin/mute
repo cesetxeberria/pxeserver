@@ -1,2 +1,2 @@
 #!/bin/sh
-pactl set-sink-mute 0 1
+pactl set-sink-mute @DEFAULT_SINK@ 1

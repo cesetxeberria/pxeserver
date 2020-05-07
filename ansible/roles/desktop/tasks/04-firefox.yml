@@ -19,6 +19,13 @@
     - firefox-locale-es
   when: ansible_distribution == 'Ubuntu'
 
+- name: Create simlynk to firefox.desktop in debian
+  file:
+    src: /usr/share/applications/firefox-esr.desktop
+    dest: /usr/share/applications/firefox.desktop
+    state: link
+  when: ansible_distribution == 'Debian'
+
 - name: Create a policies forlder for Firefox in Debian.
   file:
     path: "/usr/share/firefox-esr/distribution"

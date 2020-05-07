@@ -1,13 +1,28 @@
 #this task adds extra ubuntu or debian repositories
 ---
+- name: Add sources of main repositories
+  apt_repository:
+    repo: deb-src {{ repo }} {{ ansible_distribution_release }} {{ compo }}
+    state: present
+
 - name: Add updates repository 
   apt_repository:
     repo: deb {{ repo }} {{ ansible_distribution_release }}-updates {{ compo }}
     state: present
 
+- name: Add updates repository src
+  apt_repository:
+    repo: deb-src {{ repo }} {{ ansible_distribution_release }}-updates {{ compo }}
+    state: present
+
 - name: Add backports repository 
   apt_repository:
     repo: deb {{ repo }} {{ ansible_distribution_release }}-backports {{ compo }}
+    state: present
+
+- name: Add backports repository src
+  apt_repository:
+    repo: deb-src {{ repo }} {{ ansible_distribution_release }}-backports {{ compo }}
     state: present
 
 - name: Add Debian security repository
@@ -16,9 +31,21 @@
     state: present
   when: ansible_distribution == 'Debian'
 
+- name: Add Debian security repository src
+  apt_repository:
+    repo: deb-src http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates {{ compo }}
+    state: present
+  when: ansible_distribution == 'Debian'
+
 - name: Add Ubuntu security repository
   apt_repository:
     repo: deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security {{ compo }}
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Add Ubuntu security repository src
+  apt_repository:
+    repo: deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security {{ compo }}
     state: present
   when: ansible_distribution == 'Ubuntu'
 
