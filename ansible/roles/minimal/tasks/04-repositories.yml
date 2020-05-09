@@ -9,45 +9,53 @@
   apt_repository:
     repo: deb {{ repo }} {{ ansible_distribution_release }}-updates {{ compo }}
     state: present
+  ignore_errors: yes
 
 - name: Add updates repository src
   apt_repository:
     repo: deb-src {{ repo }} {{ ansible_distribution_release }}-updates {{ compo }}
     state: present
+  ignore_errors: yes
 
 - name: Add backports repository 
   apt_repository:
     repo: deb {{ repo }} {{ ansible_distribution_release }}-backports {{ compo }}
     state: present
+  ignore_errors: yes
 
 - name: Add backports repository src
   apt_repository:
     repo: deb-src {{ repo }} {{ ansible_distribution_release }}-backports {{ compo }}
     state: present
+  ignore_errors: yes
 
 - name: Add Debian security repository
   apt_repository:
     repo: deb http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates {{ compo }}
     state: present
   when: ansible_distribution == 'Debian'
+  ignore_errors: yes
 
 - name: Add Debian security repository src
   apt_repository:
     repo: deb-src http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates {{ compo }}
     state: present
   when: ansible_distribution == 'Debian'
+  ignore_errors: yes
 
 - name: Add Ubuntu security repository
   apt_repository:
     repo: deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security {{ compo }}
     state: present
   when: ansible_distribution == 'Ubuntu'
+  ignore_errors: yes
 
 - name: Add Ubuntu security repository src
   apt_repository:
     repo: deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security {{ compo }}
     state: present
   when: ansible_distribution == 'Ubuntu'
+  ignore_errors: yes
 
 - name: Run the equivalent of "apt-get update" as a separate step
   apt:

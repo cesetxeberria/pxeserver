@@ -1,0 +1,15 @@
+#http://forum.arcadecontrols.com/index.php?topic=150495.0
+#./configure CFLAGS=-m32 CXXFLAGS=-m32 LDFLAGS=-m32 --build=x86_64-pc-linux-gnu --host=i686-pc-linux-gnu
+---
+#wget --no-check-certificate 'https://docs.google.com/uc?id=1rxZGQUNvQ4U3Jxy4xau2Dazr4xANylTh&export=download' -O mame.diff
+- name: Download groovy.diff
+  get_url:
+    url: https://docs.google.com/uc?id=1rxZGQUNvQ4U3Jxy4xau2Dazr4xANylTh&export$
+    dest: /root/groovy.diff
+#    validate_certs: false
+
+- name: Apply patch to multiple files under basedir
+  patch:
+    src: /root/groovy.diff
+    basedir: /root/mame
+    strip: 1

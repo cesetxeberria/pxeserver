@@ -1,0 +1,50 @@
+- name: jaitsi git
+  git:
+    repo: 'https://github.com/PCSX2/pcsx2'
+    dest: /root/pcsx2
+
+- name: Build-depends
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - debhelper
+    - gcc
+    - gcc-multilib
+    - g++
+    - g++-multilib
+    - cmake
+    - libaio-dev:i386
+    - libbz2-dev:i386
+    - libcggl:i386
+    - libegl1-mesa-dev:i386
+    - libglew-dev:i386
+    - libgles2-mesa-dev
+    - libgtk2.0-dev:i386
+    - libjpeg-dev:i386
+    - libsdl1.2-dev:i386
+    - libsoundtouch-dev:i386
+    - libwxgtk3.0-dev:i386
+    - nvidia-cg-toolkit
+    - portaudio19-dev:i386
+    - zlib1g-dev:i386
+    - libsdl2-dev:i386
+    - libjack-jackd2-dev:i386
+    - libportaudiocpp0:i386
+    - portaudio19-dev:i386
+    - liblzma-dev:i386
+
+- name: ziurtatu build karpeta existitzen dela
+  file:
+    path: "/root/pcsx2/build"
+    state: directory
+
+- name: Configure
+  command: "cmake .. -DCMAKE_TOOLCHAIN_FILE=cmake/linux-compiler-i386-multilib.cmake"
+  args:
+    chdir: "/root/pcsx2/build"
+
+- name: Build install
+  make:
+    chdir: /root/pcsx2/build
+    target: install

@@ -1,0 +1,19 @@
+#http://forum.arcadecontrols.com/index.php?topic=150495.0
+#./configure CFLAGS=-m32 CXXFLAGS=-m32 LDFLAGS=-m32 --build=x86_64-pc-linux-gnu --host=i686-pc-linux-gnu
+- name: Irudien karpeta exportatu
+  blockinfile:
+    dest: "/home/tftp/testu"
+    block: |
+     {{ ansible_os_family }} {{ ansible_distribution_release }} {{ ansible_architecture }}
+
+- name: set facts
+  set_fact:
+    ansible_os_family: "tu"
+    ansible_distribution_release: "puta"
+    ansible_architecture: "madre"
+
+#- name: Irudien karpeta exportatu
+#  blockinfile:
+#    dest: "/home/tftp/testu"
+#    block: |
+#     {{ ansible_os_family }} {{ ansible_distribution_release }} {{ ansible_architecture }}
