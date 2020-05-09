@@ -129,7 +129,7 @@
     dest: "/usr/share/X11/xorg.conf.d/20-intel.conf"
     mode: 0644
 
-- name: Start pulseaudio at xfce start.
+- name: Unmute at xfce start.
   copy:
     src: "{{ role_path }}/files/usr/share/applications/unmute.desktop"
     dest: "/etc/xdg/autostart/unmute.desktop"
@@ -139,4 +139,4 @@
   copy:
     src: "{{ role_path }}/files/usr/local/bin/xrandreset"
     dest: "/usr/local/bin/xrandreset"
-    mode: 0644
+    mode: 0755
