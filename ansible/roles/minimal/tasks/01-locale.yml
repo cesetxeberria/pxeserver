@@ -1,8 +1,13 @@
-#this task configures the system to use spanish locale
+#this task configures the system to use basque locale
 ---
 - name: Add spanish locale
   locale_gen:
     name: es_ES.UTF-8
+    state: present
+
+- name: Add basque locale
+  locale_gen:
+    name: eu_ES.UTF-8
     state: present
 
 - name: Dpkg-reconfigure
@@ -10,4 +15,4 @@
   register: out
 
 - name: Update-locale
-  command: /usr/sbin/update-locale LANG=es_ES.UTF-8
+  command: /usr/sbin/update-locale LANG=es_ES.UTF-8 LANGUAGE=eu:es

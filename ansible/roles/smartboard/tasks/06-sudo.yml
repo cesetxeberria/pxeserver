@@ -1,0 +1,32 @@
+---
+- name: Create local user "smart".
+  user:
+    name: smart
+    shell: /bin/bash
+    createhome: yes
+    home: /erab/smart
+
+- name: Let domain users run programs as "smart" user, without password.
+  blockinfile:
+    create: yes
+    dest: "/etc/sudoers"
+    marker: "#These users can run smart"
+    block: |
+      %lizarra\ ikastola ALL=(smart) NOPASSWD: ALL
+      usuario ALL=(smart) NOPASSWD: ALL
+
+- name: Copy smartsudo command.
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/smartsudo"
+    dest: "/usr/local/bin/smartsudo"
+    mode: 0755
+
+- name: Remove official autostart service.
+  file:
+    path: /etc/xdg/autostart/smart_1-_Service.desktop
+    state: absent
+
+- name: Remove official autostart program.
+  file:
+    path: /etc/xdg/autostart/smart_1-_Tools.desktop 
+    state: absent

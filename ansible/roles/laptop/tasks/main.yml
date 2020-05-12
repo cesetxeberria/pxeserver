@@ -1,0 +1,50 @@
+---
+  - name: Tasksel oinarrizko paketeak
+    command: /usr/bin/tasksel install laptop
+
+  - name: bateria eta wifia instalatzen
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+       - network-manager
+       - tlp
+       - firmware-iwlwifi
+       - firmware-atheros
+       - pm-utils
+
+  - name: ziurtatu xfconf karpeta existitzen dela
+    file:
+      path: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml"
+      state: directory
+
+  - name: blocknum kentzen
+    copy:
+      src: "{{ role_path }}/files/keyboards.xml"
+      dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml"
+      mode: 0644
+
+  - name: power manager ikona berreskuratzen
+    copy:
+      src: "{{ role_path }}/files/xfce4-power-manager.xml"
+      dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
+      mode: 0644
+
+  - name: tapa ixtean itzali
+    replace:
+      dest: /etc/systemd/logind.conf
+      regexp: '#HandleLidSwitch=suspend'
+      replace: 'HandleLidSwitch=poweroff'
+
+  - name: lightdm autologin
+    replace:
+      dest: /etc/lightdm/lightdm.conf
+      regexp: '#autologin-user=usuario'
+      replace: 'autologin-user=usuario'
+
+  - name: Template a file to /etc/files.conf
+    template:
+      src: "{{ role_path }}/templates/Nagusia.j2"
+      dest: /etc/NetworkManager/system-connections/Nagusia.nmconnection
+      owner: root
+      mode: '0600'

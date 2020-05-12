@@ -1,0 +1,8 @@
+---
+- name: Install cups-browsed and configuration GUI.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - cups-browsed
+    - system-config-printer

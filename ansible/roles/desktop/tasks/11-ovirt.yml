@@ -1,0 +1,11 @@
+---
+- name: Install virt-viewer.
+  apt:
+    name: virt-viewer
+
+- name: Change OpenSSL setup to use ovirt.
+  lineinfile:
+    dest: /etc/ssl/openssl.cnf
+    regexp: 'CipherString = DEFAULT@SECLEVEL=2'
+    line: 'CipherString = DEFAULT@SECLEVEL=1'
+    backrefs: yes

@@ -1,0 +1,4 @@
+- name: clean
+  file:
+    path: "/opt/smart"
+    state: absent

@@ -1,0 +1,67 @@
+---
+- name: Install multimedia applications.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - jclic
+    - audacity
+    - gthumb
+    - skanlite
+    - kolourpaint4
+    - sound-juicer
+    - cheese
+    - vlc
+    - winff
+    - aegisub
+    - aegisub-l10n
+    - texlive-extra-utils
+    - pdftk
+    - cups-pdf
+    - inkscape
+    - gimp
+    - xournal
+
+- name: Change gthumb desktop file, to avoid dark theme.
+  lineinfile:
+    dest: "/usr/share/applications/org.gnome.gThumb.desktop"
+    regexp: 'Exec=gthumb %U'
+    line: 'Exec=env GTK_THEME=Adwaita gthumb %U'
+
+- name: Install openshot.
+  apt:
+    name: openshot
+    install_recommends: no
+
+- name: Install remote work programs.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - rdesktop
+    - network-manager-openvpn-gnome
+
+- name: Create skel folder for smplayer.
+  file:
+    path: /etc/skel/.config/smplayer
+    state: directory
+    mode: 0755
+
+- name: Copy smplayer config.
+  copy:
+    src: "{{ role_path }}/files/etc/skel/.config/smplayer/smplayer.ini"
+    dest: /etc/skel/.config/smplayer/smplayer.ini
+    mode: 0644
+
+- name: Download youtube-dl.
+  get_url:
+    url: https://yt-dl.org/downloads/latest/youtube-dl 
+    dest: /usr/local/bin/youtube-dl
+    mode: 755
+
+- name: Set default programs for different filetypes.
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/mimeapps.list"
+    dest: "/etc/xdg/mimeapps.list"
+    mode: 0644

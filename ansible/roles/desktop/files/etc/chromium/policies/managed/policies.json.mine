@@ -1,0 +1,35 @@
+{
+      "AlternateErrorPagesEnabled": false,
+      "BlockThirdPartyCookies": true,
+      "BrowserSignin": 0,
+      "DefaultCookiesSetting": 4,
+      "DefaultGeolocationSetting": 2,
+      "DefaultNotificationsSetting": 2,
+      "DefaultPopupsSetting": 2,
+      "DefaultSearchProviderEnabled": true,
+      "DefaultSearchProviderName": "Duck duck go",
+      "DefaultSearchProviderSearchURL": "https://duckduckgo.com/?q={searchTerms}",
+      "HomepageIsNewTabPage": true,
+      "HomepageLocation": "https://www.duckduckgo.com",
+      "ImportBookmarks": false,
+      "IncognitoModeAvailability": 1,
+      "NetworkPredictionOptions": 2,
+      "NewTabPageLocation": "https://www.duckduckgo.com",
+      "PluginsAllowedForUrls": [ "*" ],
+      "PrintingBackgroundGraphicsDefault": "enabled",
+      "PromotionalTabsEnabled": false,
+      "ShowHomeButton": true,
+      "TranslateEnabled": false,
+      "ProxySettings": {"value": {"ProxyMode": "direct"}},
+      "ManagedBookmarks": 
+        [{"toplevel_name": "Ikastolako laster markak"},{"url": "google.com","name": "Google"},{"url": "youtube.com","name": "Youtube"}],
+      "ExtensionInstallForcelist": 
+        [ 
+          "apdfllckaahabafndbhieahigkjlhalf;https://clients2.google.com/service/update2/crx", 
+          "bjkegbgpfgpikgkfidhcihhiflbjgfic;https://clients2.google.com/service/update2/crx", 
+          "cjpalhdlnbpafiamejdnhcphjbkeiagm;https://clients2.google.com/service/update2/crx", 
+          "ghbmnnjooekpmoecnnnilnnbdlolhkhi;https://clients2.google.com/service/update2/crx", 
+          "pjkljhegncpnkpknbcohdijeoejaedia;https://clients2.google.com/service/update2/crx", 
+          "bkdgflcldnnnapblkhphbgpggdiikppg;https://clients2.google.com/service/update2/crx" 
+        ]
+}

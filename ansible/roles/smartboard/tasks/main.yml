@@ -1,0 +1,13 @@
+#This role installs smartboard software
+---
+  - include: 01-depends.yml
+
+  - include: 02-download.yml 
+
+  - include: 03-modify.yml
+
+  - include: 04-install.yml 
+
+  - include: 05-clean.yml
+
+  - include: 06-sudo.yml

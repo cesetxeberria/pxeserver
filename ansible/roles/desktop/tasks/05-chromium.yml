@@ -1,0 +1,55 @@
+---
+- name: Install chromium
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - chromium
+    - chromium-l10n
+
+- name: Link desktop file to chrome.desktop
+  file:
+    src: /usr/share/applications/chromium.desktop
+    dest: /usr/share/applications/chrome.desktop
+    state: link
+
+- name: Create chrome link in /usr/bin
+  file:
+    src: /usr/bin/chromium
+    dest: /usr/bin/chrome
+    state: link
+
+- name: Set chromium master preferences
+  copy:
+    src: "{{ role_path }}/files/etc/chromium/master_preferences"
+    dest: "/etc/chromium/master_preferences"
+    mode: 0644
+
+- name: Change default flags
+  blockinfile:
+    dest: "/etc/chromium.d/default-flags"
+    block: |
+      # Change password store to basic, so it doesn't complain at start
+      export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"
+
+- name: Create policies directory
+  file:
+    path: /etc/chromium/policies/managed
+    state: directory
+    mode: 0755
+
+- name: Set chromium policies
+  copy:
+    src: "{{ role_path }}/files/etc/chromium/policies/managed/policies.json.mine"
+    dest: "/etc/chromium/policies/managed/policies.json"
+    mode: 0644
+
+- name: Set firefox as default browser
+  alternatives:
+    name: x-www-browser
+    path: /usr/bin/firefox
+
+- name: Set firefox as default gnome-browser
+  alternatives:
+    name: gnome-www-browser
+    path: /usr/bin/firefox

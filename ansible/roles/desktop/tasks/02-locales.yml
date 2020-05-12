@@ -1,10 +1,11 @@
-#this task configures the desktop environmet for spanish locale
+#this task configures the desktop environmet for basque locale
 ---
-- name: Install spanish locale packages
+- name: Install spanish and basque locale packages
   apt:
     name: "{{ packages }}"
   vars:
     packages:
+    - aspell-eu
     - aspell-es
     - ispanish
     - wspanish
@@ -12,21 +13,22 @@
     - util-linux-locales
     - myspell-es
 
-- name: Install spanish locale for QT applications in Ubuntu.
+- name: Install spanish and basque locale for QT applications in Ubuntu.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
     - manpages-es-extra
     - language-pack-kde-es
+    - language-pack-kde-eu
   when: ansible_distribution == 'Ubuntu'
 
-- name: Install spanish locale for QT applications in Debian.
+- name: Install spanish and basque locale for QT applications in Debian.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
     - manpages-es
     - kde-l10n-es
+    - kde-l10n-eu
   when: ansible_distribution == 'Debian'
-

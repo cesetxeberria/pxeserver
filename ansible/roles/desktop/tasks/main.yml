@@ -1,14 +1,30 @@
-#this role installs minimal xfce desktop with spanish locale and firefox
+#this role installs minimal xfce desktop with basque locale and firefox
 ---
 
   - include: 00-minimal.yml
 
   - include: 01-lightdmautologin.yml
 
-#  - include: 01-lightdmnormal.yml
+  - include: 01-lightdmnormal.yml
 
   - include: 02-locales.yml
 
   - include: 03-xfce.yml
 
   - include: 04-firefox.yml
+
+  - include: 05-chrome.yml
+
+  - include: 05-chromium.yml
+
+  - include: 06-libreoffice.yml
+
+  - include: 07-extra.yml
+
+  - include: 08-Printers.yml
+
+#  - include: 09-kiosk.yml
+
+  - include: 10-zoom.yml
+
+  - include: 11-ovirt.yml

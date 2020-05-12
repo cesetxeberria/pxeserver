@@ -1,22 +1,22 @@
-#this task installs firefox with spanish locale in debian or ubuntu. It also sets some policies and installs two addons
+#this task installs firefox with basque locale in debian or ubuntu. It also sets some policies and installs two addons
 ---
-- name: Install Firefox on Debian with spanish locale.
+- name: Install Firefox on Debian with basque locale.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
     - firefox-esr
-    - firefox-esr-l10n-es-es
+    - firefox-esr-l10n-eu
   when: ansible_distribution == 'Debian'
 
-- name: Install Firefox on Ubuntu with spanish locale.
+- name: Install Firefox on Ubuntu with basque locale.
   apt:
     name: "{{ packages }}"
     install_recommends: no
   vars:
     packages:
     - firefox
-    - firefox-locale-es
+    - firefox-locale-eu
   when: ansible_distribution == 'Ubuntu'
 
 - name: Create simlynk to firefox.desktop in debian

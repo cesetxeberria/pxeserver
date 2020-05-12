@@ -1,0 +1,47 @@
+---
+- name: Install libreoffice
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - libreoffice
+    - libreoffice-l10n-eu
+    - libreoffice-l10n-es
+    - libreoffice-help-en-us
+    - libreoffice-help-es
+    - libreoffice-help-eu
+    - libreoffice-gtk2
+    - libreoffice-gtk3
+    - mythes-en-us
+    - mythes-es
+    - hunspell-en-us
+    - hunspell-es
+    - hunspell-eu
+    - hunspell-eu-es
+    - hyphen-en-us
+    - hyphen-es
+
+- name: Disable libreoffice file locking. So 2 people can edit same document.
+  copy:
+    src: "{{ role_path }}/files/usr/lib/libreoffice/share/registry/disable-file-locking.xcd"
+    dest: "/usr/lib/libreoffice/share/registry/disable-file-locking.xcd"
+    mode: 0644
+
+- name: Disable "whats new" message at first run.
+  copy:
+    src: "{{ role_path }}/files/usr/lib/libreoffice/share/registry/lastver.xcd"
+    dest: "/usr/lib/libreoffice/share/registry/lastver.xcd"
+    mode: 0644
+
+- name: Disable "tip of the day" wizard at first run.
+  copy:
+    src: "{{ role_path }}/files/usr/lib/libreoffice/share/registry/tipoftheday.xcd"
+    dest: "/usr/lib/libreoffice/share/registry/tipoftheday.xcd"
+    mode: 0644
+
+- name: Use f4 keybind to insert formulas.
+  copy:
+    src: "{{ role_path }}/files/usr/lib/libreoffice/share/registry/f4formula.xcd"
+    dest: "/usr/lib/libreoffice/share/registry/f4formula.xcd"
+    mode: 0644

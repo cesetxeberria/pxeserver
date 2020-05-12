@@ -1,0 +1,81 @@
+---
+- name: Requisites
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - fonts-liberation
+
+- name: Install a deb package from the internet.
+  apt:
+    deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+- name: Copy my launcher script with custom tags
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/chrome"
+    dest: "/usr/local/bin/chrome"
+    mode: 0755
+
+- name: - name: Link desktop file to chrome.desktop
+  file:
+    src: /usr/share/applications/google-chrome.desktop
+    dest: /usr/share/applications/chrome.desktop
+    state: link
+
+- name: Create chrome link in /usr/bin
+  file:
+    src: /usr/local/bin/chrome
+    dest: /usr/bin/google-chrome-stable
+    state: link
+
+- name: Delete chrome updater
+  file:
+    path: /etc/cron.daily/google-chrome 
+    state: absent
+
+- name: Delete chrome updater
+  file:
+    path: /opt/google/chrome/cron
+    state: absent
+
+- name: Set firefox as default browser
+  alternatives:
+    name: x-www-browser
+    path: /usr/bin/firefox
+
+- name: Set firefox as default gnome-browser
+  alternatives:
+    name: gnome-www-browser
+    path: /usr/bin/firefox
+
+- name: chrome aukerak ezarri
+  copy:
+    src: "{{ role_path }}/files/etc/chromium/master_preferences"
+    dest: "/opt/google/chrome/master_preferences"
+    mode: 0644
+
+- name: Create policies directory
+  file:
+    path: /etc/opt/chrome/policies/managed
+    state: directory
+    mode: 0755
+
+- name: chromium politikak ezarri
+  copy:
+    src: "{{ role_path }}/files/etc/chromium/policies/managed/policies.json.mine"
+    dest: "/etc/opt/chrome/policies/managed/policies.json"
+    mode: 0644
+
+- name: Create skel directory
+  file:
+    path: /etc/skel/.config/google-chrome
+    state: directory
+    mode: 0755
+
+- name: Create first run file
+  copy:
+    content: ""
+    dest: "/etc/skel/.config/google-chrome/First Run"
+    force: no
+    owner: root
+    mode: 0644
