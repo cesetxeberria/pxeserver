@@ -1,0 +1,59 @@
+---
+
+  - name: LDAP konexiorako paketeak
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+       - realmd
+       - libpam-mount 
+       - cifs-utils
+       - sssd-tools
+       - sssd
+       - libnss-sss
+       - libpam-sss
+       - adcli
+       - packagekit
+
+  - name: sssd konfiguratzen
+    copy:
+      src: "{{ role_path }}/files/etc/sssd/sssd.conf"
+      dest: "/etc/sssd/sssd.conf"
+      mode: 0600
+
+#  - name: erabiltzaileak lehen aldiz sartzean home karpeta sortu
+#    replace:
+#      dest: /usr/share/pam-configs/mkhomedir
+#      regexp: 'Default: no'
+#      replace: 'Default: yes'
+
+  - name: pam_mount konfiguratzen
+    copy:
+      src: "{{ role_path }}/files/etc/security/pam_mount.conf.xml"
+      dest: "/etc/security/pam_mount.conf.xml"
+      mode: 0644
+
+  - name: domeinuko erabiltzaileak sudo taldean sartu
+    blockinfile:
+      create: yes
+      dest: "/etc/sudoers"
+      marker: "#Domeinuko erabiltzaileak"
+      block: |
+        %lizarra\ ikastola ALL=(ALL) ALL
+
+  - name: pam-auth-update
+    command: pam-auth-update --package --enable mkhomedir
+    args:
+      warn: no
+
+  - name: systemctl disable sssd-pam.socket
+    file:
+      path: /etc/systemd/system/sssd.service.wants/sssd-pam.socket
+      state: absent
+
+#  - name: systemctl enable sssd-pam.socket
+#    file:
+#      src: /lib/systemd/system/sssd-pam.socket
+#      dest: /etc/systemd/system/sssd.service.wants/sssd-pam.socket
+#      state: link
+

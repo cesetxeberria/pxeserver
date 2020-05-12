@@ -1,0 +1,13 @@
+---
+- name: Aldatu konfigurazioa
+  lineinfile:
+    dest: /etc/apache2/sites-available/000-default.conf
+    regexp: 'DocumentRoot /var/www/html'
+    line: 'DocumentRoot /var/www/html/self-service-password-master'
+    backrefs: yes
+
+- name: Apache berrabiarazi
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: apache2

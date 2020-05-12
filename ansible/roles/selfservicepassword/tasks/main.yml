@@ -1,0 +1,8 @@
+---
+  - include: paketeak.yml
+
+  - include: deskargatu.yml
+
+  - include: apache.yml
+
+  - include: ssp.yml

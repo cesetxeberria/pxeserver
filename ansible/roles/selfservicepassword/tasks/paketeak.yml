@@ -1,0 +1,11 @@
+---
+- name: Beharrezko paketeak instalatu
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - apache2
+    - php
+    - php-ldap
+    - php-mbstring
+    - php7.3-mbstring

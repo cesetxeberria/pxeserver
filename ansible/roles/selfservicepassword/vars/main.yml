@@ -1,0 +1,15 @@
+---
+ldap_url: "ldap://direktorioa"
+ldap_binddn: "CN=ldap,OU=Funcionales,OU=Lizarra Ikastola,DC=lizarra-ikastola,DC=org"
+ldap_bindpw: 'Ikastola22'
+ldap_base: "dc=lizarra-ikastola,dc=org"
+ldap_filter: "(&(objectClass=user)(sAMAccountName={login})(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"
+ad_mode: true
+who_change_password: "manager"
+show_extended_error: true
+keyphrase: "añdkljgpariogjñaskgjoañjaksdgfasñghasilajreg"
+lang: "eu"
+allowed_lang: array(es,eu)
+logo: ""
+background_image: "images/atzean.jpg"
+
