@@ -15,18 +15,6 @@
     - build-essential
     - git
 
-- name: Copy modeline generator.
-  copy:
-    src: "{{ role_path }}/files/usr/local/bin/modelines"
-    dest: "/usr/local/bin/modelines"
-    mode: 0755
-
-- name: Copy modeline generator desktop to autostart.
-  copy:
-    src: "{{ role_path }}/files/usr/share/applications/modelines.desktop"
-    dest: "/etc/xdg/autostart/modelines.desktop"
-    mode: 0644
-
 - name: Install switchres build dependencies
   apt:
     name: "{{ packages }}"

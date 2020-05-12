@@ -38,12 +38,6 @@
     line: 'autologin-user=arcade'
     backrefs: yes
 
-- name: Autostart attract mode
-  copy:
-    src: "{{ role_path }}/files/usr/share/applications/attract-mode.desktop"
-    dest: /etc/xdg/autostart/attract-mode.desktop 
-    mode: 0644
-
 - name: Copy new whiskermenu
   copy:
     src: "{{ role_path }}/files/etc/xdg/xfce4/panel/whiskermenu-1.rc"

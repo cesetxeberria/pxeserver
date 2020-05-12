@@ -1,0 +1,63 @@
+---
+- name: Install emulationstation build dependencies
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - libsdl2-dev
+    - libboost-system-dev
+    - libboost-filesystem-dev
+    - libboost-date-time-dev
+    - libboost-locale-dev
+    - libfreeimage-dev
+    - libfreetype6-dev
+    - libeigen3-dev
+    - libcurl4-openssl-dev
+    - libasound2-dev
+    - libgl1-mesa-dev
+    - cmake
+
+- name: Download emulationstation sources from git
+  git:
+    repo: 'https://github.com/Aloshi/EmulationStation'
+    dest: /root/emulationstation
+
+- name: cmake
+  command: cmake .
+  args:
+    chdir: /root/emulationstation
+
+- name: Build emulationstation
+  make:
+    chdir: /root/emulationstation
+#    params:
+#      NUM_THREADS: 4
+
+- name: Install emulationstation
+  make:
+    chdir: /root/emulationstation
+    target: install
+
+- name: clean emulationstation sources
+  file:
+    path: /root/emulationstation
+    state: absent
+
+- name: Remove emulationstation build dependencies
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+    - libsdl2-dev
+    - libboost-system-dev
+    - libboost-filesystem-dev
+    - libboost-date-time-dev
+    - libboost-locale-dev
+    - libfreeimage-dev
+    - libfreetype6-dev
+    - libeigen3-dev
+    - libcurl4-openssl-dev
+    - libasound2-dev
+    - libgl1-mesa-dev
+    - cmake

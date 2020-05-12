@@ -1,0 +1,10 @@
+#set modeline and reset modeline after quitting retroarch
+#!/bin/bash
+output=`xrandr | grep " connected" | awk 'FNR == 1 {print $1}'`
+xrandr --newmode "2560x240_120.00" 99.57 2560 2632 2888 3216 240 241 244 258 -HSync +Vsync
+xrandr --addmode $output 2560x240_120.00
+xrandr --output $output --mode 2560x240_120.00
+/usr/local/bin/retroarch_original --appendconfig=/etc/retroarch120.cfg "$@"
+xrandr --output $output --auto
+xrandr --delmode $output 2560x240_120.00
+xrandr --rmmode 2560x240_120.00

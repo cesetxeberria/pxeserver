@@ -50,17 +50,6 @@
     repo: 'https://github.com/libretro/RetroArch'
     dest: /root/retroarch
 
-- name: Download my patch from git
-  git:
-    repo: 'https://github.com/cesetxeberria/retroarchcrt31'
-    dest: /root/retroarchcrt31
-
-- name: Apply patch
-  patch:
-    src: /root/retroarchcrt31/crt_31khz.patch
-    basedir: /root/retroarch
-    strip: 1
-
 #apt-cache showsrc retroarch | grep Build-Depends
 - name: Configure
   command: "./configure"
@@ -78,16 +67,74 @@
     chdir: /root/retroarch
     target: install
 
-- name: Copy retroarch2 script (normal retroarch doesn't restore res at exit)
+- name: Copy original retroarch
   copy:
-    src: "{{ role_path }}/files/usr/local/bin/retroarch2"
-    dest: /usr/local/bin/retroarch2
+    src: /usr/local/bin/retroarch
+    dest: /usr/local/bin/retroarch_original
+    mode: 0755
+    remote_src: yes
+
+- name: Download my patch from git
+  git:
+    repo: 'https://github.com/cesetxeberria/retroarchcrt31'
+    dest: /root/retroarchcrt31
+
+- name: Apply patch
+  patch:
+    src: /root/retroarchcrt31/crt_31khz.patch
+    basedir: /root/retroarch
+    strip: 1
+    remote_src: yes
+
+- name: Make uninstall
+  make:
+    chdir: /root/retroarch
+    target: install
+
+- name: Build
+  make:
+    chdir: /root/retroarch
+#    params:
+#      NUM_THREADS: 4
+
+- name: Make install
+  make:
+    chdir: /root/retroarch
+    target: install
+
+- name: Copy retroarch120 script to use with normal retroarch
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/retroarch120"
+    dest: /usr/local/bin/retroarch120
     mode: 0755
 
-- name: Change retroarch2 atributes
-  file:
-    path: /usr/local/bin/retroarch2
+- name: Copy retroarch120 config
+  copy:
+    src: "{{ role_path }}/files/etc/retroarch120.cfg"
+    dest: /etc/retroarch120
+    mode: 0644
+
+- name: Copy retroarch480 script to use with normal retroarch
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/retroarch480"
+    dest: /usr/local/bin/retroarch480
     mode: 0755
+
+- name: Copy retroarch120 config
+  copy:
+    src: "{{ role_path }}/files/etc/retroarch480.cfg"
+    dest: /etc/retroarch480
+    mode: 0644
+
+- name: clean retroarch sources
+  file:
+    path: /root/retroarch
+    state: absent
+
+- name: clean my patch sources
+  file:
+    path: /root/retroarchcrt31
+    state: absent
 
 - name: Remove retroarch build dependencies
   apt:
@@ -127,9 +174,3 @@
     - x11proto-xext-dev
     - zlib1g-dev
     - libx11-xcb-dev
-
-- name: Change desktop file
-  lineinfile:
-    dest: "/usr/local/share/applications/retroarch.desktop"
-    regexp: 'Exec=retroarch'
-    line: 'Exec=/usr/local/bin/retroarch2'
