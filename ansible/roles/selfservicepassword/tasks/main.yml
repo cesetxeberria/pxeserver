@@ -1,8 +1,9 @@
+#this task installs and configures self-service password website. So users can change their password from browser.
 ---
-  - include: paketeak.yml
+  - include: 00-depends.yml
 
-  - include: deskargatu.yml
+  - include: 01-download.yml
 
-  - include: apache.yml
+  - include: 02-apache.yml
 
-  - include: ssp.yml
+  - include: 03-ssp.yml

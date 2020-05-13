@@ -1,3 +1,4 @@
+#This task installs libreoffice in Ubuntu or Debian. It also sets some options.
 ---
 - name: Install libreoffice
   apt:

@@ -48,7 +48,7 @@
     - gtk3-engines-xfce
   when: ansible_distribution == 'Debian'
 
-- name: Extra Ubuntu.
+- name: Extra Ubuntu. Those aren't needed in Debian.
   apt:
     name: "{{ packages }}"
   vars:
@@ -79,12 +79,12 @@
     dest: "/etc/xdg/xfce4/terminal/terminalrc"
     mode: 0644
 
-- name: Disable screen-saver
+- name: Disable screen-saver.
   file:
     path: "/etc/xdg/autostart/xscreensaver.desktop"
     state: absent
 
-- name: Disable light-locker
+- name: Disable light-locker.
   file:
     path: "/etc/xdg/autostart/light-locker.desktop"
     state: absent
@@ -117,26 +117,43 @@
     dest: "/usr/share/applications/kfind.desktop"
     mode: 0644
 
+- name: Copy intel config for xorg. We want to use intel driver for tearfree option.
+  copy:
+    src: "{{ role_path }}/files/usr/share/X11/xorg.conf.d/20-intel.conf"
+    dest: "/usr/share/X11/xorg.conf.d/20-intel.conf"
+    mode: 0644
+
+- name: Unmute at xfce start. Default pulseaudio config is muted and this is a live system.
+  copy:
+    src: "{{ role_path }}/files/usr/share/applications/unmute.desktop"
+    dest: "/etc/xdg/autostart/unmute.desktop"
+    mode: 0644
+
 - name: Configure QT applications to look like GTK ones.
   copy:
     src: "{{ role_path }}/files/etc/xdg/Trolltech.conf"
     dest: "/etc/xdg/Trolltech.conf"
     mode: 0644
 
-- name: Copy intel config for xorg
-  copy:
-    src: "{{ role_path }}/files/usr/share/X11/xorg.conf.d/20-intel.conf"
-    dest: "/usr/share/X11/xorg.conf.d/20-intel.conf"
-    mode: 0644
-
-- name: Unmute at xfce start.
-  copy:
-    src: "{{ role_path }}/files/usr/share/applications/unmute.desktop"
-    dest: "/etc/xdg/autostart/unmute.desktop"
-    mode: 0644
-
-- name: Copy xrandr reset script.
-  copy:
-    src: "{{ role_path }}/files/usr/local/bin/xrandreset"
-    dest: "/usr/local/bin/xrandreset"
+- name: Create skel folder for smplayer.
+  file:
+    path: /etc/skel/.config/smplayer
+    state: directory
     mode: 0755
+
+- name: Copy smplayer config.
+  copy:
+    src: "{{ role_path }}/files/etc/skel/.config/smplayer/smplayer.ini"
+    dest: /etc/skel/.config/smplayer/smplayer.ini
+    mode: 0644
+
+- name: Remove youtube-dl. Smplayer installs it but I prefer to download the newest version.
+  apt:
+    name: youtube-dl
+    state: absent
+
+- name: Download latest youtube-dl.
+  get_url:
+    url: https://yt-dl.org/downloads/latest/youtube-dl
+    dest: /usr/local/bin/youtube-dl
+    mode: 755

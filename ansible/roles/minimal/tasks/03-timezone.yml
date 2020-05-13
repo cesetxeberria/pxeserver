@@ -1,7 +1,10 @@
 #this task sets the timezone for spain
 ---
   - name: Change localtime /etc/localtime for Spain
-    file: src=/usr/share/zoneinfo/Europe/Madrid dest=/etc/localtime state=link
+    file:
+      src: /usr/share/zoneinfo/Europe/Madrid
+      dest: /etc/localtime
+      state: link
 
   - name: Dpkg-reconfigure tzdata
     command: /usr/sbin/dpkg-reconfigure --frontend noninteractive tzdata

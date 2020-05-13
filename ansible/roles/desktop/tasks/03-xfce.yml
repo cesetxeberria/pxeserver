@@ -1,4 +1,4 @@
-#this task installs a minimal xfce desktop for ubuntu or debian
+#this task configures xfce desktop for ubuntu or debian
 ---
 - name: Config panel
   copy:

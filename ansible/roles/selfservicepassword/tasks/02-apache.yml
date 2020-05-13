@@ -1,12 +1,13 @@
+#this task configures apache to use ssp as default 
 ---
-- name: Aldatu konfigurazioa
+- name: Configure Apache.
   lineinfile:
     dest: /etc/apache2/sites-available/000-default.conf
     regexp: 'DocumentRoot /var/www/html'
     line: 'DocumentRoot /var/www/html/self-service-password-master'
     backrefs: yes
 
-- name: Apache berrabiarazi
+- name: Restart Apache
   systemd:
     state: restarted
     daemon_reload: yes

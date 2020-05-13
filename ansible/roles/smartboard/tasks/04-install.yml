@@ -1,3 +1,4 @@
+#this task installs newly created deb files
 ---
 - name: install smart-common.deb
   apt:

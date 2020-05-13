@@ -1,3 +1,4 @@
+#this task installs chromium in Debian. It also sets some policies and installs two addons. 
 ---
 - name: Install chromium
   apt:
@@ -7,11 +8,9 @@
     - chromium
     - chromium-l10n
 
-- name: Link desktop file to chrome.desktop
-  file:
-    src: /usr/share/applications/chromium.desktop
-    dest: /usr/share/applications/chrome.desktop
-    state: link
+#This is for me. I don't want to use two different panel config files for chromium and chrome, so I rename it.
+- name: Move desktop file to chrome.desktop
+  command: mv /usr/share/applications/chromium.desktop /usr/share/applications/chrome.desktop
 
 - name: Create chrome link in /usr/bin
   file:

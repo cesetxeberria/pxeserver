@@ -1,3 +1,4 @@
+#this task downloads smart software's deb files from authors website
 ---
 - name: Create download dir
   file:

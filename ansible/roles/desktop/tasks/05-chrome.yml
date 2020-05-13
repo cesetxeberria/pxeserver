@@ -1,26 +1,25 @@
+#this task installs google chrome in Ubuntu. It also sets some policies and installs two addons. I prefer this over chromium because it's a snap package now.
 ---
-- name: Requisites
+- name: Install dependencies.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
     - fonts-liberation
 
-- name: Install a deb package from the internet.
+- name: Install google chrome deb package from the internet.
   apt:
     deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
-- name: Copy my launcher script with custom tags
+- name: Copy my launcher script with custom tags.
   copy:
     src: "{{ role_path }}/files/usr/local/bin/chrome"
     dest: "/usr/local/bin/chrome"
     mode: 0755
 
-- name: - name: Link desktop file to chrome.desktop
-  file:
-    src: /usr/share/applications/google-chrome.desktop
-    dest: /usr/share/applications/chrome.desktop
-    state: link
+#This is for me. I don't want to use two different panel config files for chromium and chrome, so I rename it.
+- name: Move desktop file to chrome.desktop
+  command: mv /usr/share/applications/google-chrome.desktop /usr/share/applications/chrome.desktop
 
 - name: Create chrome link in /usr/bin
   file:
@@ -38,41 +37,41 @@
     path: /opt/google/chrome/cron
     state: absent
 
-- name: Set firefox as default browser
+- name: Chrome sets itself as default browser. Set firefox as default browser.
   alternatives:
     name: x-www-browser
     path: /usr/bin/firefox
 
-- name: Set firefox as default gnome-browser
+- name: Chrome sets itself as default browser. Set firefox as default gnome-browser.
   alternatives:
     name: gnome-www-browser
     path: /usr/bin/firefox
 
-- name: chrome aukerak ezarri
+- name: Set chrome's default preferences.
   copy:
     src: "{{ role_path }}/files/etc/chromium/master_preferences"
     dest: "/opt/google/chrome/master_preferences"
     mode: 0644
 
-- name: Create policies directory
+- name: Create policies directory.
   file:
     path: /etc/opt/chrome/policies/managed
     state: directory
     mode: 0755
 
-- name: chromium politikak ezarri
+- name: Set chrome's policies.
   copy:
     src: "{{ role_path }}/files/etc/chromium/policies/managed/policies.json.mine"
     dest: "/etc/opt/chrome/policies/managed/policies.json"
     mode: 0644
 
-- name: Create skel directory
+- name: Create skel directory.
   file:
     path: /etc/skel/.config/google-chrome
     state: directory
     mode: 0755
 
-- name: Create first run file
+- name: Create first run file. With this, chrome won't ask to be default browser.
   copy:
     content: ""
     dest: "/etc/skel/.config/google-chrome/First Run"

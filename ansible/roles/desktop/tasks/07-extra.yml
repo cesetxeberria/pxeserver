@@ -1,3 +1,4 @@
+#This task installs some extra applications and configures them. 
 ---
 - name: Install multimedia applications.
   apt:
@@ -22,6 +23,7 @@
     - inkscape
     - gimp
     - xournal
+    - openshot
 
 - name: Change gthumb desktop file, to avoid dark theme.
   lineinfile:
@@ -29,36 +31,13 @@
     regexp: 'Exec=gthumb %U'
     line: 'Exec=env GTK_THEME=Adwaita gthumb %U'
 
-- name: Install openshot.
-  apt:
-    name: openshot
-    install_recommends: no
-
-- name: Install remote work programs.
+- name: Install some programs for remote working.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
     - rdesktop
     - network-manager-openvpn-gnome
-
-- name: Create skel folder for smplayer.
-  file:
-    path: /etc/skel/.config/smplayer
-    state: directory
-    mode: 0755
-
-- name: Copy smplayer config.
-  copy:
-    src: "{{ role_path }}/files/etc/skel/.config/smplayer/smplayer.ini"
-    dest: /etc/skel/.config/smplayer/smplayer.ini
-    mode: 0644
-
-- name: Download youtube-dl.
-  get_url:
-    url: https://yt-dl.org/downloads/latest/youtube-dl 
-    dest: /usr/local/bin/youtube-dl
-    mode: 755
 
 - name: Set default programs for different filetypes.
   copy:

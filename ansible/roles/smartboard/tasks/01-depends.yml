@@ -1,3 +1,4 @@
+#this task installs smart board software's dependencies and link's libudev0 to libudev1
 ---
 - name: Install depends on i386
   apt:

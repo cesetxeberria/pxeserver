@@ -1,4 +1,4 @@
-#this task installs a minimal xfce desktop for ubuntu or debian
+#this task installs lightdm autologin and configures username and session type (xfce)
 ---
 - name: Install lightdm autologin.
   apt:
@@ -20,4 +20,3 @@
     regexp: '#autologin-session=x-session-manager'
     line: 'autologin-session=xfce'
     backrefs: yes
-

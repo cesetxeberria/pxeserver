@@ -1,6 +1,6 @@
+#this task configures the client to "join" a windows domain with sssd and ldap
 ---
-
-  - name: LDAP konexiorako paketeak
+  - name: Install LDAP dependencies.
     apt:
       name: "{{ packages }}"
     vars:
@@ -15,45 +15,58 @@
        - adcli
        - packagekit
 
-  - name: sssd konfiguratzen
+  - name: Copy sssd configuration.
     copy:
       src: "{{ role_path }}/files/etc/sssd/sssd.conf"
       dest: "/etc/sssd/sssd.conf"
       mode: 0600
 
-#  - name: erabiltzaileak lehen aldiz sartzean home karpeta sortu
-#    replace:
-#      dest: /usr/share/pam-configs/mkhomedir
-#      regexp: 'Default: no'
-#      replace: 'Default: yes'
-
-  - name: pam_mount konfiguratzen
+  - name: Configure pam_mount to mount domain's shared folders at login.
     copy:
       src: "{{ role_path }}/files/etc/security/pam_mount.conf.xml"
       dest: "/etc/security/pam_mount.conf.xml"
       mode: 0644
 
-  - name: domeinuko erabiltzaileak sudo taldean sartu
+  - name: Add domain users to sudoers file.
     blockinfile:
       create: yes
       dest: "/etc/sudoers"
-      marker: "#Domeinuko erabiltzaileak"
+      marker: "#Domain users"
       block: |
         %lizarra\ ikastola ALL=(ALL) ALL
 
-  - name: pam-auth-update
+#  - name: User homes will be created at first login.
+#    replace:
+#      dest: /usr/share/pam-configs/mkhomedir
+#      regexp: 'Default: no'
+#      replace: 'Default: yes'
+
+  - name: Update pam configuration.
     command: pam-auth-update --package --enable mkhomedir
     args:
       warn: no
 
-  - name: systemctl disable sssd-pam.socket
-    file:
-      path: /etc/systemd/system/sssd.service.wants/sssd-pam.socket
-      state: absent
+  - name: Set our intranet's DNS.
+    replace:
+      dest: /etc/systemd/resolved.conf
+      regexp: '#DNS='
+      replace: 'DNS=10.10.0.11'
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Add our intranet's domain.
+    replace:
+      dest: /etc/systemd/resolved.conf
+      regexp: '#Domains='
+      replace: 'Domains=lizarra-ikastola.org'
+    when: ansible_distribution == 'Ubuntu'
+
+#  - name: systemctl disable sssd-pam.socket
+#    file:
+#      path: /etc/systemd/system/sssd.service.wants/sssd-pam.socket
+#      state: absent
 
 #  - name: systemctl enable sssd-pam.socket
 #    file:
 #      src: /lib/systemd/system/sssd-pam.socket
 #      dest: /etc/systemd/system/sssd.service.wants/sssd-pam.socket
 #      state: link
-

@@ -19,6 +19,6 @@
     - ansible_distribution == 'Debian'
     - ansible_architecture == 'x86_64'
 
-- name: Install amd kernel for Ubuntu.
+- name: Install amd64 kernel for Ubuntu.
   apt: name=linux-image-generic
   when: ansible_distribution == 'Ubuntu'

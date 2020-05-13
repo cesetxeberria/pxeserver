@@ -1,4 +1,4 @@
-#this task installs a minimal xfce desktop for ubuntu or debian
+#this task installs lightdm's simple gtk greeter and configures it for debian and ubuntu
 ---
 - name: Install lightdm greeter
   apt:
@@ -8,14 +8,6 @@
     packages:
     - lightdm-gtk-greeter
 
-- name: Put xfce desktop's background in ligthdm too. Ubuntu.
-  blockinfile:
-    dest: "/etc/lightdm/lightdm-gtk-greeter.conf"
-    block: |
-      background=/usr/share/backgrounds/xfce/xfce-stripes.png
-      indicators=~host;~spacer;~session;~clock;~power;
-  when: ansible_distribution == 'Ubuntu'
-
 - name: Put xfce desktop's background in ligthdm too. Debian.
   blockinfile:
     dest: "/etc/lightdm/lightdm-gtk-greeter.conf"
@@ -23,6 +15,14 @@
       background=/usr/share/backgrounds/xfce/xfce-teal.jpg
       indicators=~host;~spacer;~session;~clock;~power;
   when: ansible_distribution == 'Debian'
+
+- name: Put xfce desktop's background in ligthdm too. Ubuntu.
+  blockinfile:
+    dest: "/etc/lightdm/lightdm-gtk-greeter.conf"
+    block: |
+      background=/usr/share/backgrounds/xfce/xfce-stripes.png
+      indicators=~host;~spacer;~session;~clock;~power;
+  when: ansible_distribution == 'Ubuntu'
 
 - name: Let users write their username in Ubuntu. Default behaviour is to select from a list.
   blockinfile:

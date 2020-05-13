@@ -19,11 +19,9 @@
     - firefox-locale-eu
   when: ansible_distribution == 'Ubuntu'
 
-- name: Create simlynk to firefox.desktop in debian
-  file:
-    src: /usr/share/applications/firefox-esr.desktop
-    dest: /usr/share/applications/firefox.desktop
-    state: link
+#This is for me. I don't want to use two different panel config files for firefox-esr and firefox, so I rename it.
+- name: Move desktop file to chrome.desktop
+  command: mv /usr/share/applications/firefox-esr.desktop /usr/share/applications/firefox.desktop
   when: ansible_distribution == 'Debian'
 
 - name: Create a policies forlder for Firefox in Debian.

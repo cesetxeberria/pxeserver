@@ -1,3 +1,4 @@
+#this task creates a local user and configures sudo, so LDAP users can run the software without issues.
 ---
 - name: Create local user "smart".
   user:

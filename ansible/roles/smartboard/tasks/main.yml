@@ -1,4 +1,4 @@
-#This role installs smartboard software
+#This role installs smartboard software. It's an old program with old dependencies (all of them i386)
 ---
   - include: 01-depends.yml
 
@@ -10,4 +10,5 @@
 
   - include: 05-clean.yml
 
+#In a 64 bit environment LDAP users don't have certain permissions, so I use sudo to run the program through a local user.
   - include: 06-sudo.yml

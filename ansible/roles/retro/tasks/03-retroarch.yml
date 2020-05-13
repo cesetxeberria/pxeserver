@@ -81,7 +81,7 @@
 
 - name: Apply patch
   patch:
-    src: /root/retroarchcrt31/crt_31khz.patch
+    src: /root/retroarchcrt31/retroarch_crt31_doubled.patch
     basedir: /root/retroarch
     strip: 1
     remote_src: yes

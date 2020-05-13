@@ -57,6 +57,6 @@
   when: ansible_distribution == 'Ubuntu'
   ignore_errors: yes
 
-- name: Run the equivalent of "apt-get update" as a separate step
+- name: Run the equivalent of "apt-get update"
   apt:
     update_cache: yes

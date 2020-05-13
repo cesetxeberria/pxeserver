@@ -1,8 +1,9 @@
+#this task installs and configures some programs for laptops
 ---
-  - name: Tasksel oinarrizko paketeak
+  - name: Install laptop task with tasksel
     command: /usr/bin/tasksel install laptop
 
-  - name: bateria eta wifia instalatzen
+  - name: Install tlp and pm-utils for battery use. Add some wireless chip firmwares.
     apt:
       name: "{{ packages }}"
     vars:
@@ -13,36 +14,36 @@
        - firmware-atheros
        - pm-utils
 
-  - name: ziurtatu xfconf karpeta existitzen dela
-    file:
-      path: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml"
-      state: directory
+#  - name: Create xfce config folder.
+#    file:
+#      path: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml"
+#      state: directory
 
-  - name: blocknum kentzen
+  - name: Configure xfce so blocknum isn't enabled at startup.
     copy:
       src: "{{ role_path }}/files/keyboards.xml"
       dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml"
       mode: 0644
 
-  - name: power manager ikona berreskuratzen
+  - name: Show power manager trayicon.
     copy:
       src: "{{ role_path }}/files/xfce4-power-manager.xml"
       dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
       mode: 0644
 
-  - name: tapa ixtean itzali
+  - name: Power off wen lid is closed.
     replace:
       dest: /etc/systemd/logind.conf
       regexp: '#HandleLidSwitch=suspend'
       replace: 'HandleLidSwitch=poweroff'
 
-  - name: lightdm autologin
-    replace:
-      dest: /etc/lightdm/lightdm.conf
-      regexp: '#autologin-user=usuario'
-      replace: 'autologin-user=usuario'
+#  - name: Lightdm autologin
+#    replace:
+#      dest: /etc/lightdm/lightdm.conf
+#      regexp: '#autologin-user=usuario'
+#      replace: 'autologin-user=usuario'
 
-  - name: Template a file to /etc/files.conf
+  - name: Configure our wifi network
     template:
       src: "{{ role_path }}/templates/Nagusia.j2"
       dest: /etc/NetworkManager/system-connections/Nagusia.nmconnection

@@ -1,5 +1,6 @@
+#This task locks xfce configuration so users can't modify them.
 ---
-- name: Block xfwm4.
+- name: Lock xfwm4.
   replace:
     dest: /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml
     regexp: 'version="1.0">'
@@ -14,12 +15,6 @@
 - name: Lock xsettings.
   replace:
     dest: /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml
-    regexp: 'version="1.0">'
-    replace: 'version="1.0" locked="*" unlocked="root;@wheel">'
-
-- name: Lock thunar.
-  replace:
-    dest: /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
     regexp: 'version="1.0">'
     replace: 'version="1.0" locked="*" unlocked="root;@wheel">'
 
@@ -41,14 +36,20 @@
     regexp: 'version="1.0">'
     replace: 'version="1.0" locked="*" unlocked="root;@wheel">'
 
-- name: Lock xfce4-desktop.
-  replace:
-    dest: /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
-    regexp: 'version="1.0">'
-    replace: 'version="1.0" locked="*" unlocked="root;@wheel">'
-
 - name: Lock keyboards.
   replace:
     dest: /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml
+    regexp: 'version="1.0">'
+    replace: 'version="1.0" locked="*" unlocked="root;@wheel">'
+
+- name: Lock thunar.
+  replace:
+    dest: /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+    regexp: 'version="1.0">'
+    replace: 'version="1.0" locked="*" unlocked="root;@wheel">'
+
+- name: Lock xfce4-desktop.
+  replace:
+    dest: /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
     regexp: 'version="1.0">'
     replace: 'version="1.0" locked="*" unlocked="root;@wheel">'

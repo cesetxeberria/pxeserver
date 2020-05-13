@@ -1,3 +1,4 @@
+#This task installs virt-viewer and changes OpenSSL setup so we can access our old oVirt server.
 ---
 - name: Install virt-viewer.
   apt:

@@ -1,5 +1,6 @@
+#this task installs needed packages
 ---
-- name: Beharrezko paketeak instalatu
+- name: Install needed packages
   apt:
     name: "{{ packages }}"
   vars:
