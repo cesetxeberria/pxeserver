@@ -31,3 +31,44 @@
   file:
     path: /etc/xdg/autostart/smart_1-_Tools.desktop 
     state: absent
+
+- name: Copy my own smart launcher.
+  copy:
+    src: "{{ role_path }}/files/usr/share/applications/smartboard.desktop"
+    dest: "/usr/share/applications/smartboard.desktop"
+    mode: 0644
+
+- name: Remove desktop files.
+  file:
+    path: "/usr/share/applications/{{ files }}"
+    state: absent
+  vars:
+    files:
+    - smartboard.desktop
+    - smarttech-ControlPanel.desktop
+    - smarttech-EssentialsForEducators.desktop
+    - smarttech-gallery.desktop
+    - smarttech-galleryitem.desktop
+    - smarttech-GallerySetup.desktop
+    - smarttech-LanguageSetup.desktop
+    - smarttech-Magnifier.desktop
+    - smarttech-notebook.desktop
+    - smarttech-Orient.desktop
+    - smarttech-Pointer.desktop
+    - smarttech-ScreenCapture.desktop
+    - smarttech-ScreenShade.desktop
+    - smarttech-ScreenSpotlight.desktop
+    - smarttech-SMARTBoardTools.desktop
+    - smarttech-SMARTKeyboard.desktop
+
+- name: Remove directory files.
+  file:
+    path: "/usr/share/desktop-directories/{{ files }}"
+    state: absent
+  vars:
+    files:
+    - smarttech-software.directory
+    - smarttech-software-drivers.directory
+    - smarttech-software-notebook.directory
+    - smarttech-software-tools.directory
+    - smarttech-software-update.directory

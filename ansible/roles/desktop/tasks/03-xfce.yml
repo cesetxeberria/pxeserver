@@ -41,3 +41,15 @@
     src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
     dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
     mode: 0644
+
+- name: Config thunar
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
+    mode: 0644
+
+- name: Config thunar
+  copy:
+    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
+    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
+    mode: 0644

@@ -1,5 +1,5 @@
 #this task removes old and new installation deb files
-- name: clean
+- name: Clean installation files
   file:
     path: "/opt/smart"
     state: absent

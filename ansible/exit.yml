@@ -1,5 +1,13 @@
 #this will be executed before exiting the chroot
 ---
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
 - name: Umount /dev/pts
   command: umount -df /dev/pts
   args:
@@ -14,11 +22,3 @@
   command: umount -df /proc
   args:
     warn: no
-
-- name: Remove useless packages from the cache
-  apt:
-    autoclean: yes
-
-- name: Remove dependencies that are no longer required
-  apt:
-    autoremove: yes

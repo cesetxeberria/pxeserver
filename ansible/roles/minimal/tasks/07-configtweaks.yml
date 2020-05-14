@@ -56,3 +56,20 @@
     src: /etc/systemd/system/getnamebymac.service
     dest: /etc/systemd/system/multi-user.target.wants/getnamebymac.service
     state: link
+
+- name: Don't auto update apt
+  file:
+    path: /etc/systemd/system/timers.target.wants/apt-daily.timer
+    state: absent
+
+- name: Don't auto upgrade apt
+  file:
+    path: /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer
+    state: absent
+
+
+#ln -s /lib/systemd/system/apt-daily.timer /etc/systemd/system/timers.target.wants/apt-daily.timer
+#ln -s /lib/systemd/system/apt-daily-upgrade.timer /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer
+
+
+

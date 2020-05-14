@@ -3,9 +3,9 @@
 
   - include: 00-minimal.yml
 
-  - include: 01-lightdmautologin.yml
+#  - include: 01-lightdmautologin.yml
 
-#  - include: 01-lightdmnormal.yml
+  - include: 01-lightdmnormal.yml
 
   - include: 02-locales.yml
 
@@ -14,20 +14,20 @@
   - include: 04-firefox.yml
 
 # I prefer to install google chrome in ubuntu, because chromium is a snap package. I use policies to control google's shit.
-#  - include: 05-chrome.yml
-#    when: ansible_distribution == 'Ubuntu'
+  - include: 05-chrome.yml
+    when: ansible_distribution == 'Ubuntu'
 
-#  - include: 05-chromium.yml
-#    when: ansible_distribution == 'Debian'
+  - include: 05-chromium.yml
+    when: ansible_distribution == 'Debian'
 
-#  - include: 06-libreoffice.yml
+  - include: 06-libreoffice.yml
 
-#  - include: 07-extra.yml
+  - include: 07-extra.yml
 
-#  - include: 08-Printers.yml
+  - include: 08-Printers.yml
 
-#  - include: 09-kiosk.yml
+  - include: 09-kiosk.yml
 
-#  - include: 10-zoom.yml
+  - include: 10-zoom.yml
 
-#  - include: 11-ovirt.yml
+  - include: 11-ovirt.yml
