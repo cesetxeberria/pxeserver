@@ -1,4 +1,4 @@
-#this task installs a minimal xfce desktop for ubuntu or debian
+#gutxieneko idazmaia instalatzen du honek. xfce ubuntu edo debian-entzat
 ---
 - name: Minimal xfce packages with no-recommends. Ubuntu recommends A LOT of crap.
   apt:
@@ -157,8 +157,3 @@
     url: https://yt-dl.org/downloads/latest/youtube-dl
     dest: /usr/local/bin/youtube-dl
     mode: 0755
-
-#- name: Set youtube-dl mode
-#  file:
-#    path: /usr/local/bin/youtube-dl
-#    mode: 0755

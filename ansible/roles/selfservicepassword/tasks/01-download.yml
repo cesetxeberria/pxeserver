@@ -1,8 +1,0 @@
-#this task installs downloads and extracts latest release from github
----
-- name: Download and extract latest ssp version
-  unarchive:
-    src: https://github.com/ltb-project/self-service-password/archive/master.zip
-    dest: /var/www/html
-    remote_src: yes
-

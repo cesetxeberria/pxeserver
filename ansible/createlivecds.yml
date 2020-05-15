@@ -16,7 +16,7 @@
         name: minimal
     - include: exit.yml
 
-- hosts: desktops, laptops, retro
+- hosts: desktops
   connection: chroot
   vars:
     ansible_host: "{{ inventory_hostname }}/live/squashfs-root"
@@ -24,28 +24,6 @@
     - include: prepare.yml
     - include_role:
         name: desktop
-    - include: exit.yml
-
-- hosts: desktops, laptops
-  connection: chroot
-  vars:
-    ansible_host: "{{ inventory_hostname }}/live/squashfs-root"
-  tasks:
-    - include: prepare.yml
-    - include_role:
-        name: smartboard
-    - include_role:
-        name: realmd
-    - include: exit.yml
-
-- hosts: retro
-  connection: chroot
-  vars:
-    ansible_host: "{{ inventory_hostname }}/live/squashfs-root"
-  tasks:
-    - include: prepare.yml
-    - include_role:
-        name: retro
     - include: exit.yml
 
 - hosts: all

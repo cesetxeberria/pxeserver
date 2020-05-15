@@ -3,9 +3,7 @@
 
   - include: 00-minimal.yml
 
-#  - include: 01-lightdmautologin.yml
-
-  - include: 01-lightdmnormal.yml
+  - include: 01-lightdm.yml
 
   - include: 02-locales.yml
 
@@ -21,13 +19,3 @@
     when: ansible_distribution == 'Debian'
 
   - include: 06-libreoffice.yml
-
-  - include: 07-extra.yml
-
-  - include: 08-Printers.yml
-
-  - include: 09-kiosk.yml
-
-  - include: 10-zoom.yml
-
-  - include: 11-ovirt.yml

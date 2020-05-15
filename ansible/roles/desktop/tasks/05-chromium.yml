@@ -39,7 +39,7 @@
 
 - name: Set chromium policies
   copy:
-    src: "{{ role_path }}/files/etc/chromium/policies/managed/policies.json.mine"
+    src: "{{ role_path }}/files/etc/chromium/policies/managed/policies.json"
     dest: "/etc/chromium/policies/managed/policies.json"
     mode: 0644
 

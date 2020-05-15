@@ -1,9 +1,0 @@
-#This task installs cups-browsed to use remote printers and system-config-printer to config them from a GUI.
----
-- name: Install cups-browsed and configuration GUI.
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - cups-browsed
-    - system-config-printer

@@ -41,3 +41,9 @@
     src: "{{ role_path }}/files/usr/local/bin/unmute"
     dest: "/usr/local/bin/unmute"
     mode: 0755
+
+- name: Copy wifion script
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/wifion"
+    dest: "/usr/local/bin/wifion"
+    mode: 0755
