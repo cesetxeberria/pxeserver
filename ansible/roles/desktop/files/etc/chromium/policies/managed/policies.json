@@ -1,6 +1,5 @@
 {
       "AlternateErrorPagesEnabled": false,
-      "BlockThirdPartyCookies": true,
       "BrowserSignin": 0,
       "DefaultCookiesSetting": 4,
       "DefaultGeolocationSetting": 2,
@@ -23,11 +22,8 @@
       "ProxySettings": {"value": {"ProxyMode": "direct"}},
       "ExtensionInstallForcelist": 
         [ 
-          "apdfllckaahabafndbhieahigkjlhalf;https://clients2.google.com/service/update2/crx", 
-          "bjkegbgpfgpikgkfidhcihhiflbjgfic;https://clients2.google.com/service/update2/crx", 
           "cjpalhdlnbpafiamejdnhcphjbkeiagm;https://clients2.google.com/service/update2/crx", 
           "ghbmnnjooekpmoecnnnilnnbdlolhkhi;https://clients2.google.com/service/update2/crx", 
-          "pjkljhegncpnkpknbcohdijeoejaedia;https://clients2.google.com/service/update2/crx", 
           "bkdgflcldnnnapblkhphbgpggdiikppg;https://clients2.google.com/service/update2/crx" 
         ]
 }
