@@ -21,7 +21,3 @@
     path: "{{ tftp_root }}/livecds/customdebian"
     state: directory
     mode: 0755
-
-- name: Install focal focus debootstrap
-  apt:
-    deb: http://es.archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/debootstrap_1.0.118ubuntu1_all.deb
