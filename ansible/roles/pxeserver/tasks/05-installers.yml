@@ -5,8 +5,8 @@
     name: "{{ packages }}"
   vars:
     packages:
-    - debian-installer-10-netboot-amd64
-    - debian-installer-10-netboot-i386
+    - debian-installer-11-netboot-amd64
+    - debian-installer-11-netboot-i386
 
 - name: Create amd64 installer folder.
   file:
