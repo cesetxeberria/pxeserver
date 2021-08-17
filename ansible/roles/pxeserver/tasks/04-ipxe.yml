@@ -32,11 +32,23 @@
     repo: 'https://github.com/ipxe/ipxe'
     dest: "{{ tftp_root }}/ipxe/git"
 
+- name: Check if undionly.kpxe exists
+  stat:
+    path: "{{ tftp_root }}/ipxe/undionly.kpxe"
+  register: register_undionly
+
 - name: Build undionly.kpxe. This may take a while.
   shell: cd {{ tftp_root }}/ipxe/git/src && make bin/undionly.kpxe EMBED={{ tftp_root }}/ipxe/embed.ipxe
+  when: register_undionly.stat.exists
+
+- name: Check if snponly.efi exists
+  stat:
+    path: "{{ tftp_root }}/ipxe/snponly.efi"
+  register: register_snponly
 
 - name: Build snponly.efi. This may take a while
   shell: cd {{ tftp_root }}/ipxe/git/src && make bin-x86_64-efi/snponly.efi EMBED={{ tftp_root }}/ipxe/embed.ipxe
+  when: register_snponly.stat.exists
 
 - name: Copy undionly.kpxe
   copy:
