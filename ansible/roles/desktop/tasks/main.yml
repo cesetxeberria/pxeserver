@@ -5,6 +5,8 @@
 
   - include: 01-lightdm.yml
 
+  - include: 01-sddm.yml
+
   - include: 02-locales.yml
 
   - include: 03-xfce.yml

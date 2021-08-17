@@ -1,0 +1,22 @@
+#install sddm with a simple greeter
+---
+- name: install sddm.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - sddm
+    - qml-module-qtgraphicaleffects
+    - qml-module-qtquick-controls2
+    - unzip
+    - sddm-theme-maldives
+
+- name: Set xfce's background image for sddm.
+  replace:
+    dest: "/usr/share/sddm/themes/maldives/theme.conf"
+    regexp: '^(.*)background=(.*)$'
+    replace: 'background=/usr/share/backgrounds/xfce/xfce-stripes.png'
+
+#sudo update-alternatives --install /usr/share/sddm/themes/ubuntu-theme sddm-ubuntu-theme /usr/share/sddm/themes/sddm-theme-dialog-main 1
+
