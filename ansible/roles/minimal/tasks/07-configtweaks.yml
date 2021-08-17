@@ -26,11 +26,25 @@
     mode: 0644
   when: ansible_distribution == 'Debian'
 
-- name: Set OpenNIC dns for Ubuntu. 
-  replace:
+#https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu/1195074#1195074
+- name: Remove resolv.conf.
+  file:
+    path: /etc/resolv.conf
+    state: absent
+
+- name: Disable systemd-resolved.
+  lineinfile:
     dest: /etc/systemd/resolved.conf
-    regexp: '#DNS='
-    replace: 'DNS=193.183.98.66 151.80.222.79'
+    regexp: '#DNSStubListener=yes'
+    line: 'DNSStubListener=no'
+    backrefs: yes
+
+- name: Let Network-manager configure DNS.
+  lineinfile:
+    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
+    regexp: 'dns=systemd-resolved'
+    line: '#dns=systemd-resolved'
+    backrefs: yes
   when: ansible_distribution == 'Ubuntu'
 
 - name: Power button will power off the system.
