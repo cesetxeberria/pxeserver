@@ -7,7 +7,6 @@
     packages:
     - dnsmasq
     - nfs-kernel-server
-    - python-distutils-extra
     - python3-distutils-extra
 
 - name: Configure dnsmasq.
