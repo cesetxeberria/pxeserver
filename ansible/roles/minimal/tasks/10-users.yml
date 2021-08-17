@@ -8,6 +8,7 @@
          shell: /bin/bash
          createhome: no
          groups: cdrom,floppy,audio,dip,video,plugdev,netdev,sudo
+      register: user
       when: ansible_distribution == 'Debian'
 
     - name: Create a new user in Ubuntu.
@@ -17,6 +18,7 @@
          shell: /bin/bash
          createhome: no
          groups: adm,cdrom,dip,plugdev,sudo
+      register: user
       when: ansible_distribution == 'Ubuntu'
 
     - name: User home will be created at first login.
@@ -24,8 +26,10 @@
         dest: /usr/share/pam-configs/mkhomedir
         regexp: 'Default: no'
         replace: 'Default: yes'
+      register: pam
 
     - name: pam-auth-update
       command: pam-auth-update --package --enable mkhomedir
       args:
         warn: no
+      register: (user.changed == true) or (pam.changed == true)
