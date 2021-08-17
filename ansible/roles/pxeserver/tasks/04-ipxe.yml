@@ -39,7 +39,7 @@
 
 - name: Build undionly.kpxe. This may take a while.
   shell: cd {{ tftp_root }}/ipxe/git/src && make bin/undionly.kpxe EMBED={{ tftp_root }}/ipxe/embed.ipxe
-  when: register_undionly.stat.exists
+  when: register_undionly.stat.exists == false
 
 - name: Check if snponly.efi exists
   stat:
@@ -48,19 +48,21 @@
 
 - name: Build snponly.efi. This may take a while
   shell: cd {{ tftp_root }}/ipxe/git/src && make bin-x86_64-efi/snponly.efi EMBED={{ tftp_root }}/ipxe/embed.ipxe
-  when: register_snponly.stat.exists
+  when: register_snponly.stat.exists == false
 
 - name: Copy undionly.kpxe
   copy:
     src: "{{ tftp_root }}/ipxe/git/src/bin/undionly.kpxe"
     dest: "{{ tftp_root }}/ipxe/undionly.kpxe"
     mode: 0644
+  when: register_undionly.stat.exists == false
 
 - name: Copy snponly.efi
   copy:
     src: "{{ tftp_root }}/ipxe/git/src/bin-x86_64-efi/snponly.efi"
     dest: "{{ tftp_root }}/ipxe/snponly.efi"
     mode: 0644
+  when: register_snponly.stat.exists == false
 
 - name: Delete git files
   file:
