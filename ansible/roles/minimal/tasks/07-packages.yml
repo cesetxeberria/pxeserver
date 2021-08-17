@@ -1,0 +1,58 @@
+#this task adds some basic packages to ur live system
+---
+- name: Update everything to the latest version.
+  apt:
+    upgrade: dist
+
+- name: Install standard tasksel packages.
+  command: /usr/bin/tasksel --new-install install standard
+
+- name: Install my custom pacakges.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - live-boot
+    - screen
+    - nfs-common
+    - watchdog
+    - syslinux
+    - syslinux-common
+    - syslinux-efi
+    - extlinux
+    - pv
+    - wget
+    - squashfs-tools
+    - parted
+    - atool
+    - zip
+    - unzip
+    - rar
+    - p7zip-full
+    - dosfstools
+    - ipxe
+    - network-manager
+    - sudo
+    - inxi
+    - haveged
+    - clonezilla
+    - partclone
+    - zstd
+    - ntfs-3g
+    - cifs-utils
+    - libncurses-dev
+
+- name: Delete network manager config to enable ethernet configuration in ubuntu
+  file:
+    path: /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf
+    state: absent
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install some non-free firwmares for Debian.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - firmware-linux-nonfree
+    - firmware-atheros
+  when: ansible_distribution == 'Debian'
