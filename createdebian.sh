@@ -5,11 +5,11 @@ echo "create live folder"
 mkdir live
 
 #create a new debian installation inside live/squashfs-root directory using debootstrap
-#release is buster, architecture amd64 and we are using french repository
+#release is bullseye, architecture amd64 and we are using french repository
 echo "debootstrap new debian installation"
 debootstrap --arch=amd64 --include=locales,keyboard-configuration,console-setup \
 --components=main,contrib,non-free --merged-usr \
-buster live/squashfs-root http://ftp.fr.debian.org/debian
+bullseye live/squashfs-root http://ftp.fr.debian.org/debian
 
 #copy the script named insidedebian.sh in our new installation directory
 echo "copy insidedebian.sh"
