@@ -1,5 +1,5 @@
 #variables for debian based systems
 ---
 include_packages: openssh-server,python,locales,keyboard-configuration,console-setup
-repo: http://ftp.fr.debian.org/debian
+repo: http://deb.debian.org/debian
 compo: main,contrib,non-free
