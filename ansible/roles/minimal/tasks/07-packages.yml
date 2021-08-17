@@ -56,3 +56,9 @@
     - firmware-linux-nonfree
     - firmware-atheros
   when: ansible_distribution == 'Debian'
+
+- name: Create clonezilla folder.
+  file:
+    path: /home/partimag
+    state: directory
+    mode: 0755
