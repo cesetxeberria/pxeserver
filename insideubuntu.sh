@@ -39,7 +39,8 @@ tasksel --new-install standard
 
 #prepare dns
 echo "set dns"
-sed -i.bak 's/#DNS=/DNS=193.183.98.66 151.80.222.79/g' /etc/systemd/resolved.conf
+sed -i.bak 's/#DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
+rm /etc/resolv.conf
 
 #clean apt temporary files
 echo "cleaning"
