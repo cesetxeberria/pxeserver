@@ -1,49 +1,29 @@
 #some custom scripts to install the live system in local hard disk
 ---
-- name: Copy formatallbios script
+- name: Copy installers
   copy:
-    src: "{{ role_path }}/files/root/formatallbios"
-    dest: "/root/formatallbios"
-    mode: 0744
+    src: "{{ role_path }}/files/usr/local/sbin/{{ item }}"
+    dest: "/usr/local/sbin/{{ item }}"
+    mode: 0755
+  with_items:
+     - formatallbios
+     - formatalluefi
 
-- name: Copy formatalluefi script
+- name: Copy custom scripts
   copy:
-    src: "{{ role_path }}/files/root/formatalluefi"
-    dest: "/root/formatalluefi"
-    mode: 0744
+    src: "{{ role_path }}/files/usr/local/bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+  with_items:
+     - gethardinfo
+     - getnamebymac
+     - mute
+     - unmute
+     - wifion
+     - disableswap
 
 - name: Copy basic syslinux_local.cfg
   copy:
     src: "{{ role_path }}/files/root/syslinux_local.cfg"
     dest: "/root/syslinux_local.cfg"
     mode: 0644
-
-- name: Copy gethardinfo script
-  copy:
-    src: "{{ role_path }}/files/usr/local/bin/gethardinfo"
-    dest: "/usr/local/bin/gethardinfo"
-    mode: 0755
-
-- name: Copy getnamebymac script
-  copy:
-    src: "{{ role_path }}/files/usr/local/bin/getnamebymac"
-    dest: "/usr/local/bin/getnamebymac"
-    mode: 0755
-
-- name: Copy mute script
-  copy:
-    src: "{{ role_path }}/files/usr/local/bin/mute"
-    dest: "/usr/local/bin/mute"
-    mode: 0755
-
-- name: Copy unmute script
-  copy:
-    src: "{{ role_path }}/files/usr/local/bin/unmute"
-    dest: "/usr/local/bin/unmute"
-    mode: 0755
-
-- name: Copy wifion script
-  copy:
-    src: "{{ role_path }}/files/usr/local/bin/wifion"
-    dest: "/usr/local/bin/wifion"
-    mode: 0755
