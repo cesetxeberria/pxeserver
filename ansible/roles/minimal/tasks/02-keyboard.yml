@@ -6,6 +6,7 @@
     regexp: 'XKBLAYOUT="us"'
     line: 'XKBLAYOUT="es"'
     backrefs: yes
+  register: keyboard
 
 - name: Change /etc/default/console-setup for spanish
   lineinfile:
@@ -13,9 +14,12 @@
     regexp: 'CHARMAP="ISO-8859-15"'
     line: 'CHARMAP="UTF-8"'
     backrefs: yes
+  register: utf
 
 - name: Dpkg-reconfigure keyboard-configuration
   command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive keyboard-configuration
+  when: keyboard.changed == true
 
 - name: Dpkg-reconfigure console-setup Debian
   command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive console-setup
+  when: utf.changed == true
