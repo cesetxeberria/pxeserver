@@ -22,24 +22,24 @@
 
 - name: Copy amd64 vmlinuz
   copy:
-    src: /usr/lib/debian-installer/images/10/amd64/text/debian-installer/amd64/linux
+    src: /usr/lib/debian-installer/images/11/amd64/text/debian-installer/amd64/linux
     dest: "{{ tftp_root }}/installers/debian/amd64/linux"
     mode: 0644
 
 - name: Copy amd64 initrd.gz
   copy:
-    src: /usr/lib/debian-installer/images/10/amd64/text/debian-installer/amd64/initrd.gz
+    src: /usr/lib/debian-installer/images/11/amd64/text/debian-installer/amd64/initrd.gz
     dest: "{{ tftp_root }}/installers/debian/amd64/initrd.gz"
     mode: 0644
 
 - name: Copy i386 vmlinuz
   copy:
-    src: /usr/lib/debian-installer/images/10/i386/text/debian-installer/i386/linux
+    src: /usr/lib/debian-installer/images/11/i386/text/debian-installer/i386/linux
     dest: "{{ tftp_root }}/installers/debian/i386/linux"
     mode: 0644
 
 - name: Copy i386 initrd.gz
   copy:
-    src: /usr/lib/debian-installer/images/10/i386/text/debian-installer/i386/initrd.gz
+    src: /usr/lib/debian-installer/images/11/i386/text/debian-installer/i386/initrd.gz
     dest: "{{ tftp_root }}/installers/debian/i386/initrd.gz"
     mode: 0644
