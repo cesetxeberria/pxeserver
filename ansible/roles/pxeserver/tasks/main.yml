@@ -11,6 +11,7 @@
   - include: 04-ipxe.yml
 
   - include: 05-installers.yml
+    when: ansible_distribution == 'Debian'
 
   - include: 06-livesystems.yml
 
