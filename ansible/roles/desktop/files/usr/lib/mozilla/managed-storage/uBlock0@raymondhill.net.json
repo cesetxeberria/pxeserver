@@ -1,0 +1,8 @@
+{
+ "name": "uBlock0@raymondhill.net",
+ "description": "ignored",
+ "type": "storage",
+ "data": {
+    "adminSettings": "{\"userFilters\":\"www.youtube.com##.opened\\nwww.youtube.com##ytd-popup-container.ytd-app.style-scope\\n\"}"
+ }
+}
