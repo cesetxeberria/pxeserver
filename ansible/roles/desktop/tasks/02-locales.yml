@@ -23,12 +23,10 @@
     - language-pack-kde-eu
   when: ansible_distribution == 'Ubuntu'
 
-- name: Install spanish and basque locale for QT applications in Debian.
+- name: Install spanish manpages in Debian.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
     - manpages-es
-    - kde-l10n-es
-    - kde-l10n-eu
   when: ansible_distribution == 'Debian'
