@@ -23,8 +23,6 @@
       "ShowHomeButton": true,
       "TranslateEnabled": false,
       "ProxySettings": {"value": {"ProxyMode": "auto_detect"}},
-      "ManagedBookmarks": 
-        [{"toplevel_name": "Ikastolako laster markak"},{"url": "google.com","name": "Google"},{"url": "youtube.com","name": "Youtube"}],
       "ExtensionInstallForcelist": 
         [ 
           "apdfllckaahabafndbhieahigkjlhalf;https://clients2.google.com/service/update2/crx", 
