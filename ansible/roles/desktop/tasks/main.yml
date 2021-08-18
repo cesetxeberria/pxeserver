@@ -3,8 +3,6 @@
 
   - include: 00-minimal.yml
 
-  - include: 01-lightdm.yml
-
   - include: 01-sddm.yml
 
   - include: 02-locales.yml

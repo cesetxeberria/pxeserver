@@ -19,4 +19,15 @@
     replace: 'background=/usr/share/backgrounds/xfce/xfce-stripes.png'
 
 #sudo update-alternatives --install /usr/share/sddm/themes/ubuntu-theme sddm-ubuntu-theme /usr/share/sddm/themes/sddm-theme-dialog-main 1
+- name: set maldives as sddm theme
+  alternatives:
+    name: sddm-debian-theme
+    path: /usr/share/sddm/themes/maldives
+  when: ansible_distribution == 'Debian'
+
+- name: set maldives as sddm theme
+  alternatives:
+    name: sddm-ubuntu-theme
+    path: /usr/share/sddm/themes/maldives
+  when: ansible_distribution == 'Ubuntu'
 
