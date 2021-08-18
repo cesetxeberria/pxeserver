@@ -1,55 +1,149 @@
 #this task configures xfce desktop for ubuntu or debian
 ---
-- name: Config panel
-  copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
-    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
-    mode: 0644
+- name: Minimal xfce packages with no-recommends. Ubuntu recommends A LOT of crap.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - xfce4
+    - atril
+    - network-manager-gnome
+    - kfind
+    - policykit-1-gnome
+    - gmessage
 
-- name: Config panel 2
+- name: Minimal packages with recommends.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - xfce4-goodies
+    - pavucontrol
+    - avahi-daemon
+    - libu2f-udev
+    - lxtask
+    - gparted
+    - usermode
+    - shotwell
+    - smplayer
+    - tango-icon-theme
+    - gnome-themes-extra
+    - ssh 
+    - sshfs 
+    - nfs-common
+    - cifs-utils
+    - gvfs-backends 
+    - gvfs-fuse
+
+- name: Extra Ubuntu. Those aren't needed in Debian.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - adwaita-icon-theme-full
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Copy xfce config files.
   copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "/{{ item }}"
+    mode: 0644
+  with_items:
+    - "etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    - "etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
+    - "etc/xdg/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml"
+    - "etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
+    - "etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
+    - "etc/xdg/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
+    - "etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
+    - "etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+    - "etc/xdg/xfce4/panel/whiskermenu-1.rc"
+
+- name: Panel config needs 2 files.
+  copy:
+    src: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
     dest: "/etc/xdg/xfce4/panel/default.xml"
     mode: 0644
+    remote_src: yes
 
-- name: Config Whiskermenu
+- name: Create configuration folder for terminal, kiosk and smplayer.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "/etc/xdg/xfce4/terminal"
+    - "/etc/xdg/xfce4/kiosk"
+    - "/etc/skel/.config/smplayer"
+
+- name: Set xfc4-terminal, kiosk and smplayer config.
   copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/panel/whiskermenu-1.rc"
-    dest: "/etc/xdg/xfce4/panel/whiskermenu-1.rc"
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "/{{ item }}"
+    mode: 0644
+  with_items:
+     - "etc/xdg/xfce4/terminal/terminalrc"
+     - "etc/xdg/xfce4/kiosk/kioskrc"
+     - "etc/skel/.config/smplayer/smplayer.ini"
+
+- name: Set xfc4-terminal as default terminal in ubuntu. If we don't do this, gnome-terminal will be default.
+  alternatives:
+    name: x-terminal-emulator
+    path: /usr/bin/xfce4-terminal.wrapper
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Disable screen-saver and light-locker.
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/etc/xdg/autostart/xscreensaver.desktop"
+    - "/etc/xdg/autostart/light-locker.desktop"
+
+- name: Disable nm-applet tray icon. This is a net thinclient, we don't need it.
+  file:
+    path: "/etc/xdg/autostart/nm-applet.desktop"
+    state: absent
+
+- name: Disable hybernation and suspend. This is a net thinclient, we don't need them.
+  copy:
+    src: "{{ role_path }}/files/etc/polkit-1/localauthority/50-local.d/suspend.pkla"
+    dest: "/etc/polkit-1/localauthority/50-local.d/suspend.pkla"
     mode: 0644
 
-- name: Config keyboard shortcuts
+- name: Copy kfind's launcher.
   copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
-    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
+    src: "{{ role_path }}/files/usr/share/applications/kfind.desktop"
+    dest: "/usr/share/applications/kfind.desktop"
     mode: 0644
 
-- name: Set bloqnum on by default
+- name: Unmute at xfce start. Default pulseaudio config is muted and this is a live system.
   copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml"
-    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/keyboards.xml"
+    src: "{{ role_path }}/files/usr/share/applications/unmute.desktop"
+    dest: "/etc/xdg/autostart/unmute.desktop"
     mode: 0644
 
-- name: Config xfwm
+- name: Configure QT applications to look like GTK ones.
   copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
-    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
+    src: "{{ role_path }}/files/etc/xdg/Trolltech.conf"
+    dest: "/etc/xdg/Trolltech.conf"
     mode: 0644
 
-- name: Config power management
-  copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
-    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml"
-    mode: 0644
+- name: Remove youtube-dl. Smplayer installs it but I prefer to download the newest version.
+  apt:
+    name: youtube-dl
+    state: absent
 
-- name: Config thunar
-  copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
-    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
-    mode: 0644
+- name: Download latest youtube-dl.
+  get_url:
+    url: https://yt-dl.org/downloads/latest/youtube-dl
+    dest: /usr/local/bin/youtube-dl
+    mode: 0755
 
-- name: Config thunar
-  copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
-    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
-    mode: 0644
+- name: Set exo-file-manager in Debian.
+  file:
+    src: /usr/share/applications/xfce4-file-manager.desktop
+    dest: /usr/share/applications/exo-file-manager.desktop
+    state: link
+  when: ansible_distribution == 'Debian'
