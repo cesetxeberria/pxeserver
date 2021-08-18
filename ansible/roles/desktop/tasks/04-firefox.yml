@@ -20,10 +20,17 @@
   when: ansible_distribution == 'Ubuntu'
 
 #This is for me. I don't want to use two different panel config files for firefox-esr and firefox, so I rename it.
-- name: Move desktop file to chrome.desktop
+- name: Check if original file exists.
+  stat:
+    path: "/usr/share/applications/firefox-esr.desktop"
+  register: desktop
+  
+- name: Move desktop file to firefox.desktop
   command: mv /usr/share/applications/firefox-esr.desktop /usr/share/applications/firefox.desktop
-  when: ansible_distribution == 'Debian'
-
+  when:
+    - ansible_distribution == 'Debian'
+    - desktop.stat.exists == True
+    
 - name: Create a policies forlder for Firefox in Debian.
   file:
     path: "/usr/share/firefox-esr/distribution"
@@ -50,14 +57,13 @@
     mode: 0644
   when: ansible_distribution == 'Ubuntu'
 
-- name: Download Ublock extension. We will install it with policies as an example.
-  get_url:
-    url: https://addons.mozilla.org/firefox/downloads/file/3392439/
-    dest: /opt/ublock.xpi
-    mode: 0644
+- name: Create Ublock configuration folder.
+  file:
+    path: "/usr/lib/mozilla/managed-storage"
+    state: directory
 
-- name: Download Duckduckgo extension. We will install it with policies as an example.
-  get_url:
-    url: https://addons.mozilla.org/firefox/downloads/file/3467553/
-    dest: /opt/duckduckgo.xpi
+- name: Set Ublock configuration.
+  copy:
+    src: "{{ role_path }}/files/usr/lib/mozilla/managed-storage/uBlock0@raymondhill.net.json"
+    dest: "/usr/lib/mozilla/managed-storage/uBlock0@raymondhill.net.json"
     mode: 0644
