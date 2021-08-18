@@ -1,21 +1,60 @@
 {
   "policies": {
+
+    "Cookies": {
+      "Block": ["https://consent.youtube.com","https://consent.google.com","https://www.google.com","https://www.youtube.com"]
+    },
+
     "DisablePocket": true,
+    "DisableProfileImport": true,
     "DisableSystemAddonUpdate": true,
     "DontCheckDefaultBrowser": true,
     "NoDefaultBookmarks": true,
     "OfferToSaveLogins": true,
-    "Homepage": {"URL": "https://www.duckduckgo.com/","Locked": true,"StartPage": "homepage"},
+    "Homepage": {"URL": "https://duckduckgo.com/html","Locked": true,"StartPage": "homepage"},
     "OverrideFirstRunPage": "",
     "Preferences": {
       "datareporting.policy.dataSubmissionPolicyBypassNotification": true,
-      "intl.accept_languages": "es-ES",
       "browser.cache.disk.enable": false
     },
-    "RequestedLocales": ["es-ES"],
-    "Extensions": {"Install": ["/opt/ublock.xpi", "/opt/duckduckgo.xpi"]},
     "Permissions": {"Notifications": {"BlockNewRequests": true}},
     "SearchEngines": {"Default": "DuckDuckGo"},
-    "SearchBar": "separate"
+    "SearchBar": "separate",
+    "ExtensionSettings": {
+      "*": {
+        "blocked_install_message": "Custom error message.",
+        "install_sources": ["about:addons","https://addons.mozilla.org/"],
+        "installation_mode": "allowed",
+        "allowed_types": ["dictionary","locale"]
+      },
+      "uBlock0@raymondhill.net": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+      },
+      "jid1-KKzOGWgsW3Ao4Q@jetpack": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/i-dont-care-about-cookies/latest.xpi"
+      },
+      "{DDC359D1-844A-42a7-9AA1-88A850A938A8}": {
+        "installation_mode": "allowed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/downthemall/latest.xpi"
+      },
+      "{b2e3360c-a72c-4ba4-813c-603a1fa34356}": {
+        "installation_mode": "allowed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ffreszoom/latest.xpi"
+      },
+      "brief@mozdev.org": {
+        "installation_mode": "allowed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/brief/latest.xpi"
+      },
+      "feed-preview@code.guido-berhoerster.org": {
+        "installation_mode": "allowed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/feed-preview/latest.xpi"
+      },
+      "https-everywhere@eff.org": {
+        "installation_mode": "allowed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/https-everywhere/latest.xpi"
+      }
+    }
   }
 }
