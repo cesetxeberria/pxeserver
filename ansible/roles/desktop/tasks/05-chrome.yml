@@ -6,10 +6,15 @@
   vars:
     packages:
     - fonts-liberation
+    
+- name: Check if chrome is already installed.
+  command: apt-cache search google-chrome-stable
+  register: aptcache
 
 - name: Install google chrome deb package from the internet.
   apt:
     deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  when: aptcache.stdout == ""
 
 - name: Copy my launcher script with custom tags.
   copy:
@@ -18,9 +23,15 @@
     mode: 0755
 
 #This is for me. I don't want to use two different panel config files for chromium and chrome, so I rename it.
+- name: Check if original file exists.
+  stat:
+    path: "/usr/share/applications/google-chrome.desktop"
+  register: desktop
+
 - name: Move desktop file to chrome.desktop
   command: mv /usr/share/applications/google-chrome.desktop /usr/share/applications/chrome.desktop
-
+  when: desktop.stat.exists == True
+  
 - name: Create chrome link in /usr/bin
   file:
     src: /usr/local/bin/chrome
@@ -29,29 +40,19 @@
 
 - name: Delete chrome updater
   file:
-    path: /etc/cron.daily/google-chrome 
+    path: "{{ item }}"
     state: absent
-
-- name: Delete chrome updater
-  file:
-    path: /opt/google/chrome/cron
-    state: absent
+  with_items:
+    - "/etc/cron.daily/google-chrome"
+    - "/opt/google/chrome/cron"
 
 - name: Chrome sets itself as default browser. Set firefox as default browser.
   alternatives:
-    name: x-www-browser
+    name: "{{ item }}"
     path: /usr/bin/firefox
-
-- name: Chrome sets itself as default browser. Set firefox as default gnome-browser.
-  alternatives:
-    name: gnome-www-browser
-    path: /usr/bin/firefox
-
-- name: Set chrome's default preferences.
-  copy:
-    src: "{{ role_path }}/files/etc/chromium/master_preferences"
-    dest: "/opt/google/chrome/master_preferences"
-    mode: 0644
+  with_items:
+    - x-www-browser
+    - gnome-www-browser
 
 - name: Create policies directory.
   file:
