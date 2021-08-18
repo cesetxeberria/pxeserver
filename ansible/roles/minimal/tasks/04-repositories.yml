@@ -18,7 +18,7 @@
 
 - name: add Debian security repo.
   apt_repository:
-    repo: "{{ item }} http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates {{ compo }}"
+    repo: "{{ item }} http://security.debian.org/debian-security {{ ansible_distribution_release }}-security {{ compo }}"
     state: present
   with_items:
     - "deb"
