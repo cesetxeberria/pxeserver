@@ -1,159 +1,51 @@
-#gutxieneko idazmaia instalatzen du honek. xfce ubuntu edo debian-entzat
+#install minimal graphic server
 ---
-- name: Minimal xfce packages with no-recommends. Ubuntu recommends A LOT of crap.
+- name: Minimal xorg packages with no-recommends. Ubuntu recommends A LOT of crap.
   apt:
     name: "{{ packages }}"
     install_recommends: no
   vars:
     packages:
     - xorg
-    - xserver-xorg-video-intel
     - xserver-xorg-video-all
-    - lightdm
-    - xfce4
-    - atril
-    - network-manager-gnome
-    - kfind
-    - policykit-1-gnome
+    - xserver-xorg-video-amdgpu
+    - xserver-xorg-video-ati
+    - xserver-xorg-video-radeon
+    - xserver-xorg-video-dummy
+    - xserver-xorg-video-fbdev
+    - xserver-xorg-video-intel
+    - xserver-xorg-video-nouveau
+    - xserver-xorg-video-qxl
+    - xserver-xorg-video-vesa
+    - xserver-xorg-video-vmware
+    - xserver-xorg-video-mga
+    - xserver-xorg-video-openchrome
+    - mesa-utils
+  when: ansible_distribution == 'Ubuntu'
 
-- name: Minimal packages with recommends.
+- name: Minimal xorg packages with recommends. Debian.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
-    - xfce4-goodies
-    - pulseaudio
-    - pavucontrol
-    - avahi-daemon
-    - libu2f-udev
-    - lxtask
-    - gparted
-    - usermode
-    - gpicview
-    - smplayer
-    - tango-icon-theme
-    - gnome-themes-extra
-    - ssh 
-    - sshfs 
-    - nfs-common
-    - cifs-utils
-    - gvfs-backends 
-    - gvfs-fuse
-
-- name: Extra Debian. Those aren't on Ubuntu repos.
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - gtk3-engines-xfce
+    - xorg
+    - dbus-x11
+    - mesa-utils
   when: ansible_distribution == 'Debian'
-
-- name: Extra Ubuntu. Those aren't needed in Debian.
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - adwaita-icon-theme-full
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Set xfc4-terminal as default terminal in ubuntu. If we don't do this, gnome-terminal will be default.
-  alternatives:
-    name: x-terminal-emulator
-    path: /usr/bin/xfce4-terminal.wrapper
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Set vanilla xfce's theme and icons.
-  copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
-    dest: "/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
-    mode: 0644
-
-- name: Create a folder for default xfce4-terminal config.
-  file:
-    path: "/etc/xdg/xfce4/terminal"
-    state: directory
-
-- name: Set xfc4-terminal config.
-  copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/terminal/terminalrc"
-    dest: "/etc/xdg/xfce4/terminal/terminalrc"
-    mode: 0644
-
-- name: Disable screen-saver.
-  file:
-    path: "/etc/xdg/autostart/xscreensaver.desktop"
-    state: absent
-
-- name: Disable light-locker.
-  file:
-    path: "/etc/xdg/autostart/light-locker.desktop"
-    state: absent
-
-- name: Disable nm-applet tray icon. This is a net thinclient, we don't need it.
-  file:
-    path: "/etc/xdg/autostart/nm-applet.desktop"
-    state: absent
-
-- name: Disable hybernation and suspend. This is a net thinclient, we don't need them.
-  copy:
-    src: "{{ role_path }}/files/etc/polkit-1/localauthority/50-local.d/suspend.pkla"
-    dest: "/etc/polkit-1/localauthority/50-local.d/suspend.pkla"
-    mode: 0644
-
-- name: Create a folder for kiosk config.
-  file:
-    path: "/etc/xdg/xfce4/kiosk"
-    state: directory
-
-- name: Set kiosk config.
-  copy:
-    src: "{{ role_path }}/files/etc/xdg/xfce4/kiosk/kioskrc"
-    dest: "/etc/xdg/xfce4/kiosk/kioskrc"
-    mode: 0644
-
-- name: Copy kfind's launcher.
-  copy:
-    src: "{{ role_path }}/files/usr/share/applications/kfind.desktop"
-    dest: "/usr/share/applications/kfind.desktop"
-    mode: 0644
 
 - name: Copy intel config for xorg. We want to use intel driver for tearfree option.
   copy:
-    src: "{{ role_path }}/files/usr/share/X11/xorg.conf.d/20-intel.conf"
-    dest: "/usr/share/X11/xorg.conf.d/20-intel.conf"
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "/{{ item }}"
     mode: 0644
+  with_items:
+     - "usr/share/X11/xorg.conf.d/20-intel.conf"
+     - "usr/share/X11/xorg.conf.d/10-amdgpu.conf"
+  when: ansible_distribution_release == 'focal'
 
-- name: Unmute at xfce start. Default pulseaudio config is muted and this is a live system.
-  copy:
-    src: "{{ role_path }}/files/usr/share/applications/unmute.desktop"
-    dest: "/etc/xdg/autostart/unmute.desktop"
-    mode: 0644
-
-- name: Configure QT applications to look like GTK ones.
-  copy:
-    src: "{{ role_path }}/files/etc/xdg/Trolltech.conf"
-    dest: "/etc/xdg/Trolltech.conf"
-    mode: 0644
-
-- name: Create skel folder for smplayer.
-  file:
-    path: /etc/skel/.config/smplayer
-    state: directory
-    mode: 0755
-
-- name: Copy smplayer config.
-  copy:
-    src: "{{ role_path }}/files/etc/skel/.config/smplayer/smplayer.ini"
-    dest: /etc/skel/.config/smplayer/smplayer.ini
-    mode: 0644
-
-- name: Remove youtube-dl. Smplayer installs it but I prefer to download the newest version.
+- name: Minimal audio packages with recommends.
   apt:
-    name: youtube-dl
-    state: absent
-
-- name: Download latest youtube-dl.
-  get_url:
-    url: https://yt-dl.org/downloads/latest/youtube-dl
-    dest: /usr/local/bin/youtube-dl
-    mode: 0755
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - pulseaudio
