@@ -13,10 +13,12 @@
 
   - include: 05-kernel.yml
 
-  - include: 06-packages.yml
+  - include: 06-tasksel.yml
 
-  - include: 07-configtweaks.yml
+  - include: 07-packages.yml
 
-  - include: 08-customscripts.yml
+  - include: 08-configtweaks.yml
 
-  - include: 09-users.yml
+  - include: 09-customscripts.yml
+
+  - include: 10-users.yml

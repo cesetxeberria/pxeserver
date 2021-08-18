@@ -32,4 +32,4 @@
       command: pam-auth-update --package --enable mkhomedir
       args:
         warn: no
-      register: (user.changed == true) or (pam.changed == true)
+      when: (user.changed == true) or (pam.changed == true)
