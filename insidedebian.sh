@@ -33,13 +33,19 @@ echo "ExecStop=" >> /etc/systemd/system/ifup@.service.d/override.conf
 echo "[Service]" >> /etc/systemd/system/networking.service.d/override.conf
 echo "ExecStop=" >> /etc/systemd/system/networking.service.d/override.conf
 
-#configure systemd to store journal in RAM, not in disk
-echo "configuring systemd to sotre journal"
-sed -i.bak 's/#Storage=auto/Storage=volatile/g' /etc/systemd/journald.conf
+#prepare dns
+echo "set dns"
+sed -i.bak 's/#DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
+rm /etc/resolv.conf
+
+#disable systemd journal
+echo "disabling journal in systemd"
+sed -i.bak 's/#Storage=auto/Storage=none/g' /etc/systemd/journald.conf
 
 #install minimum packages
 echo "installing packages"
 apt-get -y install linux-image-amd64 live-boot sudo openssl
+#apt-get -y install grub-efi-amd64-signed
 #this is optional, install debian standard system utilities with tasksel
 tasksel --new-install install standard
 
