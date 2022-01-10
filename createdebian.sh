@@ -9,7 +9,7 @@ mkdir live
 echo "debootstrap new debian installation"
 debootstrap --arch=amd64 --include=locales,keyboard-configuration,console-setup \
 --components=main,contrib,non-free --merged-usr \
-bullseye live/squashfs-root http://ftp.fr.debian.org/debian
+bullseye live/squashfs-root http://deb.debian.org/debian
 
 #copy the script named insidedebian.sh in our new installation directory
 echo "copy insidedebian.sh"
