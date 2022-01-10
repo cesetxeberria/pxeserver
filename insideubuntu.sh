@@ -7,7 +7,8 @@ mount -t devpts none dev/pts
 
 #configure spanish locale
 echo "configuring locales"
-sed -i.bak 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g' /etc/locale.gen
+#sed -i.bak 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g' /etc/locale.gen
+locale-gen es_ES.UTF-8
 dpkg-reconfigure --frontend=noninteractive locales
 update-locale LANG=es_ES.UTF-8
 
@@ -23,19 +24,20 @@ setupcon
 echo "configuring localtime"
 rm /etc/localtime
 ln -s /usr/share/zoneinfo/Europe/Madrid /etc/localtime
-dpkg-reconfigure --frontend noninteractive tzdata
+dpkg-reconfigure --frontend=noninteractive tzdata
 
-#configure systemd to store journal in RAM, not in disk
+#configure systemd to not store journal
 echo "configuring systemd to sotre journal"
-sed -i.bak 's/#Storage=auto/Storage=volatile/g' /etc/systemd/journald.conf
+sed -i.bak 's/#Storage=auto/Storage=none/g' /etc/systemd/journald.conf
 
 #install minimum packages. grub*- means grub won't be installed
 echo "installing packages"
 apt-get -y install linux-image-generic grub*- live-boot tasksel
+#apt-get install linux-image-generic grub-efi-amd64-signed live-boot tasksel
 #this is optional, install ubuntu standard system utilities with tasksel
 #tasksel --new-install install server
 #tasksel --new-install install ubuntu-desktop-minimal
-tasksel --new-install standard
+tasksel --new-install install standard
 
 #prepare dns
 echo "set dns"
