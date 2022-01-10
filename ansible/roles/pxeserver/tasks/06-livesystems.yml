@@ -8,7 +8,9 @@
     - debootstrap
     - squashfs-tools
     - whois
+    - zstd
 #whois package will be used to create user passwords
+#zstd is required in jammy for apt
 
 - name: Create customubuntu dir.
   file:
