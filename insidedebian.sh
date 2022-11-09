@@ -36,7 +36,6 @@ echo "ExecStop=" >> /etc/systemd/system/networking.service.d/override.conf
 #prepare dns
 echo "set dns"
 sed -i.bak 's/#DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
-rm /etc/resolv.conf
 
 #disable systemd journal
 echo "disabling journal in systemd"
@@ -58,6 +57,7 @@ rm -rf /var/cache/apt/archives/*.deb
 rm -rf /var/cache/apt/archives/partial/*
 rm -rf /var/cache/debconf/*-old
 rm -rf /var/lib/apt/lists/*
+rm /etc/resolv.conf
 
 #umount the previously mounted special filesystems
 echo "umounting special filesystems"
