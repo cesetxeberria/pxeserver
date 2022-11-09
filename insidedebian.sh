@@ -6,16 +6,18 @@ mount -t sysfs none /sys
 mount -t devpts none dev/pts
 
 #prepare scripts for future changes
+echo "#!/bin/sh" > /usr/local/bin/restore
+echo "umount -df /dev/pts" >> /usr/local/bin/restore
+echo "umount -df /sys" >> /usr/local/bin/restore
+echo "umount -df /proc" >> /usr/local/bin/restore
+echo "rm /etc/resolv.conf" >> /usr/local/bin/restore
+chmod +x /usr/local/bin/restore
 echo "#!/bin/sh" > /usr/local/bin/prepare
-echo "umount -df /dev/pts" >> /usr/local/bin/prepare
-echo "umount -df /sys" >> /usr/local/bin/prepare
-echo "umount -df /proc" >> /usr/local/bin/prepare
-echo "rm /etc/resolv.conf" >> /usr/local/bin/prepare
-echo "#!/bin/sh" > /usr/local/bin/exit
-echo "mount -t proc none /proc" >> /usr/local/bin/exit
-echo "mount -t sysfs none /sys" >> /usr/local/bin/exit
-echo "mount -t devpts none dev/pts#!/bin/sh" >> /usr/local/bin/exit
-echo "echo 'nameserver 8.8.8.8' > /etc/resolv.conf" >> /usr/local/bin/exit
+echo "mount -t proc none /proc" >> /usr/local/bin/prepare
+echo "mount -t sysfs none /sys" >> /usr/local/bin/prepare
+echo "mount -t devpts none /dev/pts" >> /usr/local/bin/prepare
+echo "echo 'nameserver 8.8.8.8' > /etc/resolv.conf" >> /usr/local/bin/prepare
+chmod +x /usr/local/bin/prepare
 
 #configure spanish locale
 echo "configuring locales"
