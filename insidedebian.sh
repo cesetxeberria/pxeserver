@@ -5,6 +5,18 @@ mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t devpts none dev/pts
 
+#prepare scripts for future changes
+echo "#!/bin/sh" > /usr/local/bin/prepare
+echo "umount -df /dev/pts" >> /usr/local/bin/prepare
+echo "umount -df /sys" >> /usr/local/bin/prepare
+echo "umount -df /proc" >> /usr/local/bin/prepare
+echo "rm /etc/resolv.conf" >> /usr/local/bin/prepare
+echo "#!/bin/sh" > /usr/local/bin/exit
+echo "mount -t proc none /proc" >> /usr/local/bin/exit
+echo "mount -t sysfs none /sys" >> /usr/local/bin/exit
+echo "mount -t devpts none dev/pts#!/bin/sh" >> /usr/local/bin/exit
+echo "echo 'nameserver 8.8.8.8' > /etc/resolv.conf" >> /usr/local/bin/exit
+
 #configure spanish locale
 echo "configuring locales"
 sed -i.bak 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g' /etc/locale.gen
