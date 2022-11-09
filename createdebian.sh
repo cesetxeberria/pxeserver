@@ -14,8 +14,6 @@ bullseye live/squashfs-root http://deb.debian.org/debian
 #copy the script named insidedebian.sh in our new installation directory
 echo "copy insidedebian.sh"
 cp insidedebian.sh ./live/squashfs-root/root/
-cp prepare.sh ./live/squashfs-root/usr/local/bin
-cp exit.sh ./live/squashfs-root/usr/local/bin
 
 #execute the script we've just copied inside the chroot
 echo "executing insidedebian.sh"
