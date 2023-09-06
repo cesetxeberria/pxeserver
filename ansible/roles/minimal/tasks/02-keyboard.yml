@@ -20,6 +20,6 @@
   command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive keyboard-configuration
   when: keyboard.changed == true
 
-- name: Dpkg-reconfigure console-setup Debian
+- name: Dpkg-reconfigure console-setup
   command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive console-setup
   when: utf.changed == true
