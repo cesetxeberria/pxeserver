@@ -1,11 +1,18 @@
 #this task installs the kernel for debian or ubuntu and disables pcspeaker
 ---
 - name: Disable pcspeaker.
-  blockinfile:
+  lineinfile:
     create: yes
-    dest: "/etc/modprobe.d/nobeep"
-    block: |
-      blacklist pcspkr
+    path: "/etc/modprobe.d/nobeep.conf"
+    line: "blacklist pcspkr"
+#now run 'depmod -a'?
+
+- name: Quiet pcspeaker.
+  replace:
+    dest: "/etc/inputrc"
+    regexp: "# set bell-style none"
+    replace: "set bell-style none"
+# set bell-style visible?
 
 - name: Install i386 kernel for Debian.
   apt: name=linux-image-686-pae
@@ -22,11 +29,8 @@
 - name: Install amd64 kernel for Ubuntu.
   apt:
     name: "{{ packages }}"
-#    install_recommends: no
   vars:
     packages:
     - linux-image-generic
     - lilo
-#    - busybox-initramfs
-#    - initramfs-tools
   when: ansible_distribution == 'Ubuntu'
