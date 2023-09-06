@@ -1,19 +1,25 @@
 #this will be executed inside the chroot to avoid errors
 ---
-- name: mount proc
-  command: /bin/mount -t proc none /proc
-  args:
-    warn: no
+- name: Mount proc
+  mount:
+    src: none
+    path: /proc
+    fstype: proc
+    state: mounted
 
-- name: mount sys
-  command: /bin/mount -t sysfs none /sys
-  args:
-    warn: no
+- name: Mount sys
+  mount:
+    src: none
+    path: /sys
+    fstype: sysfs
+    state: mounted
 
-- name: mount devpts
-  command: /bin/mount -t devpts none /dev/pts
-  args:
-    warn: no
+- name: Mount devpts
+  mount:
+    src: none
+    path: /dev/pts
+    fstype: devpts
+    state: mounted
 
 - name: inside chroot ansible gets server's architecture, so we fix it
   set_fact:

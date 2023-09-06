@@ -8,17 +8,17 @@
   apt:
     autoremove: yes
 
-- name: Umount /dev/pts
-  command: umount -df /dev/pts
-  args:
-    warn: no
+- name: Umount proc
+  mount:
+    path: /proc
+    state: absent
 
-- name: Umount /sys
-  command: umount -df /sys
-  args:
-    warn: no
+- name: Umount sys
+  mount:
+    path: /sys
+    state: absent
 
-- name: Umount /proc
-  command: umount -df /proc
-  args:
-    warn: no
+- name: Umount devpts
+  mount:
+    path: /dev/pts
+    state: absent
