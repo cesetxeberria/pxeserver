@@ -9,7 +9,7 @@
   command: /usr/bin/tasksel --new-install install standard
 
 #add PPA and autoupdate
-#- name: Install software-properties-common.
-#  apt:
-#    name: software-properties-common
-#    install_recommends: no
+- name: Install software-properties-common.
+  apt:
+    name: software-properties-common
+    install_recommends: no
