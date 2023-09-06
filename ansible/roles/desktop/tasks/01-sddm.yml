@@ -16,7 +16,7 @@
   replace:
     dest: "/usr/share/sddm/themes/maldives/theme.conf"
     regexp: '^(.*)background=(.*)$'
-    replace: 'background=/usr/share/backgrounds/xfce/xfce-stripes.png'
+    replace: 'background=/usr/share/backgrounds/xfce/xfce-shapes.svg'
 
 #sudo update-alternatives --install /usr/share/sddm/themes/ubuntu-theme sddm-ubuntu-theme /usr/share/sddm/themes/sddm-theme-dialog-main 1
 - name: set maldives as sddm theme
