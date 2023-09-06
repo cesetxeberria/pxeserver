@@ -1,51 +1,44 @@
-#some config tweaks
+#configure the system to be live
 ---
-- name: Create a folder for ifup@.service
+- name: Create a folder for ifup@.service and networking.service
   file:
-    path: "/etc/systemd/system/ifup@.service.d/"
+    path: "{{ item }}"
     state: directory
+  with_items:
+    - "/etc/systemd/system/ifup@.service.d/"
+    - "/etc/systemd/system/networking.service.d/"
   when: ansible_distribution == 'Debian'
 
-- name: Create a folder for networking.service
-  file:
-    path: "/etc/systemd/system/networking.service.d/"
-    state: directory
-  when: ansible_distribution == 'Debian'
-
-- name: Override default networking configuration. Now Debian won't disconnect before shutting down.
+- name: Override default networking and ifup configuration. Now Debian won't disconnect before shutting down.
   copy:
     src: "{{ role_path }}/files/etc/systemd/system/networking.service.d/override.conf"
-    dest: "/etc/systemd/system/networking.service.d/override.conf"
+    dest: "{{ item }}"
     mode: 0644
-  when: ansible_distribution == 'Debian'
-
-- name: Override default ifup configuration. Now Debian won't disconnect before shutting down.
-  copy:
-    src: "{{ role_path }}/files/etc/systemd/system/networking.service.d/override.conf"
-    dest: "/etc/systemd/system/ifup@.service.d/override.conf"
-    mode: 0644
+  with_items:
+    - "/etc/systemd/system/networking.service.d/override.conf"
+    - "/etc/systemd/system/ifup@.service.d/override.conf"
   when: ansible_distribution == 'Debian'
 
 #https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu/1195074#1195074
-- name: Remove resolv.conf.
-  file:
-    path: /etc/resolv.conf
-    state: absent
+#- name: Remove resolv.conf.
+#  file:
+#    path: /etc/resolv.conf
+#    state: absent
 
-- name: Disable systemd-resolved.
-  lineinfile:
-    dest: /etc/systemd/resolved.conf
-    regexp: '#DNSStubListener=yes'
-    line: 'DNSStubListener=no'
-    backrefs: yes
+#- name: Disable systemd-resolved.
+#  lineinfile:
+#    dest: /etc/systemd/resolved.conf
+#    regexp: '#DNSStubListener=yes'
+#    line: 'DNSStubListener=no'
+#    backrefs: yes
 
-- name: Let Network-manager configure DNS.
-  lineinfile:
-    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
-    regexp: 'dns=systemd-resolved'
-    line: '#dns=systemd-resolved'
-    backrefs: yes
-  when: ansible_distribution == 'Ubuntu'
+#- name: Let Network-manager configure DNS.
+#  lineinfile:
+#    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
+#    regexp: 'dns=systemd-resolved'
+#    line: '#dns=systemd-resolved'
+#    backrefs: yes
+#  when: ansible_distribution == 'Ubuntu'
 
 - name: Power button will power off the system.
   replace:
@@ -53,12 +46,13 @@
     regexp: '#HandlePowerKey=poweroff'
     replace: 'HandlePowerKey=poweroff'
 
-- name: Don't save systemd journal.
+- name: Dont save systemd journal. This is a live system we dont need it.
   replace:
     dest: /etc/systemd/journald.conf
     regexp: '#Storage=auto'
-    replace: 'Storage=volatile'
+    replace: 'Storage=none'
 
+#our systems name will be its mac address
 - name: Copy getnamebymac service.
   copy:
     src: "{{ role_path }}/files/etc/systemd/system/getnamebymac.service"

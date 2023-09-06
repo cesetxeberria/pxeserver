@@ -10,20 +10,14 @@
 - name: Install my custom pacakges.
   apt:
     name: "{{ packages }}"
+    install_recommends: no
   vars:
     packages:
-    - live-boot
+    - rsync
     - screen
     - nfs-common
     - watchdog
-    - syslinux
-    - syslinux-common
-    - syslinux-efi
-    - extlinux
-    - pv
     - wget
-    - squashfs-tools
-    - parted
     - atool
     - zip
     - unzip
@@ -34,31 +28,13 @@
     - network-manager
     - sudo
     - inxi
-    - haveged
-    - clonezilla
-    - partclone
-    - zstd
     - ntfs-3g
     - cifs-utils
-    - libncurses-dev
 
-- name: Delete network manager config to enable ethernet configuration in ubuntu
-  file:
-    path: /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf
-    state: absent
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Install some non-free firwmares for Debian.
+- name: Install some non-free firwmares.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
+    - firmware-linux
     - firmware-linux-nonfree
-    - firmware-atheros
-  when: ansible_distribution == 'Debian'
-
-- name: Create clonezilla folder.
-  file:
-    path: /home/partimag
-    state: directory
-    mode: 0755
