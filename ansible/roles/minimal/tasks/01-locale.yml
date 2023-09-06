@@ -10,9 +10,8 @@
     name: eu_ES.UTF-8
     state: present
 
-- name: Dpkg-reconfigure
-  command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive locales 
-  register: out
+- name: Dpkg-reconfigure locales.
+  command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive locales
 
-- name: Update-locale
+- name: Update-locale. Locale is set to basque, with spanish as fallback.
   command: /usr/sbin/update-locale LANG=eu_ES.UTF-8 LANGUAGE=eu:es
