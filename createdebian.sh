@@ -8,8 +8,8 @@ mkdir live
 #release is bullseye, architecture amd64 and we are using french repository
 echo "debootstrap new debian installation"
 debootstrap --arch=amd64 --include=locales,keyboard-configuration,console-setup \
---components=main,contrib,non-free --merged-usr \
-bullseye live/squashfs-root http://deb.debian.org/debian
+--components=main,contrib,non-free,non-free-firmware --merged-usr \
+bookworm live/squashfs-root http://deb.debian.org/debian
 
 #copy the script named insidedebian.sh in our new installation directory
 echo "copy insidedebian.sh"

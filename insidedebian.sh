@@ -47,26 +47,22 @@ echo "ExecStop=" >> /etc/systemd/system/ifup@.service.d/override.conf
 echo "[Service]" >> /etc/systemd/system/networking.service.d/override.conf
 echo "ExecStop=" >> /etc/systemd/system/networking.service.d/override.conf
 
-#prepare dns
-echo "set dns"
-sed -i.bak 's/#DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
-
 #disable systemd journal
 echo "disabling journal in systemd"
 sed -i.bak 's/#Storage=auto/Storage=none/g' /etc/systemd/journald.conf
 
 #install minimum packages
 echo "installing packages"
-apt-get -y install linux-image-amd64 live-boot sudo openssl
+apt -y install linux-image-amd64 live-boot sudo openssl
 #apt-get -y install grub-efi-amd64-signed
 #this is optional, install debian standard system utilities with tasksel
 tasksel --new-install install standard
 
 #clean apt temporary files
 echo "cleaning"
-apt-get clean
-apt-get autoclean
-apt-get autoremove
+apt clean
+apt autoclean
+apt autoremove
 rm -rf /var/cache/apt/archives/*.deb
 rm -rf /var/cache/apt/archives/partial/*
 rm -rf /var/cache/debconf/*-old
