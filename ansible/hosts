@@ -1,4 +1,3 @@
-[desktops]
+[zerbitzariak]
 /home/tftp/livecds/customdebian32	distro=debian suite=bookworm	arch=i386
-/home/tftp/livecds/customdebian	distro=debian suite=bookworm	arch=i386
-/home/tftp/livecds/customubuntu	distro=ubuntu suite=focal	arch=amd64
+/home/tftp/livecds/customdebian	distro=debian suite=bookworm	arch=amd64
