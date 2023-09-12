@@ -2,28 +2,18 @@
 ---
   - name: delete hostname, the client will get one at boot
     shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/etc/hostname
-    args:
-      warn: no
 
   - name: cleanup | sparse files
     shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/var/cache/apt/archives/*.deb
-    args:
-      warn: no
 
   - name: cleanup | sparse files
     shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/var/cache/apt/archives/partial/*
-    args:
-      warn: no
 
   - name: cleanup | sparse files
     shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/var/cache/debconf/*-old
-    args:
-      warn: no
 
   - name: cleanup | sparse files
     shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/var/lib/apt/lists/*
-    args:
-      warn: no
 
   - name: Copy vmlinuz Debian
     copy:
