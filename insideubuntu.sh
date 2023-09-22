@@ -3,7 +3,7 @@
 echo "mounting special filesystems"
 mount -t proc none /proc
 mount -t sysfs none /sys
-mount -t devpts none dev/pts
+mount -t devpts none /dev/pts
 
 #configure spanish locale
 echo "configuring locales"
@@ -32,7 +32,7 @@ sed -i.bak 's/#Storage=auto/Storage=none/g' /etc/systemd/journald.conf
 
 #install minimum packages. grub*- means grub won't be installed
 echo "installing packages"
-apt-get -y install linux-image-generic grub*- live-boot tasksel
+apt-get -y install linux-image-generic lilo live-boot tasksel
 #apt-get install linux-image-generic grub-efi-amd64-signed live-boot tasksel
 #this is optional, install ubuntu standard system utilities with tasksel
 #tasksel --new-install install server
@@ -40,9 +40,9 @@ apt-get -y install linux-image-generic grub*- live-boot tasksel
 tasksel --new-install install standard
 
 #prepare dns
-echo "set dns"
-sed -i.bak 's/#DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
-rm /etc/resolv.conf
+#echo "set dns"
+#sed -i.bak 's/#DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
+#rm /etc/resolv.conf
 
 #clean apt temporary files
 echo "cleaning"
