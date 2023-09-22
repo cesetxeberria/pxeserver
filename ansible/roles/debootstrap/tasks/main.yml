@@ -9,7 +9,7 @@
 
   - name: Check if it already exists a filesystem.squashfs file.
     stat:
-      path: "{{ inventory_hostname }}/../filesystem.squashfs"
+      path: "{{ inventory_hostname }}/live/filesystem.squashfs"
     register: filesystem
 
   - name: filesystem.squashfs exists but squshsfs-root doesn't. Extract the old file.
@@ -18,7 +18,7 @@
       - filesystem.stat.exists == True
       - squashdir.stat.exists == False
 
- - name: There is no filesystem file nor squashfs-root folder. Create the folder.
+  - name: There is no filesystem file nor squashfs-root folder. Create the folder.
     file:
       path: "{{ inventory_hostname }}/live/squashfs-root"
       state: directory

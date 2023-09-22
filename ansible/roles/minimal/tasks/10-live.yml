@@ -1,5 +1,14 @@
 #configure the system to be live
 ---
+- name: Install live-boot packages and haveged.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - live-boot
+    - haveged
+
 - name: Create a folder for ifup@.service and networking.service
   file:
     path: "{{ item }}"
@@ -58,6 +67,16 @@
 #ln -s /lib/systemd/system/apt-daily-upgrade.timer /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer
 
 #those two tasks prepare the live system to be installable to the hard disk
+- name: Install needed programs.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - pv
+    - squashfs-tools
+    - parted
+
 - name: Copy installers
   copy:
     src: "{{ role_path }}/files/usr/local/sbin/{{ item }}"
