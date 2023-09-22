@@ -18,6 +18,14 @@
       - filesystem.stat.exists == True
       - squashdir.stat.exists == False
 
+  - name: Remove old squashfs file.
+    file: 
+      path="{{ inventory_hostname }}/live/filesystem.squashfs"
+      state=absent
+    when:
+      - filesystem.stat.exists == True
+      - squashdir.stat.exists == False
+
   - name: There is no filesystem file nor squashfs-root folder. Create the folder.
     file:
       path: "{{ inventory_hostname }}/live/squashfs-root"

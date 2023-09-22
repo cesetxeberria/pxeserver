@@ -1,6 +1,6 @@
 #this task configures the system to use basque locale
 ---
-- name: Euskerako eta gaztelerako lokalak instalatu ubuntun
+- name: Install basque and spanish locales in ubuntu.
   apt:
     name: "{{ packages }}"
   vars:
