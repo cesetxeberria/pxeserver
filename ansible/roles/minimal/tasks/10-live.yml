@@ -85,6 +85,8 @@
   with_items:
      - formatallbios
      - formatalluefi
+     - formatallbiosmbrgrub
+     - formatalluefigrub
 
 - name: Copy basic syslinux_local.cfg
   copy:
