@@ -1,5 +1,14 @@
 #this task configures the system to use basque locale
 ---
+- name: Euskerako eta gaztelerako lokalak instalatu ubuntun
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - language-pack-es
+    - language-pack-eu
+  when: ansible_distribution == 'Ubuntu'
+
 - name: Add spanish locale
   locale_gen:
     name: es_ES.UTF-8

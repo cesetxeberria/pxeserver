@@ -1,0 +1,39 @@
+#some custom tweaks
+---
+- name: Copy custom scripts
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+  with_items:
+     - mute
+     - unmute
+     - wifion
+     - disableswap
+
+- name: Power button will power off the system.
+  replace:
+    dest: /etc/systemd/logind.conf
+    regexp: '#HandlePowerKey=poweroff'
+    replace: 'HandlePowerKey=poweroff'
+
+#https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu/1195074#1195074
+#- name: Remove resolv.conf.
+#  file:
+#    path: /etc/resolv.conf
+#    state: absent
+
+#- name: Disable systemd-resolved.
+#  lineinfile:
+#    dest: /etc/systemd/resolved.conf
+#    regexp: '#DNSStubListener=yes'
+#    line: 'DNSStubListener=no'
+#    backrefs: yes
+
+#- name: Let Network-manager configure DNS.
+#  lineinfile:
+#    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
+#    regexp: 'dns=systemd-resolved'
+#    line: '#dns=systemd-resolved'
+#    backrefs: yes
+#  when: ansible_distribution == 'Ubuntu'

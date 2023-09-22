@@ -17,8 +17,8 @@
 
   - include: 07-packages.yml
 
-  - include: 08-live.yml
+  - include: 08-customtweaks.yml
 
-  - include: 09-customscripts.yml
+  - include: 09-users.yml
 
-  - include: 10-users.yml
+  - include: 10-live.yml

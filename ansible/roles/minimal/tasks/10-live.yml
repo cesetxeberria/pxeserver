@@ -19,33 +19,6 @@
     - "/etc/systemd/system/ifup@.service.d/override.conf"
   when: ansible_distribution == 'Debian'
 
-#https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu/1195074#1195074
-#- name: Remove resolv.conf.
-#  file:
-#    path: /etc/resolv.conf
-#    state: absent
-
-#- name: Disable systemd-resolved.
-#  lineinfile:
-#    dest: /etc/systemd/resolved.conf
-#    regexp: '#DNSStubListener=yes'
-#    line: 'DNSStubListener=no'
-#    backrefs: yes
-
-#- name: Let Network-manager configure DNS.
-#  lineinfile:
-#    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
-#    regexp: 'dns=systemd-resolved'
-#    line: '#dns=systemd-resolved'
-#    backrefs: yes
-#  when: ansible_distribution == 'Ubuntu'
-
-- name: Power button will power off the system.
-  replace:
-    dest: /etc/systemd/logind.conf
-    regexp: '#HandlePowerKey=poweroff'
-    replace: 'HandlePowerKey=poweroff'
-
 - name: Dont save systemd journal. This is a live system we dont need it.
   replace:
     dest: /etc/systemd/journald.conf
@@ -53,6 +26,12 @@
     replace: 'Storage=none'
 
 #our systems name will be its mac address
+- name: Copy getnamebymac script
+  copy:
+    src: "{{ role_path }}/files/usr/local/bin/getnamebymac"
+    dest: "/usr/local/bin/getnamebymac"
+    mode: 0755
+
 - name: Copy getnamebymac service.
   copy:
     src: "{{ role_path }}/files/etc/systemd/system/getnamebymac.service"
@@ -75,9 +54,21 @@
     path: /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer
     state: absent
 
-
 #ln -s /lib/systemd/system/apt-daily.timer /etc/systemd/system/timers.target.wants/apt-daily.timer
 #ln -s /lib/systemd/system/apt-daily-upgrade.timer /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer
 
+#those two tasks prepare the live system to be installable to the hard disk
+- name: Copy installers
+  copy:
+    src: "{{ role_path }}/files/usr/local/sbin/{{ item }}"
+    dest: "/usr/local/sbin/{{ item }}"
+    mode: 0755
+  with_items:
+     - formatallbios
+     - formatalluefi
 
-
+- name: Copy basic syslinux_local.cfg
+  copy:
+    src: "{{ role_path }}/files/root/syslinux_local.cfg"
+    dest: "/root/syslinux_local.cfg"
+    mode: 0644
