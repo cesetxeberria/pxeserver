@@ -36,17 +36,17 @@
     - firmware-linux
     - firmware-linux-nonfree
 
-#- name: Install grub.
-#  apt:
-#    name: "{{ packages }}"
-#  vars:
-#    packages:
-#    - grub-pc
+- name: Install grub.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - grub-pc
 
-#- name: Istall grub EFI
-#  apt:
-#    name: "{{ packages }}"
-#  vars:
-#    packages:
-#    - grub-efi-amd64-signed
-#  when: ansible_architecture == 'x86_64'
+- name: Istall grub EFI
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - grub-efi-amd64-signed
+  when: ansible_architecture == 'x86_64'

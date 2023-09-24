@@ -15,31 +15,14 @@ if [[ $1 = nvme* || $1 = mmc* ]]
     p="p"
 fi
 
-#debian edo ubuntu den begiratu
-if [ -f /etc/os-release ]; then
-    # freedesktop.org and systemd
-    . /etc/os-release
-    sistema=$ID
-fi
-#aldagaiak
-tabletipe=gpt #msdos
-firstpart=ESP #primary
-boot=boot #bios_grub
-bootdir="sda1/EFI/boot" #sda1
-arch=efi64 #bios
-target=x86_64-efi #i386-pc
-where="--efi-directory=sda1" #/dev/${1}${p}1
-grubpart=sda1 #sda2
-syslinux=no #yes
-
 #create partition table
 dd if=/dev/zero of=/dev/$1 bs=10240 count=1
-parted -s /dev/$1 mklabel $tabletipe  \
- mkpart $firstpart fat32 0% 200MB  \
+parted -s /dev/$1 mklabel gpt  \
+ mkpart ESP fat32 0% 200MB  \
  mkpart primary ext4 200MB 20GB  \
  mkpart primary linux-swap 20GB 24GB  \
  mkpart primary ext4 24GB 100%  \
- set 1 $boot on
+ set 1 boot on
 sync
 
 #format partitions
@@ -54,58 +37,36 @@ uuid2=`blkid -s UUID -o value /dev/${1}${p}2`
 uuid3=`blkid -s UUID -o value /dev/${1}${p}3`
 uuid4=`blkid -s UUID -o value /dev/${1}${p}4`
 
-#mount partitions
+#install system
 mkdir sda1
 mount /dev/${1}${p}1 sda1
 mkdir sda2
 mount /dev/${1}${p}2 sda2
-
-#install system
 echo "copying the image..."
 pv /lib/live/mount/medium/live/filesystem.squashfs > sda2/filesystem.squashfs
 cd sda2
-echo "installing on disk..."
+echo "extracting the image..."
 unsquashfs filesystem.squashfs
 cd ..
+echo "cleaning..."
 mv sda2/squashfs-root/* sda2/
 rmdir sda2/squashfs-root
 rm sda2/filesystem.squashfs
 
 #install grub
-if [ $syslinux = no ]
-  then
-    echo "installing grub..."
-    mkdir -p $bootdir
-    grub-install --target=x86_64-efi --boot-directory=$bootdir $where
-#    cp /root/grub.cfg $grubpart/boot/grub/
-#    sed -i.bak 's,sda2,'$uuid2',g' $grubpart/boot/grub/grub.cfg
-    cp /root/grub.cfg $grubpart/EFI/$sistema/
-    sed -i.bak 's,sda2,'$uuid2',g' $grubpart/EFI/$sistema/grub.cfg
-fi
-
-
-#get syslinux files
-if [ $syslinux = yes ]
-  then
-    echo "configuring syslinux"
-    mkdir -p $bootdir
-    cp /root/syslinux_local.cfg $bootdir/syslinux.cfg
-    cp /usr/lib/SYSLINUX.EFI/$arch/syslinux.efi $bootdir/bootx64.efi
-    cp /usr/lib/syslinux/modules/$arch/libutil.c32 $bootdir/
-    cp /usr/lib/syslinux/modules/$arch/menu.c32 $bootdir/
-    cp /usr/lib/syslinux/modules/$arch/ldlinux.e64 $bootdir/
-    sed -i.bak 's,sda2,'"UUID=$uuid2"',g' $bootdir/syslinux.cfg
-
-    echo "copying kernel and initrd"
-    if test -f "sda2/initrd.img"; then
-        cp sda2/initrd.img sda1/
-        cp sda2/vmlinuz sda1/
-    fi
-    if test -f "sda2/boot/initrd.img"; then
-        cp sda2/boot/initrd.img sda1/
-        cp sda2/boot/vmlinuz sda1/
-    fi
-fi
+echo "installing grub..."
+mkdir -p sda1/EFI/boot
+grub-install --target=x86_64-efi --boot-directory=sda1/EFI/boot --efi-directory=sda1
+mkdir sda2/sys
+mkdir sda2/proc
+mount --bind /dev sda2/dev
+mount --bind /sys sda2/sys
+mount --bind /proc sda2/proc
+chroot sda2 /usr/sbin/update-grub
+umount sda2/dev
+umount sda2/sys
+umount sda2/proc
+cp sda2/boot/grub/grub.cfg sda1/EFI/boot/grub/grub.cfg
 
 #generate fstab
 echo "updating fstab..."
@@ -115,22 +76,15 @@ echo "UUID=$uuid3    swap        swap    defaults                0 0" >> sda2/et
 echo "#UUID=$uuid4    /home       ext4    defaults                0 0" >> sda2/etc/fstab
 echo "none    /home       tmpfs    defaults                0 0" >> sda2/etc/fstab
 
-#get kernel and initrd
-echo "removing unmute"
-if test -f "sda2/etc/xdg/autostart/unmute.desktop"; then
-    rm sda2/etc/xdg/autostart/unmute.desktop
-fi
-echo "restoring NetworkManager"
-if test -f "sda2/usr/share/applications/nm-applet.desktop"; then
-    cp sda2/usr/share/applications/nm-applet.desktop sda2/etc/xdg/autostart/nm-applet.desktop
-    sed -i.bak 's,DNSStubListener=no,#DNSStubListener=yes,g' sda2/etc/systemd/resolved.conf
-fi
-echo "disabling swapiness service"
-if test -f "/etc/systemd/system/multi-user.target.wants/swapiness.service"; then
-    rm /etc/systemd/system/multi-user.target.wants/swapiness.service
-fi
+#remove livecd tweaks
 echo "restoring systemd journal"
 sed -i.bak 's,Storage=none,#Storage=auto,g' sda2/etc/systemd/journald.conf
+
+echo "disabling getnamebymac service"
+if test -f "/etc/systemd/system/multi-user.target.wants/getnamebymac.service"; then
+    rm /etc/systemd/system/multi-user.target.wants/swapiness.service
+fi
+
 umount /dev/${1}${p}1
 umount /dev/${1}${p}2
 rmdir sda1

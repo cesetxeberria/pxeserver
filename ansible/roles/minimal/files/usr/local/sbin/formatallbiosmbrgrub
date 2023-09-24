@@ -45,9 +45,10 @@ mount /dev/${1}${p}2 sda2
 echo "copying the image..."
 pv /lib/live/mount/medium/live/filesystem.squashfs > sda2/filesystem.squashfs
 cd sda2
-echo "installing on disk..."
+echo "extracting the image..."
 unsquashfs filesystem.squashfs
 cd ..
+echo "cleaning..."
 mv sda2/squashfs-root/* sda2/
 rmdir sda2/squashfs-root
 rm sda2/filesystem.squashfs
@@ -55,7 +56,16 @@ rm sda2/filesystem.squashfs
 #install grub
 echo "installing grub..."
 grub-install --target=i386-pc --boot-directory=sda1 /dev/${1}${p}
-cp /root/grub.cfg sda1/grub/
+mkdir sda2/sys
+mkdir sda2/proc
+mount --bind /dev sda2/dev
+mount --bind /sys sda2/sys
+mount --bind /proc sda2/proc
+chroot sda2 /usr/sbin/update-grub
+umount sda2/dev
+umount sda2/sys
+umount sda2/proc
+cp sda2/boot/grub/grub.cfg sda1/grub/grub.cfg
 
 #generate fstab
 echo "updating fstab..."
@@ -65,27 +75,15 @@ echo "UUID=$uuid3    swap        swap    defaults                0 0" >> sda2/et
 echo "#UUID=$uuid4    /home       ext4    defaults                0 0" >> sda2/etc/fstab
 echo "none    /home       tmpfs    defaults                0 0" >> sda2/etc/fstab
 
-#get kernel and initrd
-echo "removing unmute"
-if test -f "sda2/etc/xdg/autostart/unmute.desktop"; then
-    rm sda2/etc/xdg/autostart/unmute.desktop
-fi
-echo "restoring NetworkManager"
-if test -f "sda2/usr/share/applications/nm-applet.desktop"; then
-    cp sda2/usr/share/applications/nm-applet.desktop sda2/etc/xdg/autostart/nm-applet.desktop
-fi
-echo "disabling swapiness service"
-if test -f "/etc/systemd/system/multi-user.target.wants/swapiness.service"; then
+#remove livecd tweaks
+echo "restoring systemd journal"
+sed -i.bak 's,Storage=none,#Storage=auto,g' sda2/etc/systemd/journald.conf
+
+echo "disabling getnamebymac service"
+if test -f "/etc/systemd/system/multi-user.target.wants/getnamebymac.service"; then
     rm /etc/systemd/system/multi-user.target.wants/swapiness.service
 fi
-echo "configuring grub"
-sed -i.bak 's,sda2,'$uuid2',g' sda1/grub/grub.cfg
 
-#echo "restoring systemd journal"
-#sed -i.bak 's,Storage=none,#Storage=auto,g' sda2/etc/systemd/journald.conf
-
-#echo "kendu jokoak pam_mount fitxategitik"
-#sed -i '/jokoak/d' sda2/etc/security/pam_mount.conf.xml
 umount /dev/${1}${p}1
 umount /dev/${1}${p}2
 rmdir sda1
