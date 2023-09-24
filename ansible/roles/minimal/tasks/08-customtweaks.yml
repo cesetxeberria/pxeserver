@@ -25,8 +25,8 @@
 #    backrefs: yes
   with_items:
      - { old: 'GRUB_TIMEOUT=5', new: 'GRUB_TIMEOUT=2' }
-     - { old: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet"', new: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet"' }
-     - { old: 'GRUB_DISABLE_OS_PROBER="false"', new: 'GRUB_DISABLE_OS_PROBER="true"' }
+     - { old: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet"', new: 'GRUB_CMDLINE_LINUX_DEFAULT=""' }
+#     - { old: '#GRUB_DISABLE_OS_PROBER=false', new: 'GRUB_DISABLE_OS_PROBER=false' }
 
 #https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu/1195074#1195074
 #- name: Remove resolv.conf.
