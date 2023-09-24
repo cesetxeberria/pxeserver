@@ -1,0 +1,54 @@
+#dependencies: rsync, dosfstools, parted, syslinux
+#!/bin/bash
+if [ $# -eq 0 ]
+  then
+    echo "Image name?"
+    ls /home/tftp/livecds/
+    exit
+fi
+#Create image file. Size will be 62914560 bytes (60 megabyte) bigger than filesystem.squashfs
+ORIGFILESIZE=$(stat -c%s "/home/tftp/livecds/$1/live/filesystem.squashfs")
+FILESIZE=`expr $ORIGFILESIZE + 62914560`
+echo "Size of $1/live/filesystem.squashfs = $ORIGFILESIZE bytes."
+echo "Image will be $FILESIZE bytes"
+fallocate -l $FILESIZE /home/tftp/livecds/${1}_liveusb.img
+
+#mount file
+losetup -P /dev/loop0 /home/tftp/livecds/${1}_liveusb.img
+
+#create new partition
+#parted -s /dev/loop0 mklabel gpt mkpart primary fat32 0% 100% set 1 legacy_boot on
+parted -s /dev/loop0 mklabel gpt mkpart ESP fat32 0% 100% set 1 boot on
+sync
+#dd if=/usr/lib/syslinux/mbr/gptmbr.bin of=/dev/loop0 bs=440 count=1 conv=notrunc
+
+#format partition in fat32
+mkfs.vfat /dev/loop0p1 -F 32 -n LIVEUSB
+
+#install syslinux
+#syslinux --install /dev/loop0p1 
+
+#copy files
+mkdir sda1
+mount /dev/loop0p1 sda1
+rsync -av --progress /home/tftp/livecds/$1/ sda1/ --exclude squashfs-root
+
+#copy syslinux_bios files
+#cp ./syslinux_live.cfg sda1/syslinux.cfg
+#cp /boot/ipxe.lkrn sda1/
+#cp /usr/lib/syslinux/modules/bios/libutil.c32 sda1/
+#cp /usr/lib/syslinux/modules/bios/menu.c32 sda1/
+#cp /usr/lib/syslinux/modules/bios/ldlinux.c32 sda1/
+
+#copy syslinux_uefi files
+mkdir -p sda1/EFI/boot
+cp ./syslinux_live.cfg sda1/EFI/boot/syslinux.cfg
+cp /usr/lib/SYSLINUX.EFI/efi64/syslinux.efi sda1/EFI/boot/bootx64.efi
+cp /usr/lib/syslinux/modules/efi64/libutil.c32 sda1/EFI/boot/
+cp /usr/lib/syslinux/modules/efi64/menu.c32 sda1/EFI/boot/
+cp /usr/lib/syslinux/modules/efi64/ldlinux.e64 sda1/EFI/boot/
+
+#clean
+umount sda1
+losetup -d /dev/loop0
+rmdir sda1
