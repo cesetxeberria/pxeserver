@@ -83,11 +83,8 @@
     dest: "/usr/local/sbin/{{ item }}"
     mode: 0755
   with_items:
-     - formatall
-     - formatallbios
-     - formatalluefi
-     - formatallbiosmbrgrub
-     - formatalluefigrub
+     - format_newinstall
+     - format_update
 
 - name: Copy basic syslinux_local.cfg
   copy:
