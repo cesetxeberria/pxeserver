@@ -83,6 +83,7 @@
     dest: "/usr/local/sbin/{{ item }}"
     mode: 0755
   with_items:
+     - formatall
      - formatallbios
      - formatalluefi
      - formatallbiosmbrgrub
