@@ -37,14 +37,6 @@
     - firmware-linux-nonfree
   when: ansible_distribution == 'Debian'
 
-- name: Install some non-free firwmares. Ubuntu.
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - linux-firmware
-  when: ansible_distribution == 'Ubuntu'
-
 - name: Install grub.
   apt:
     name: grub-pc
