@@ -1,5 +1,5 @@
 #variables for ubuntu based systems
 ---
-include_packages: openssh-server,python-apt,python-is-python2,tasksel
+include_packages: openssh-server,python3-apt,python-is-python3
 repo: http://es.archive.ubuntu.com/ubuntu
 compo: main,restricted,universe,multiverse

@@ -1,5 +1,5 @@
 #variables for debian based systems
 ---
-include_packages: openssh-server,python-is-python3,locales,keyboard-configuration,console-setup,python3-apt
+include_packages: openssh-server,python-is-python3,python3-apt,locales,keyboard-configuration,console-setup
 repo: http://deb.debian.org/debian
 compo: main,contrib,non-free,non-free-firmware

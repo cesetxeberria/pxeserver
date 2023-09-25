@@ -55,13 +55,12 @@
 
 - name: Don't auto update apt
   file:
-    path: /etc/systemd/system/timers.target.wants/apt-daily.timer
+    path: "{{ files  }}"
     state: absent
-
-- name: Don't auto upgrade apt
-  file:
-    path: /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer
-    state: absent
+  vars:
+    files:
+    - "/etc/systemd/system/timers.target.wants/apt-daily.timer"
+    - "/etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer"
 
 #ln -s /lib/systemd/system/apt-daily.timer /etc/systemd/system/timers.target.wants/apt-daily.timer
 #ln -s /lib/systemd/system/apt-daily-upgrade.timer /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer
@@ -91,3 +90,12 @@
     src: "{{ role_path }}/files/root/syslinux_local.cfg"
     dest: "/root/syslinux_local.cfg"
     mode: 0644
+
+#- name: Disable systemd-resolved service
+#  file:
+#    path: "{{ files  }}"
+#    state: absent
+#  vars:
+#    files:
+#    - "/etc/systemd/system/sysinit.target.wants/systemd-resolved.service"
+#    - "/etc/systemd/system/dbus-org.freedesktop.resolve1.service"
