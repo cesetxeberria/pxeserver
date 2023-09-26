@@ -26,7 +26,7 @@
     dest: "{{ tftp_root }}/syslinux/efi/pxelinux.cfg"
     state: link
 
-- name: Crate a link to the tftp-root inside syslinux bios folder.
+- name: Create a link to the tftp-root inside syslinux bios folder.
   file:
     src: "{{ tftp_root }}"
     dest: "{{ tftp_root }}/syslinux/bios/tftp"
