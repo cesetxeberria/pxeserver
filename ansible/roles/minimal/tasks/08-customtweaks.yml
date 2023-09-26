@@ -17,34 +17,27 @@
     regexp: '#HandlePowerKey=poweroff'
     replace: 'HandlePowerKey=poweroff'
 
-- name: Set custom grub options.
-  replace:
+- name: Set custom grub options
+  lineinfile:
     dest: /etc/default/grub
     regexp: "{{ item.old }}"
-    replace: "{{ item.new }}"
-#    backrefs: yes
+    line: "{{ item.new }}"
   with_items:
-     - { old: 'GRUB_TIMEOUT=5', new: 'GRUB_TIMEOUT=2' }
-     - { old: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet"', new: 'GRUB_CMDLINE_LINUX_DEFAULT=""' }
-#     - { old: '#GRUB_DISABLE_OS_PROBER=false', new: 'GRUB_DISABLE_OS_PROBER=false' }
+     - { old: '^(.*)GRUB_TIMEOUT=(.*)$', new: 'GRUB_TIMEOUT=2' }
+     - { old: '^(.*)GRUB_TIMEOUT_STYLE=(.*)$', new: 'GRUB_TIMEOUT_STYLE="menu"' }
+     - { old: '^(.*)GRUB_CMDLINE_LINUX_DEFAULT=(.*)$', new: 'GRUB_CMDLINE_LINUX_DEFAULT=""' }
+     - { old: '^(.*)GRUB_DISABLE_OS_PROBER=(.*)$', new: 'GRUB_DISABLE_OS_PROBER="true"' }
 
-#https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu/1195074#1195074
-#- name: Remove resolv.conf.
-#  file:
-#    path: /etc/resolv.conf
-#    state: absent
+- name: Fix ubuntu's 30 second bug in grub.
+  lineinfile:
+    path: /etc/default/grub
+    insertafter: 'GRUB_TIMEOUT=2'
+    line: 'GRUB_RECORDFAIL_TIMEOUT=2'
+  when: ansible_distribution == 'Ubuntu'
 
-#- name: Disable systemd-resolved.
-#  lineinfile:
-#    dest: /etc/systemd/resolved.conf
-#    regexp: '#DNSStubListener=yes'
-#    line: 'DNSStubListener=no'
-#    backrefs: yes
-
-#- name: Let Network-manager configure DNS.
-#  lineinfile:
-#    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
-#    regexp: 'dns=systemd-resolved'
-#    line: '#dns=systemd-resolved'
-#    backrefs: yes
+#- name: Let NetworkManager manage all devices on this system. Ubuntu.
+#  copy:
+#    src: "{{ role_path }}/files/etc/netplan/01-network-manager-all.yaml"
+#    dest: "/etc/netplan/01-network-manager-all.yaml"
+#    mode: 0644
 #  when: ansible_distribution == 'Ubuntu'
