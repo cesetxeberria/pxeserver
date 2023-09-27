@@ -104,11 +104,11 @@ echo "disabling getnamebymac service"
 if test -f "sda2/etc/systemd/system/multi-user.target.wants/getnamebymac.service"; then
     rm sda2/etc/systemd/system/multi-user.target.wants/getnamebymac.service
 fi
-#enable systemd-resolved service.
-#if test -f "sda2/lib/systemd/system/systemd-resolved.service"; then
-#    ln -s /lib/systemd/system/systemd-resolved.service sda2/etc/systemd/system/sysinit.target.wants/systemd-resolved.service
-#    ln -s /lib/systemd/system/systemd-resolved.service sda2/etc/systemd/system/dbus-org.freedesktop.resolve1.service
-#fi
+enable systemd-resolved service.
+if test -f "sda2/lib/systemd/system/systemd-resolved.service"; then
+    ln -s /lib/systemd/system/systemd-resolved.service sda2/etc/systemd/system/sysinit.target.wants/systemd-resolved.service
+    ln -s /lib/systemd/system/systemd-resolved.service sda2/etc/systemd/system/dbus-org.freedesktop.resolve1.service
+fi
 umount /dev/${1}${p}1
 umount /dev/${1}${p}2
 rmdir sda1

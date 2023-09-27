@@ -9,7 +9,7 @@
     - live-boot
     - haveged
 
-#
+#Don't disconnect the net before shutting down. This is a pxe live system, so disconnecting would interrupt the shutdown process.
 - name: Create a folder for ifup@.service and networking.service
   file:
     path: "{{ item }}"
