@@ -4,4 +4,4 @@
   vars:
     ansible_host: "{{ inventory_hostname }}/live/squashfs-root"
   tasks:
-    - include: exit.yml
+    - include_tasks: exit.yml

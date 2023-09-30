@@ -2,17 +2,17 @@
 #livecds must be created with another role and windows installer files must be added from official isos
 ---
 
-  - include: 01-server.yml
+  - include_tasks: 01-server.yml
 
-  - include: 02-syslinux.yml
+  - include_tasks: 02-syslinux.yml
 
-  - include: 03-grub.yml
+  - include_tasks: 03-grub.yml
 
-  - include: 04-ipxe.yml
+  - include_tasks: 04-ipxe.yml
 
-  - include: 05-installers.yml
+  - include_tasks: 05-installers.yml
     when: ansible_distribution == 'Debian'
 
-  - include: 06-livesystems.yml
+  - include_tasks: 06-livesystems.yml
 
-  - include: 07-windows.yml
+  - include_tasks: 07-windows.yml

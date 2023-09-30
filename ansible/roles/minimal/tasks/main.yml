@@ -1,24 +1,24 @@
-#this task will configure basque locale, keyboard and timezonne. will add some repositories and install basic packages
+#this task will configure basque locale, keyboard and timezone. will add some repositories and install basic packages
 #it will add some config tweaks, custom scripts and add a user with sudo privileges
 ---
   - include_vars: "{{ distro }}.yml"
 
-  - include: 01-locale.yml
+  - include_tasks: 01-locale.yml
 
-  - include: 02-keyboard.yml
+  - include_tasks: 02-keyboard.yml
 
-  - include: 03-timezone.yml
+  - include_tasks: 03-timezone.yml
 
-  - include: 04-repositories.yml
+  - include_tasks: 04-repositories.yml
 
-  - include: 05-kernel.yml
+  - include_tasks: 05-kernel.yml
 
-  - include: 06-tasksel.yml
+  - include_tasks: 06-tasksel.yml
 
-  - include: 07-packages.yml
+  - include_tasks: 07-packages.yml
 
-  - include: 08-customtweaks.yml
+  - include_tasks: 08-customtweaks.yml
 
-  - include: 09-users.yml
+  - include_tasks: 09-users.yml
 
-  - include: 10-live.yml
+  - include_tasks: 10-live.yml

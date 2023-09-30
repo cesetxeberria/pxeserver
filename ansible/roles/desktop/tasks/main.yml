@@ -1,21 +1,21 @@
 #this role installs minimal xfce desktop with basque locale for debian or ubuntu
 ---
 
-  - include: 00-minimal.yml
+  - include_tasks: 00-minimal.yml
 
-  - include: 01-sddm.yml
+  - include_tasks: 01-sddm.yml
 
-  - include: 02-locales.yml
+  - include_tasks: 02-locales.yml
 
-  - include: 03-xfce.yml
+  - include_tasks: 03-xfce.yml
 
-  - include: 04-firefox.yml
+  - include_tasks: 04-firefox.yml
 
 # I prefer to install google chrome in ubuntu, because chromium is a snap package. I use policies to control google's shit.
-  - include: 05-chrome.yml
+  - include_tasks: 05-chrome.yml
     when: ansible_distribution == 'Ubuntu'
 
-  - include: 05-chromium.yml
+  - include_tasks: 05-chromium.yml
     when: ansible_distribution == 'Debian'
 
-  - include: 06-libreoffice.yml
+  - include_tasks: 06-libreoffice.yml
