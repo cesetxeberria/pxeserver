@@ -40,7 +40,7 @@
     - "/etc/resolv.conf"
   when: ansible_distribution == 'Ubuntu'
 
-- name: Disable systemd-resolved in network-manager.
+- name: Disable systemd-resolved in network-manager too.
   lineinfile:
     dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
     regexp: 'dns=systemd-resolved'
