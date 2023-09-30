@@ -104,10 +104,6 @@ echo "disabling getnamebymac service"
 if test -f "sda2/etc/systemd/system/multi-user.target.wants/getnamebymac.service"; then
     rm sda2/etc/systemd/system/multi-user.target.wants/getnamebymac.service
 fi
-#use network-manager for dns
-if test -f "sda2/lib/systemd/system/systemd-resolved.service"; then
-     ln -s /run/NetworkManager/resolv.conf sda2/etc/resolv.conf
-fi
 umount /dev/${1}${p}1
 umount /dev/${1}${p}2
 rmdir sda1

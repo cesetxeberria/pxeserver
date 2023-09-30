@@ -35,16 +35,27 @@
     line: 'GRUB_RECORDFAIL_TIMEOUT=2'
   when: ansible_distribution == 'Ubuntu'
 
+#I prefer to use dnsmasq
+- name: Uninstall systemd-resolved
+  apt:
+    name: systemd-resolved
+    state: absent
+
+- name: Install dnsmasq
+  apt:
+    name: dnsmasq
+
+- name: Tell network-manager to use dnsmasq.
+  lineinfile:
+    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
+    regexp: 'dns=systemd-resolved'
+    line: 'dns=dnsmasq'
+    backrefs: yes
+  when: ansible_distribution == 'Ubuntu'
+
 - name: Let NetworkManager manage all devices on this system. Ubuntu.
   copy:
     src: "{{ role_path }}/files/etc/netplan/01-network-manager-all.yaml"
     dest: "/etc/netplan/01-network-manager-all.yaml"
     mode: 0644
   when: ansible_distribution == 'Ubuntu'
-
-- name: Let NetworkManager manage all devices on this system. Ubuntu.
-  file:
-    path: "/lib/NetworkManager/conf.d/10-globally-managed-devices.conf"
-    state: absent
-  when: ansible_distribution == 'Ubuntu'
-
