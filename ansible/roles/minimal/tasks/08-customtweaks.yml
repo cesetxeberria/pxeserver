@@ -35,9 +35,16 @@
     line: 'GRUB_RECORDFAIL_TIMEOUT=2'
   when: ansible_distribution == 'Ubuntu'
 
-#- name: Let NetworkManager manage all devices on this system. Ubuntu.
-#  copy:
-#    src: "{{ role_path }}/files/etc/netplan/01-network-manager-all.yaml"
-#    dest: "/etc/netplan/01-network-manager-all.yaml"
-#    mode: 0644
-#  when: ansible_distribution == 'Ubuntu'
+- name: Let NetworkManager manage all devices on this system. Ubuntu.
+  copy:
+    src: "{{ role_path }}/files/etc/netplan/01-network-manager-all.yaml"
+    dest: "/etc/netplan/01-network-manager-all.yaml"
+    mode: 0644
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Let NetworkManager manage all devices on this system. Ubuntu.
+  file:
+    path: "/lib/NetworkManager/conf.d/10-globally-managed-devices.conf"
+    state: absent
+  when: ansible_distribution == 'Ubuntu'
+

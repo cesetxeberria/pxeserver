@@ -38,14 +38,7 @@
     - "/etc/systemd/system/sysinit.target.wants/systemd-resolved.service"
     - "/etc/systemd/system/dbus-org.freedesktop.resolve1.service"
     - "/etc/resolv.conf"
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Disable systemd-resolved in network-manager too.
-  lineinfile:
-    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
-    regexp: 'dns=systemd-resolved'
-    line: '#dns=systemd-resolved'
-    backrefs: yes
+    - "/lib/NetworkManager/conf.d/10-dns-resolved.conf"
   when: ansible_distribution == 'Ubuntu'
 
 - name: Dont save systemd journal. This is a live system we dont need it.
