@@ -24,6 +24,6 @@
     state: directory
     mode: 0755
     
-#- name: Install newer version of debootstrap
-#  apt:
-#    deb: "http://es.archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/debootstrap_1.0.126+nmu1_all.deb"
+- name: Install newer version of debootstrap
+  apt:
+    deb: "http://es.archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/debootstrap_1.0.128+nmu2ubuntu1_all.deb"
