@@ -30,7 +30,7 @@
   when: ansible_distribution == 'Debian'
 
 #DNS aren't configured in our ubuntu live system, I don't know why. Disabling systemd-resolved fixes the problem.
-- name: Disable systemd-resolved service
+- name: Disable systemd-resolved service.
   file:
     path: "{{ item }}"
     state: absent
@@ -38,6 +38,14 @@
     - "/etc/systemd/system/sysinit.target.wants/systemd-resolved.service"
     - "/etc/systemd/system/dbus-org.freedesktop.resolve1.service"
     - "/etc/resolv.conf"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Disable systemd-resolved in network-manager.
+  lineinfile:
+    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
+    regexp: 'dns=systemd-resolved'
+    line: '#dns=systemd-resolved'
+    backrefs: yes
   when: ansible_distribution == 'Ubuntu'
 
 - name: Dont save systemd journal. This is a live system we dont need it.
@@ -61,8 +69,8 @@
 
 - name: Enable getnamebymac service.
   file:
-    src: /etc/systemd/system/getnamebymac.service
-    dest: /etc/systemd/system/multi-user.target.wants/getnamebymac.service
+    src: "/etc/systemd/system/getnamebymac.service"
+    dest: "/etc/systemd/system/multi-user.target.wants/getnamebymac.service"
     state: link
 
 - name: Don't auto update apt
