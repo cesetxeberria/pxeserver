@@ -33,3 +33,7 @@ label WindowsPE
  kernel tftp/windows/memdisk  
  initrd tftp/windows/winpe.img    
  append raw
+
+label WimbootPE
+ com32 linux.c32
+ append tftp/windows/wimboot initrdfile=tftp/windows/win11/Boot/BCD,tftp/windows/win11/Boot/boot.sdi,tftp/windows/win11/Sources/Boot.wim
