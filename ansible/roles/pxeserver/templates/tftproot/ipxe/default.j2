@@ -48,9 +48,9 @@ goto MENU
 
 :winpe
 kernel /windows/wimboot gui
-initrd /windows/bcd BCD
-initrd /windows/boot.sdi boot.sdi
-initrd /windows/boot.wim boot.wim
+initrd /windows/winpe/Boot/BCD BCD
+initrd /windows/winpe/Boot/boot.sdi boot.sdi
+initrd /windows/winpe/Sources/Boot.wim boot.wim
 boot ||
 goto MENU
 
