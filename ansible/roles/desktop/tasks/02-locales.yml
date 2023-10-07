@@ -12,6 +12,7 @@
     - debian-reference-es
     - util-linux-locales
     - myspell-es
+    - manpages-es
 
 - name: Install spanish and basque locale for QT applications in Ubuntu.
   apt:
@@ -21,12 +22,6 @@
     - manpages-es-extra
     - language-pack-kde-es
     - language-pack-kde-eu
+    - language-pack-gnome-es
+    - language-pack-gnome-eu
   when: ansible_distribution == 'Ubuntu'
-
-- name: Install spanish manpages in Debian.
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - manpages-es
-  when: ansible_distribution == 'Debian'
