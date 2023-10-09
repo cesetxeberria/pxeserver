@@ -140,3 +140,4 @@
     url: https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
     dest: /usr/local/bin/yt-dlp
     mode: 0755
+  ignore_errors: yes

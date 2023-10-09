@@ -26,7 +26,7 @@
 
 - name: Create Firefox link in /usr/bin. Ubuntu.
   file:
-    src: /opt/firefox/firefox  
+    src: /opt/firefox/firefox
     dest: /usr/bin/firefox-esr
     state: link
   when: ansible_distribution == 'Ubuntu'
