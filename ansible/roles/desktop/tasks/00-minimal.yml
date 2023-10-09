@@ -33,15 +33,15 @@
     - mesa-utils
   when: ansible_distribution == 'Debian'
 
-- name: Copy intel config for xorg. We want to use intel driver for tearfree option.
-  copy:
-    src: "{{ role_path }}/files/{{ item }}"
-    dest: "/{{ item }}"
-    mode: 0644
-  with_items:
-     - "usr/share/X11/xorg.conf.d/20-intel.conf"
-     - "usr/share/X11/xorg.conf.d/10-amdgpu.conf"
-  when: ansible_distribution_release == 'focal'
+#- name: Copy intel config for xorg. We want to use intel driver for tearfree option.
+#  copy:
+#    src: "{{ role_path }}/files/{{ item }}"
+#    dest: "/{{ item }}"
+#    mode: 0644
+#  with_items:
+#     - "usr/share/X11/xorg.conf.d/20-intel.conf"
+#     - "usr/share/X11/xorg.conf.d/10-amdgpu.conf"
+#  when: ansible_distribution_release == 'focal'
 
 - name: Minimal audio packages with recommends.
   apt:

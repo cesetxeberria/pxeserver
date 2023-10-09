@@ -49,7 +49,7 @@
 - name: Chrome sets itself as default browser. Set firefox as default browser.
   alternatives:
     name: "{{ item }}"
-    path: /usr/bin/firefox
+    path: /usr/bin/firefox-esr
   with_items:
     - x-www-browser
     - gnome-www-browser

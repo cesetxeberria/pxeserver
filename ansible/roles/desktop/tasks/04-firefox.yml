@@ -9,53 +9,51 @@
     - firefox-esr-l10n-eu
   when: ansible_distribution == 'Debian'
 
-- name: Install Firefox on Ubuntu with basque locale.
-  apt:
-    name: "{{ packages }}"
-    install_recommends: no
-  vars:
-    packages:
-    - firefox
-    - firefox-locale-eu
+#ubuntu uses snap to install firefox. so we download and install it manually
+- name: Download Firefox ESR. Ubuntu.
+  get_url:
+    url: https://download.mozilla.org/?product=firefox-esr-latest&os=linux64&lang=eu
+    dest: /opt/firefox_esr.tar.bz2
+    mode: '0644'
   when: ansible_distribution == 'Ubuntu'
 
-#This is for me. I don't want to use two different panel config files for firefox-esr and firefox, so I rename it.
-- name: Check if original file exists.
-  stat:
-    path: "/usr/share/applications/firefox-esr.desktop"
-  register: desktop
-  
-- name: Move desktop file to firefox.desktop
-  command: mv /usr/share/applications/firefox-esr.desktop /usr/share/applications/firefox.desktop
-  when:
-    - ansible_distribution == 'Debian'
-    - desktop.stat.exists == True
-    
-- name: Create a policies forlder for Firefox in Debian.
+- name: Extract Firefox package. Ubuntu.
+  unarchive:
+    src: /opt/firefox_esr.tar.bz2
+    dest: /opt
+    remote_src: yes
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Create Firefox link in /usr/bin. Ubuntu.
   file:
-    path: "/usr/share/firefox-esr/distribution"
-    state: directory
-  when: ansible_distribution == 'Debian'
+    src: /opt/firefox/firefox  
+    dest: /usr/bin/firefox
+    state: link
+  when: ansible_distribution == 'Ubuntu'
 
-- name: Create a policies forlder for Firefox in Ubuntu.
+- name: Remove downloaded file. Ubuntu.
   file:
-    path: "/usr/lib/firefox/distribution"
+    path: "/opt/firefox_esr.tar.bz2"
+    state: absent
+  when: ansible_distribution == 'Ubuntu'
+
+#- name: Desktop fitxategia kopiatu. Ubuntu.
+#  copy:
+#    src: "{{ role_path }}/files/usr/share/applications/firefox-esr.desktop"
+#    dest: "/usr/share/applications/firefox-esr.desktop"
+#    mode: 0644
+#  when: ansible_distribution == 'Ubuntu'
+
+- name: Create policies folder for Firefox.
+  file:
+    path: "/etc/firefox/policies/"
     state: directory
-  when: ansible_distribution == 'Ubuntu'
 
-- name: Set Firefox policies in Debian.
+- name: Set Firefox policies.
   copy:
-    src: "{{ role_path }}/files/usr/share/firefox-esr/distribution/policies.json"
-    dest: "/usr/share/firefox-esr/distribution/policies.json"
+    src: "{{ role_path }}/files/etc/firefox/policies/policies.json"
+    dest: "/etc/firefox/policies/policies.json"
     mode: 0644
-  when: ansible_distribution == 'Debian'
-
-- name: Set Firefox policies in Ubuntu.
-  copy:
-    src: "{{ role_path }}/files/usr/share/firefox-esr/distribution/policies.json"
-    dest: "/usr/lib/firefox/distribution/policies.json"
-    mode: 0644
-  when: ansible_distribution == 'Ubuntu'
 
 - name: Create Ublock configuration folder.
   file:
