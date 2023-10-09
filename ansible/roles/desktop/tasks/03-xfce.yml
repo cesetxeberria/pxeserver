@@ -28,11 +28,12 @@
     - smplayer
     - tango-icon-theme
     - gnome-themes-extra
-    - ssh 
-    - sshfs 
+    - gnome-brave-icon-theme
+    - ssh
+    - sshfs
     - nfs-common
     - cifs-utils
-    - gvfs-backends 
+    - gvfs-backends
     - gvfs-fuse
 
 - name: Extra Ubuntu. Those aren't needed in Debian.
@@ -129,20 +130,13 @@
     dest: "/etc/xdg/Trolltech.conf"
     mode: 0644
 
-- name: Remove youtube-dl. Smplayer installs it but I prefer to download the newest version.
+- name: Remove yt-dlp. Smplayer installs it but I prefer to download the newest version.
   apt:
-    name: youtube-dl
+    name: yt-dlp
     state: absent
 
-- name: Download latest youtube-dl.
+- name: Download latest yt-dlp.
   get_url:
-    url: https://yt-dl.org/downloads/latest/youtube-dl
-    dest: /usr/local/bin/youtube-dl
+    url: https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+    dest: /usr/local/bin/yt-dlp
     mode: 0755
-
-- name: Set exo-file-manager in Debian.
-  file:
-    src: /usr/share/applications/xfce4-file-manager.desktop
-    dest: /usr/share/applications/exo-file-manager.desktop
-    state: link
-  when: ansible_distribution == 'Debian'

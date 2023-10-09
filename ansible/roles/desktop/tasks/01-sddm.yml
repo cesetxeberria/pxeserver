@@ -12,12 +12,6 @@
     - unzip
     - sddm-theme-maldives
 
-- name: Set xfce's background image for sddm.
-  replace:
-    dest: "/usr/share/sddm/themes/maldives/theme.conf"
-    regexp: '^(.*)background=(.*)$'
-    replace: 'background=/usr/share/backgrounds/xfce/xfce-shapes.svg'
-
 #sudo update-alternatives --install /usr/share/sddm/themes/ubuntu-theme sddm-ubuntu-theme /usr/share/sddm/themes/sddm-theme-dialog-main 1
 - name: set maldives as sddm theme
   alternatives:
@@ -31,3 +25,8 @@
     path: /usr/share/sddm/themes/maldives
   when: ansible_distribution == 'Ubuntu'
 
+- name: Set xfce's background image for sddm.
+  replace:
+    dest: "/usr/share/sddm/themes/maldives/theme.conf"
+    regexp: '^(.*)background=(.*)$'
+    replace: 'background=/usr/share/backgrounds/xfce/xfce-shapes.svg'
