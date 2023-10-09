@@ -19,7 +19,6 @@
     name: "{{ packages }}"
   vars:
     packages:
-    - manpages-es-extra
     - language-pack-kde-es
     - language-pack-kde-eu
     - language-pack-gnome-es
