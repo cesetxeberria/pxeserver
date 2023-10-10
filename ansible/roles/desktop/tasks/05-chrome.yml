@@ -6,7 +6,7 @@
   vars:
     packages:
     - fonts-liberation
-    
+
 - name: Check if chrome is already installed.
   command: apt-cache search google-chrome-stable
   register: aptcache
@@ -31,7 +31,7 @@
 - name: Move desktop file to chrome.desktop
   command: mv /usr/share/applications/google-chrome.desktop /usr/share/applications/chrome.desktop
   when: desktop.stat.exists == True
-  
+
 - name: Create chrome link in /usr/bin
   file:
     src: /usr/local/bin/chrome
@@ -53,6 +53,7 @@
   with_items:
     - x-www-browser
     - gnome-www-browser
+  when: ansible_distribution == 'Debian'
 
 - name: Create policies directory.
   file:
