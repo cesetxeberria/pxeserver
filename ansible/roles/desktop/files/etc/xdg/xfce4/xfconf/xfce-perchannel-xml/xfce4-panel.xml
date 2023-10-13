@@ -27,7 +27,7 @@
     <property name="plugin-1" type="string" value="whiskermenu"/>
     <property name="plugin-2" type="string" value="launcher">
       <property name="items" type="array">
-        <value type="string" value="/usr/share/applications/firefox.desktop"/>
+        <value type="string" value="/usr/share/applications/firefox-esr.desktop"/>
       </property>
     </property>
     <property name="plugin-3" type="string" value="launcher">
@@ -37,7 +37,7 @@
     </property>
     <property name="plugin-4" type="string" value="launcher">
       <property name="items" type="array">
-        <value type="string" value="/usr/share/applications/exo-file-manager.desktop"/>
+        <value type="string" value="/usr/share/applications/xfce4-file-manager.desktop"/>
       </property>
     </property>
     <property name="plugin-5" type="string" value="showdesktop"/>

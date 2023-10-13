@@ -93,3 +93,4 @@
   with_items:
      - format_newinstall
      - format_update
+     - laptopfirmware
