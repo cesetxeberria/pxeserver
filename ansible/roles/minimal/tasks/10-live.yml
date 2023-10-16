@@ -94,3 +94,4 @@
      - format_newinstall
      - format_update
      - laptopfirmware
+     - format_chromeos
