@@ -17,6 +17,7 @@ echo "mount -t proc none /proc" >> /usr/local/bin/prepare
 echo "mount -t sysfs none /sys" >> /usr/local/bin/prepare
 echo "mount -t devpts none /dev/pts" >> /usr/local/bin/prepare
 echo "echo 'nameserver 8.8.8.8' > /etc/resolv.conf" >> /usr/local/bin/prepare
+echo "LANG=C.UTF-8" >> /usr/local/bin/prepare
 chmod +x /usr/local/bin/prepare
 
 #configure spanish locale
