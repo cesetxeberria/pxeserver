@@ -66,17 +66,3 @@
     src: "{{ role_path }}/files/etc/chromium/policies/managed/policies.json"
     dest: "/etc/opt/chrome/policies/managed/policies.json"
     mode: 0644
-
-- name: Create skel directory.
-  file:
-    path: /etc/skel/.config/google-chrome
-    state: directory
-    mode: 0755
-
-- name: Create first run file. With this, chrome won't ask to be default browser.
-  copy:
-    content: ""
-    dest: "/etc/skel/.config/google-chrome/First Run"
-    force: no
-    owner: root
-    mode: 0644
