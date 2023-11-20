@@ -1,6 +1,7 @@
 {
       "AlternateErrorPagesEnabled": false,
       "BookmarkBarEnabled": true,
+      "BrowserLabsEnabled": false,
       "BrowserSignin": 0,
       "BlockThirdPartyCookies": false,
       "CookiesBlockedForUrls": ["https://consent.youtube.com","https://consent.google.com","https://www.google.com","https://www.youtube.com"],
@@ -11,7 +12,9 @@
       "DefaultSearchProviderEnabled": true,
       "DefaultSearchProviderName": "Duck duck go",
       "DefaultSearchProviderSearchURL": "https://duckduckgo.com/?q={searchTerms}",
+      "DisablePrintPreview": true,
       "DiskCacheSize": 0,
+      "ForcedLanguages": ["eu"],
       "ForceEphemeralProfiles": false,
       "HomepageLocation": "https://duckduckgo.com/html",
       "ImportBookmarks": false,
@@ -22,6 +25,10 @@
       "PromotionalTabsEnabled": false,
       "ShowHomeButton": true,
       "TranslateEnabled": false,
+      "PrivacySandboxAdMeasurementEnabled": false,
+      "PrivacySandboxAdTopicsEnabled": false,
+      "PrivacySandboxPromptEnabled": false,
+      "PrivacySandboxSiteEnabledAdsEnabled": false,
       "ProxySettings": {"value": {"ProxyMode": "auto_detect"}},
       "ExtensionInstallForcelist": 
         [ 
@@ -29,7 +36,6 @@
           "cjpalhdlnbpafiamejdnhcphjbkeiagm;https://clients2.google.com/service/update2/crx", 
           "ghbmnnjooekpmoecnnnilnnbdlolhkhi;https://clients2.google.com/service/update2/crx", 
           "pjkljhegncpnkpknbcohdijeoejaedia;https://clients2.google.com/service/update2/crx", 
-          "fihnjjcciajhdojfnbdddfaoknhalnja;https://clients2.google.com/service/update2/crx", 
         ],
       "3rdparty": 
       {
