@@ -23,7 +23,7 @@
     path: "{{ tftp_root }}/livecds/customdebian"
     state: directory
     mode: 0755
-    
+
 - name: Install newer version of debootstrap
   apt:
-    deb: "http://es.archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/debootstrap_1.0.128+nmu2ubuntu1_all.deb"
+    deb: "http://es.archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/debootstrap_1.0.133ubuntu1_all.deb"
