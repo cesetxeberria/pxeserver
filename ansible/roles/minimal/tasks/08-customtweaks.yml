@@ -35,15 +35,17 @@
     line: 'GRUB_RECORDFAIL_TIMEOUT=2'
   when: ansible_distribution == 'Ubuntu'
 
-#I prefer to use dnsmasq
+#DNS aren't configured in our ubuntu live system, I don't know why. Replacing systemd-resolved with dnsmasq fixes the problem.
 - name: Uninstall systemd-resolved
   apt:
     name: systemd-resolved
     state: absent
+  when: ansible_distribution == 'Ubuntu'
 
 - name: Install dnsmasq
   apt:
     name: dnsmasq
+  when: ansible_distribution == 'Ubuntu'
 
 - name: Tell network-manager to use dnsmasq.
   lineinfile:
