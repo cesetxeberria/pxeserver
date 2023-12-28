@@ -32,5 +32,5 @@
   vars:
     packages:
     - linux-image-generic
-    - lilo
+#    - lilo
   when: ansible_distribution == 'Ubuntu'
