@@ -1,3 +1,3 @@
 [zerbitzariak]
 /home/tftp/livecds/customdebian		distro=debian suite=bookworm	arch=amd64
-/home/tftp/livecds/customdebian		distro=ubuntu suite=lunar	arch=amd64
+/home/tftp/livecds/customdebian		distro=ubuntu suite=noble	arch=amd64
