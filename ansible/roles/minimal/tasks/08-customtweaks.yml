@@ -35,6 +35,13 @@
     line: 'GRUB_RECORDFAIL_TIMEOUT=2'
   when: ansible_distribution == 'Ubuntu'
 
+- name: Let NetworkManager manage all devices on this system. Ubuntu.
+  copy:
+    src: "{{ role_path }}/files/etc/netplan/01-network-manager-all.yaml"
+    dest: "/etc/netplan/01-network-manager-all.yaml"
+    mode: 0644
+  when: ansible_distribution == 'Ubuntu'
+
 #DNS aren't configured in our ubuntu live system, I don't know why. Replacing systemd-resolved with dnsmasq fixes the problem.
 #- name: Uninstall systemd-resolved
 #  apt:
@@ -54,10 +61,3 @@
 #    line: 'dns=dnsmasq'
 #    backrefs: yes
 #  when: ansible_distribution == 'Ubuntu'
-
-- name: Let NetworkManager manage all devices on this system. Ubuntu.
-  copy:
-    src: "{{ role_path }}/files/etc/netplan/01-network-manager-all.yaml"
-    dest: "/etc/netplan/01-network-manager-all.yaml"
-    mode: 0644
-  when: ansible_distribution == 'Ubuntu'

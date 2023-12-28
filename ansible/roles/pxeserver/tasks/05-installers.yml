@@ -8,38 +8,22 @@
     - debian-installer-12-netboot-amd64
     - debian-installer-12-netboot-i386
 
-- name: Create amd64 installer folder.
+- name: Create installer folder.
   file:
-    path: "{{ tftp_root }}/installers/debian/amd64"
+    path: "{{ tftp_root }}/installers/debian/{{ item }}"
     state: directory
     mode: 0755
+  with_items:
+     - i386
+     - amd64
 
-- name: Create i386 installer folder.
+- name: Create symlinks for the installers
   file:
-    path: "{{ tftp_root }}/installers/debian/i386"
-    state: directory
-    mode: 0755
-
-- name: Copy amd64 vmlinuz
-  copy:
-    src: /usr/lib/debian-installer/images/12/amd64/text/debian-installer/amd64/linux
-    dest: "{{ tftp_root }}/installers/debian/amd64/linux"
-    mode: 0644
-
-- name: Copy amd64 initrd.gz
-  copy:
-    src: /usr/lib/debian-installer/images/12/amd64/text/debian-installer/amd64/initrd.gz
-    dest: "{{ tftp_root }}/installers/debian/amd64/initrd.gz"
-    mode: 0644
-
-- name: Copy i386 vmlinuz
-  copy:
-    src: /usr/lib/debian-installer/images/12/i386/text/debian-installer/i386/linux
-    dest: "{{ tftp_root }}/installers/debian/i386/linux"
-    mode: 0644
-
-- name: Copy i386 initrd.gz
-  copy:
-    src: /usr/lib/debian-installer/images/12/i386/text/debian-installer/i386/initrd.gz
-    dest: "{{ tftp_root }}/installers/debian/i386/initrd.gz"
-    mode: 0644
+    src: "/usr/lib/debian-installer/images/12/{{ item.arch }}/text/debian-installer/{{ item.arch }}/{{ item.file }}"
+    dest: "{{ tftp_root }}/installers/debian/{{ item.arch }}/{{ item.file }}"
+    state: link
+  with_items:
+     - { arch: "i386", file: "linux" }
+     - { arch: "i386", file: "initrd.gz" }
+     - { arch: "amd64", file: "linux" }
+     - { arch: "amd64", file: "initrd.gz" }
