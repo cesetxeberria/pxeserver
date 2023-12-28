@@ -3,6 +3,9 @@
   - name: delete hostname, the client will get one at boot
     shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/etc/hostname
 
+  - name: delete resolv.conf, a new one will be created at boot
+    shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/etc/resolv.conf
+
   - name: cleanup | sparse files
     shell: /bin/rm -rf {{ inventory_hostname }}/live/squashfs-root/var/cache/apt/archives/*.deb
 
