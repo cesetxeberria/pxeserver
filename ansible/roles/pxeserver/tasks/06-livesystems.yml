@@ -27,3 +27,14 @@
 - name: Install newer version of debootstrap
   apt:
     deb: "http://es.archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/debootstrap_1.0.133ubuntu1_all.deb"
+
+#Newer versions of ubuntu use the gutsy script by default.
+#http://changelogs.ubuntu.com/changelogs/pool/main/d/debootstrap/debootstrap_1.0.128+nmu2ubuntu4/changelog
+- name: Create symlinks for ubuntu lunar and ubuntu noble
+  file:
+    src: "gutsy"
+    dest: "/usr/share/debootstrap/scripts/{{ item }}"
+    state: link
+  with_items:
+     - lunar
+     - noble
