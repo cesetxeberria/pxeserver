@@ -22,18 +22,34 @@
     - alsa-utils
     - light
 
-- name: Create config file in skel.
+- name: Create config files in skel.
   file:
     path: "/etc/skel/.config"
     state: directory
     mode: 0755
 
-- name: Copy config file to skel.
+- name: Create config dirs in skel.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "/etc/skel/.config"
+    - "/etc/skel/.config/wofi"
+
+- name: Copy wayland config file to skel.
   copy:
     src: "/usr/share/doc/wayfire/examples/wayfire.ini"
     dest: "/etc/skel/.config/wayfire.ini"
     mode: 0644
     remote_src: yes
+
+- name: Configure wofi.
+  ansible.builtin.blockinfile:
+    path: "/etc/skel/.config/wofi/config"
+    create: yes
+    block: |
+      mode=drun
 
 - name: Set spanish keyboard.
   replace:
