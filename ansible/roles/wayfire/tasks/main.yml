@@ -34,3 +34,15 @@
     dest: "/etc/skel/.config/wayfire.ini"
     mode: 0644
     remote_src: yes
+
+- name: Set spanish keyboard.
+  replace:
+    dest: "/etc/skel/.config/wayfire.ini"
+    regexp: '# [input]'
+    replace: '[input]'
+
+- name: Set spanish keyboard.
+  replace:
+    dest: "/etc/skel/.config/wayfire.ini"
+    regexp: '# xkb_layout = us,fr'
+    replace: 'xkb_layout = es'
