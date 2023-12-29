@@ -22,6 +22,15 @@
     - alsa-utils
     - light
 
+- name: Install wf-shell.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: yes
+  vars:
+    packages:
+    - wf-shell
+  when: ansible_distribution == 'Ubuntu'
+
 - name: Create config files in skel.
   file:
     path: "/etc/skel/.config"
