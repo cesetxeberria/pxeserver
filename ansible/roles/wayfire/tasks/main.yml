@@ -1,0 +1,35 @@
+#this task installs wayfire and some extra tools
+---
+- name: Install wayfire and extras.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: yes
+  vars:
+    packages:
+    - wayfire
+    - kanshi
+    - mako-notifier
+    - wlsunset
+    - swayidle
+    - swaylock
+    - xdg-desktop-portal
+    - alacritty
+    - wlogout
+    - wofi
+    - grim
+    - slurp
+    - alsa-utils
+    - light
+
+- name: Create config file in skel.
+  file:
+    path: "/etc/skel/.config"
+    state: directory
+    mode: 0755
+
+- name: Copy config file to skel.
+  copy:
+    src: "/usr/share/doc/wayfire/examples/wayfire.ini"
+    dest: "/etc/skel/.config/wayfire.ini"
+    mode: 0644
+    remote_src: yes
