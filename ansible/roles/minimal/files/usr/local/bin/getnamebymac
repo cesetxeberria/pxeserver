@@ -1,6 +1,6 @@
 #!/bin/bash
 ip=$(hostname -I)
-mac=$(ip -o link | grep "BROADCAST" | awk '{print $17}')
+mac=$(ip -o link | grep "state UP" | awk '{print $17}')
 hostname=${mac//:}
 if grep -q $hostname /etc/hosts; then
   echo "already in hosts file"
