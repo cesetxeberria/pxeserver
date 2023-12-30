@@ -1,0 +1,7 @@
+#this task installs wayfire and firefox. It also configures gtk so firefox's window shows 3 buttons.
+---
+  - include_tasks: 01-wayfire.yml
+
+  - include_tasks: 02-firefox.yml
+
+  - include_tasks: 03-dconf.yml

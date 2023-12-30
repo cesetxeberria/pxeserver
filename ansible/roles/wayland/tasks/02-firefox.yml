@@ -1,0 +1,70 @@
+#this task installs firefox with basque locale in debian or ubuntu. It also sets some policies and installs two addons
+---
+- name: Install Firefox on Debian with basque locale.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - firefox-esr
+    - firefox-esr-l10n-eu
+  when: ansible_distribution == 'Debian'
+
+#ubuntu uses snap to install firefox. so we download and install it manually
+- name: Download Firefox ESR. Ubuntu.
+  get_url:
+    url: https://download.mozilla.org/?product=firefox-esr-latest&os=linux64&lang=eu
+    dest: /opt/firefox_esr.tar.bz2
+    mode: '0644'
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Extract Firefox package. Ubuntu.
+  unarchive:
+    src: /opt/firefox_esr.tar.bz2
+    dest: /opt
+    remote_src: yes
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Create Firefox link in /usr/bin. Ubuntu.
+  file:
+    src: /opt/firefox/firefox
+    dest: /usr/bin/firefox-esr
+    state: link
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Remove downloaded file. Ubuntu.
+  file:
+    path: "/opt/firefox_esr.tar.bz2"
+    state: absent
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Add firefox-esr-desktop file. Ubuntu.
+  copy:
+    src: "{{ role_path }}/files/usr/share/applications/firefox-esr.desktop"
+    dest: "/usr/share/applications/firefox-esr.desktop"
+    mode: 0644
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Create policies folder for Firefox.
+  file:
+    path: "/etc/firefox/policies/"
+    state: directory
+
+- name: Set Firefox policies.
+  copy:
+    src: "{{ role_path }}/files/etc/firefox/policies/policies.json"
+    dest: "/etc/firefox/policies/policies.json"
+    mode: 0644
+
+- name: Create Ublock configuration folder.
+  file:
+    path: "/usr/lib/mozilla/managed-storage"
+    state: directory
+
+- name: Set Ublock configuration.
+  copy:
+    src: "{{ role_path }}/files/usr/lib/mozilla/managed-storage/uBlock0@raymondhill.net.json"
+    dest: "/usr/lib/mozilla/managed-storage/uBlock0@raymondhill.net.json"
+    mode: 0644
+
+#update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/firefox-esr 210
+#update-alternatives --install /usr/bin/gnome-www-browser gnome-www-browser /usr/bin/firefox-esr 210
