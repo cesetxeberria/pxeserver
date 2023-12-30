@@ -14,7 +14,6 @@
     - swayidle
     - swaylock
     - xdg-desktop-portal
-    - xdg-desktop-portal-gtk
     - alacritty
     - wlogout
     - wofi
@@ -61,14 +60,11 @@
     block: |
       mode=drun
 
-#- name: Set spanish keyboard.
-#  replace:
-#    dest: "/etc/skel/.config/wayfire.ini"
-#    regexp: '# [input]'
-#    replace: '[input]'
-
-#- name: Set spanish keyboard.
-#  replace:
-#    dest: "/etc/skel/.config/wayfire.ini"
-#    regexp: '# xkb_layout = us,fr'
-#    replace: 'xkb_layout = es'
+- name: Set spanish keyboard.
+  lineinfile:
+    path: "/etc/skel/.config/wayfire.ini"
+    insertafter: '# xkb_variant = dvorak,bepo'
+    line: '{{ item }}'
+  with_items:
+    -'[input]'
+    -'xkb_layout = es'
