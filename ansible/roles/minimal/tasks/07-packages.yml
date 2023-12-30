@@ -18,6 +18,7 @@
     - atool
     - zip
     - unzip
+    - bzip2
     - rar
     - p7zip-full
     - dosfstools

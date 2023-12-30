@@ -1,0 +1,8 @@
+{
+ "name": "uBlock0@raymondhill.net",
+ "description": "ignored",
+ "type": "storage",
+ "data": {
+    "adminSettings": "{\"whitelist\":[\"about-scheme\",\"bm.blocksi.net\",\"web2.alexiaedu.com\",\"chrome-extension-scheme\",\"chrome-scheme\",\"edge-scheme\",\"moz-extension-scheme\",\"opera-scheme\",\"vivaldi-scheme\",\"wyciwyg-scheme\"],\"userFilters\":\"www.youtube.com##.opened\\nwww.youtube.com##ytd-popup-container.ytd-app.style-scope\\n\\n! 2022-11-22 https://www.google.com\\nwww.google.com##.jw8mI\\nwww.google.com##.vUd4jb\\n\\n! 2022-11-22 https://www.misionalba.es\\nwww.misionalba.es##.divCookie\\n\"}"
+ }
+}

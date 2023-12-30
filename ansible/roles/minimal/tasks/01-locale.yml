@@ -13,14 +13,17 @@
   locale_gen:
     name: es_ES.UTF-8
     state: present
+  register: spanish
 
 - name: Add basque locale
   locale_gen:
     name: eu_ES.UTF-8
     state: present
+  register: basque
 
 - name: Dpkg-reconfigure locales.
   command: /usr/sbin/dpkg-reconfigure --frontend=noninteractive locales
+  when: (spanish is changed) or (basque is changed)
 
 - name: Update-locale. Locale is set to basque, with spanish as fallback.
   command: /usr/sbin/update-locale LANG=eu_ES.UTF-8 LANGUAGE=eu:es

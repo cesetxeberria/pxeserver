@@ -72,32 +72,3 @@
 #    dest: "/etc/skel/.config/wayfire.ini"
 #    regexp: '# xkb_layout = us,fr'
 #    replace: 'xkb_layout = es'
-
-- name: Check if gtk buttons are already configured.
-  stat:
-    path: "/etc/dconf/db/local.d/01-gtk-buttons"
-  register: gtkbuttons
-
-- name: Create dconf configuration directories.
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0755
-  with_items:
-    - "/etc/dconf/profile"
-    - "/etc/dconf/db/local.d"
-  when: gtkbuttons.stat.exists == False
-
-- name: Configure gtk buttons. We want minimize, maximize and close.
-  copy:
-    src: "{{ role_path }}/files/{{ item }}"
-    dest: "/{{ item }}"
-    mode: 0644
-  with_items:
-     - "etc/dconf/profile/user"
-     - "etc/dconf/db/local.d/01-gtk-buttons"
-  when: gtkbuttons.stat.exists == False
-
-- name: Update dconf
-  command: "dconf update"
-  when: gtkbuttons.stat.exists == False
