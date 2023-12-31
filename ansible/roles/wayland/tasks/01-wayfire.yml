@@ -66,5 +66,5 @@
     regexp: "{{ item.old }}"
     replace: "{{ item.new }}"
   with_items:
-     - { old: "# \\[input\\]", new: "\[input\]" }
+     - { old: "# \\[input\\]", new: "[input]" }
      - { old: "# xkb_layout = us,fr", new: "xkb_layout = es" }

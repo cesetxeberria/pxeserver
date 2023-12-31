@@ -1,5 +1,4 @@
 #Install tasksel and standard packages. If you want to know what's installed...
-#tasksel --new-install install standard --debconf-apt-progress "--logfile packages"
 ---
 - name: Install tasksel.
   apt:
@@ -8,6 +7,111 @@
 
 - name: Install standard tasksel packages.
   command: /usr/bin/tasksel --new-install install standard
+  when: ansible_distribution == 'Debian'
+
+#tasksel --new-install install standard --debconf-apt-progress "--logfile packages"
+- name: Install standard tasksel packages.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - linux-image-generic
+    - apparmor
+    - bash-completion
+    - bind9-dnsutils
+    - bind9-host
+    - bind9-libs
+    - bsdextrautils
+    - busybox-static
+    - command-not-found
+    - dosfstools
+    - ed
+    - file
+    - friendly-recovery
+    - ftp
+    - fuse3
+    - groff-base
+    - hdparm
+    - inetutils-telnet
+    - info
+    - install-info
+    - iptables
+    - iputils-tracepath
+    - irqbalance
+    - libcbor0.10
+    - libdrm-common
+    - libdrm2
+    - libedit2
+    - libfido2-1
+    - libgdbm6
+    - libgpm2
+    - libip6tc2
+    - libjansson4
+    - liblmdb0
+    - libmagic-mgc
+    - libmagic1
+    - libmaxminddb0
+    - libncurses6
+    - libnetfilter-conntrack3
+    - libnfnetlink0
+    - libnftables1
+    - libnftnl11
+    - libnghttp2-14
+    - libntfs-3g89
+    - libnuma1
+    - libparted2
+    - libpcap0.8
+    - libpci3
+    - libpipeline1
+    - libplymouth5
+    - libpsl5
+    - libuchardet0
+    - libunwind8
+    - libuv1
+    - libx11-6
+    - libx11-data
+    - libxau6
+    - libxcb1
+    - libxdmcp6
+    - libxext6
+    - libxmuu1
+    - lshw
+    - lsof
+    - man-db
+    - manpages
+    - mtr-tiny
+    - nano
+    - nftables
+    - ntfs-3g
+    - openssh-client
+    - parted
+    - pci.ids
+    - pciutils
+    - plymouth
+    - plymouth-theme-ubuntu-text
+    - powermgmt-base
+    - psmisc
+    - publicsuffix
+    - python3-commandnotfound
+    - python3-distro-info
+    - python3-distupgrade
+    - python3-gdbm
+    - python3-update-manager
+    - strace
+    - tcpdump
+    - telnet
+    - time
+    - tnftp
+    - ubuntu-release-upgrader-core
+    - ubuntu-standard
+    - ufw
+    - update-manager-core
+    - usb.ids
+    - usbutils
+    - wget
+    - xauth
+    - xz-utils
+  when: ansible_distribution == 'Ubuntu'
 
 #add PPA and autoupdate
 - name: Install software-properties-common.
