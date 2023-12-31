@@ -46,7 +46,7 @@
     - "/etc/skel/.config"
     - "/etc/skel/.config/wofi"
 
-- name: Copy wayland config file to skel.
+- name: Copy wayfire config file to skel.
   copy:
     src: "/usr/share/doc/wayfire/examples/wayfire.ini"
     dest: "/etc/skel/.config/wayfire.ini"
@@ -61,10 +61,10 @@
       mode=drun
 
 - name: Set spanish keyboard.
-  lineinfile:
-    path: "/etc/skel/.config/wayfire.ini"
-    insertafter: '# xkb_variant = dvorak,bepo'
-    line: '{{ item }}'
+  replace:
+    dest: "/etc/skel/.config/wayfire.ini"
+    regexp: "{{ item.old }}"
+    replace: "{{ item.new }}"
   with_items:
-    -'[input]'
-    -'xkb_layout = es'
+     - { old: "# \\[input\\]", new: "\[input\]" }
+     - { old: "# xkb_layout = us,fr", new: "xkb_layout = es" }
