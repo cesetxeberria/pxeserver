@@ -9,9 +9,6 @@ mount -t devpts none /dev/pts
 echo "installing locales"
 apt -y install language-pack-es
 echo "configuring locales"
-#sed -i.bak 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g' /etc/locale.gen
-locale-gen es_ES.UTF-8
-dpkg-reconfigure --frontend=noninteractive locales
 update-locale LANG=es_ES.UTF-8
 
 #configure spanish keyboard
@@ -20,7 +17,6 @@ sed -i.bak 's/XKBLAYOUT="us"/XKBLAYOUT="es"/g' /etc/default/keyboard
 dpkg-reconfigure --frontend=noninteractive keyboard-configuration
 sed -i.bak 's/CHARMAP="ISO-8859-15"/CHARMAP="UTF-8"/g' /etc/default/console-setup
 dpkg-reconfigure --frontend=noninteractive console-setup
-setupcon
 
 #configure localtime
 echo "configuring localtime"
@@ -32,25 +28,21 @@ dpkg-reconfigure --frontend=noninteractive tzdata
 echo "configuring systemd to sotre journal"
 sed -i.bak 's/#Storage=auto/Storage=none/g' /etc/systemd/journald.conf
 
-#install minimum packages. grub*- means grub won't be installed
+#install minimum packages.
 echo "installing packages"
-apt-get -y install linux-image-generic lilo live-boot tasksel haveged
-#apt-get install linux-image-generic grub-efi-amd64-signed live-boot tasksel
-#this is optional, install ubuntu standard system utilities with tasksel
-#tasksel --new-install install server
-#tasksel --new-install install ubuntu-desktop-minimal
+apt-get -y install linux-image-generic live-boot tasksel haveged
 tasksel --new-install install standard
 
 #fix dns
-apt -y purge systemd-resolved
-apt -y install dnsmasq
-sed -i.bak 's/dns=systemd-resolved/dns=dnsmasq/g' /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
+#apt -y purge systemd-resolved
+#apt -y install dnsmasq
+#sed -i.bak 's/dns=systemd-resolved/dns=dnsmasq/g' /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
 
 #clean apt temporary files
 echo "cleaning"
-apt-get clean
-apt-get autoclean
-apt-get autoremove
+apt clean
+apt autoclean
+apt autoremove
 rm -rf /var/cache/apt/archives/*.deb
 rm -rf /var/cache/apt/archives/partial/*
 rm -rf /var/cache/debconf/*-old
