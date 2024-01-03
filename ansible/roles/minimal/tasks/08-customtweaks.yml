@@ -42,6 +42,14 @@
     mode: 0644
   when: ansible_distribution == 'Ubuntu'
 
+#DNS aren't configured in our ubuntu live system, I don't know why. Disabling DNSStubListener fixes the problem.
+- name: Disable DNSStubListener.
+  replace:
+    dest: "/etc/skel/.config/wayfire.ini"
+    regexp: "#DNSStubListener=yes"
+    replace: "DNSStubListener=no"
+  when: ansible_distribution == 'Ubuntu'
+
 #DNS aren't configured in our ubuntu live system, I don't know why. Replacing systemd-resolved with dnsmasq fixes the problem.
 #- name: Uninstall systemd-resolved
 #  apt:
