@@ -45,7 +45,7 @@
 #DNS aren't configured in our ubuntu live system, I don't know why. Disabling DNSStubListener fixes the problem.
 - name: Disable DNSStubListener.
   replace:
-    dest: "/etc/skel/.config/wayfire.ini"
+    dest: "/etc/systemd/resolved.conf"
     regexp: "#DNSStubListener=yes"
     replace: "DNSStubListener=no"
   when: ansible_distribution == 'Ubuntu'
