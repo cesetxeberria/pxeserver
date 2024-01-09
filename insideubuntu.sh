@@ -34,9 +34,8 @@ apt-get -y install linux-image-generic live-boot tasksel haveged
 tasksel --new-install install standard
 
 #fix dns
-#apt -y purge systemd-resolved
-#apt -y install dnsmasq
-#sed -i.bak 's/dns=systemd-resolved/dns=dnsmasq/g' /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
+sed -i.bak 's/#DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
+rm /etc/resolv.conf
 
 #clean apt temporary files
 echo "cleaning"
