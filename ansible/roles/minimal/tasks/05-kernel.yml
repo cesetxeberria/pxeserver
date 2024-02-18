@@ -1,19 +1,5 @@
-#this task installs the kernel for debian or ubuntu and disables pcspeaker
+#this task installs the kernel for debian or ubuntu
 ---
-- name: Disable pcspeaker.
-  lineinfile:
-    create: yes
-    path: "/etc/modprobe.d/nobeep.conf"
-    line: "blacklist pcspkr"
-#now run 'depmod -a'?
-
-- name: Quiet pcspeaker.
-  replace:
-    dest: "/etc/inputrc"
-    regexp: "# set bell-style none"
-    replace: "set bell-style none"
-# set bell-style visible?
-
 - name: Install i386 kernel for Debian.
   apt: name=linux-image-686-pae
   when:

@@ -1,5 +1,19 @@
 #some custom tweaks
 ---
+- name: Disable pcspeaker.
+  lineinfile:
+    create: yes
+    path: "/etc/modprobe.d/nobeep.conf"
+    line: "blacklist pcspkr"
+#now run 'depmod -a'?
+
+- name: Quiet pcspeaker.
+  replace:
+    dest: "/etc/inputrc"
+    regexp: "# set bell-style none"
+    replace: "set bell-style none"
+# set bell-style visible?
+
 - name: Copy custom scripts
   copy:
     src: "{{ role_path }}/files/usr/local/bin/{{ item }}"
