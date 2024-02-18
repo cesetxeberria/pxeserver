@@ -1,4 +1,4 @@
-#this task installs the kernel for debian or ubuntu
+#this task installs the kernel for debian or ubuntu. It also installs grub and some non-free firmwares for Debian.
 ---
 - name: Install i386 kernel for Debian.
   apt: name=linux-image-686-pae
@@ -19,3 +19,21 @@
     packages:
     - linux-image-generic
   when: ansible_distribution == 'Ubuntu'
+
+- name: Install some non-free firwmares. Debian.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - firmware-linux
+    - firmware-linux-nonfree
+  when: ansible_distribution == 'Debian'
+
+- name: Install grub.
+  apt:
+    name: grub-pc
+
+- name: Istall grub EFI
+  apt:
+    name: grub-efi-amd64-signed
+  when: ansible_architecture == 'x86_64'

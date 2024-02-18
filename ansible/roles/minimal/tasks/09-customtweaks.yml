@@ -23,7 +23,6 @@
      - mute
      - unmute
      - wifion
-     - disableswap
 
 - name: Power button will power off the system.
   replace:
