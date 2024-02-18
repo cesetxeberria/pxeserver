@@ -63,23 +63,3 @@
     regexp: "#DNSStubListener=yes"
     replace: "DNSStubListener=no"
   when: ansible_distribution == 'Ubuntu'
-
-#DNS aren't configured in our ubuntu live system, I don't know why. Replacing systemd-resolved with dnsmasq fixes the problem.
-#- name: Uninstall systemd-resolved
-#  apt:
-#    name: systemd-resolved
-#    state: absent
-#  when: ansible_distribution == 'Ubuntu'
-
-#- name: Install dnsmasq
-#  apt:
-#    name: dnsmasq
-#  when: ansible_distribution == 'Ubuntu'
-
-#- name: Tell network-manager to use dnsmasq.
-#  lineinfile:
-#    dest: /usr/lib/NetworkManager/conf.d/10-dns-resolved.conf
-#    regexp: 'dns=systemd-resolved'
-#    line: 'dns=dnsmasq'
-#    backrefs: yes
-#  when: ansible_distribution == 'Ubuntu'
