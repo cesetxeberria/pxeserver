@@ -14,8 +14,6 @@
     - include_tasks: prepare.yml
     - include_role:
         name: minimal
-    - include_role:
-        name: wayland
     - include_tasks: exit.yml
 
 - hosts: desktops
