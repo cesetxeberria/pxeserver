@@ -12,11 +12,10 @@
     - ansible_distribution == 'Debian'
     - ansible_architecture == 'x86_64'
 
-- name: Install amd64 kernel for Ubuntu. We're installing lilo to avoid grub installation.
+- name: Install amd64 kernel for Ubuntu.
   apt:
     name: "{{ packages }}"
   vars:
     packages:
     - linux-image-generic
-#    - lilo
   when: ansible_distribution == 'Ubuntu'
