@@ -80,6 +80,7 @@
     - pv
     - squashfs-tools
     - parted
+    - dosfstools
 
 - name: Copy installers
   copy:

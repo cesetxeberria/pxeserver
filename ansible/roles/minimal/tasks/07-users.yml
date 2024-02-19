@@ -1,6 +1,12 @@
-#this task will create a user named "user" with password "user"
+#this task will set root's password in debian ("root") and create a user named "user" with password "user" in both ubuntu and debian
 #passwords are created with 'mkpasswd --method=sha-512'. you must install whois package to use it.
 ---
+    - name: Set root user's pasword in Debian.
+      user:
+         name: root
+         password: $6$XtIYIO4tP9tuuCSK$Gfn6H0peyqVJ.KsOaXBQNJpsoiOMgcB0afL/5s/5zN33CmIuDdFaPEvmkZze/I/6C53GLbQF3U29uu39W5T/H1
+      when: ansible_distribution == 'Debian'
+
     - name: Create a new user in Debian.
       user:
          name: user
