@@ -1,24 +1,6 @@
 #this task will configure basque locale, keyboard and timezone. will add some repositories and install basic packages
 #it will add some config tweaks, custom scripts and add a user with sudo privileges
 ---
-  - include_vars: "{{ ansible_distribution }}.yml"
+  - include_tasks: 01-packages.yml
 
-  - include_tasks: 01-locale.yml
-
-  - include_tasks: 02-keyboard.yml
-
-  - include_tasks: 03-timezone.yml
-
-  - include_tasks: 04-repositories.yml
-
-  - include_tasks: 05-kernel.yml
-
-  - include_tasks: 06-tasksel.yml
-
-  - include_tasks: 07-users.yml
-
-#  - include_tasks: 08-packages.yml
-
-#  - include_tasks: 09-customtweaks.yml
-
-  - include_tasks: 10-live.yml
+  - include_tasks: 02-customtweaks.yml

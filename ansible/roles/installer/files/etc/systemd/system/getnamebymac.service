@@ -1,0 +1,14 @@
+[Unit]
+Description=Set a hostname based on MAC address
+Wants=network-online.target
+After=network-online.target nss-lookup.target
+
+[Service]
+# if you have systemd >= 240, you probably want to use Type=exec instead
+Type=simple
+User=root
+ExecStart=/usr/local/bin/getnamebymac
+TimeoutStopSec=infinity
+
+[Install]
+WantedBy=multi-user.target

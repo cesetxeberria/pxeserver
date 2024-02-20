@@ -1,0 +1,11 @@
+#!/bin/bash
+ip=$(hostname -I)
+mac=$(ip -o link | grep "state UP" | awk '{print $17}')
+hostname=${mac//:}
+if grep -q $hostname /etc/hosts; then
+  echo "already in hosts file"
+  exit
+fi
+#Not in hosts file, so put it
+hostnamectl set-hostname $hostname
+echo "$ip $hostname" >> /etc/hosts

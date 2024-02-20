@@ -1,0 +1,56 @@
+#!/bin/bash
+if [ $# -eq 0 ]
+then
+echo "You have to choose a disk"
+lsblk | grep disk
+exit
+fi
+for n in /dev/$1* ; do umount $n ; done
+swapoff --all
+p=""
+if [[ $1 = nvme* || $1 = mmc* ]]
+then
+p="p"
+fi
+#create partition table
+dd if=/dev/zero of=/dev/$1 bs=10240 count=1
+parted -s /dev/$1 mklabel gpt \
+mkpart primary fat32 0% 100% \
+set 1 legacy_boot on
+sync
+#format partitions
+mkfs.vfat /dev/${1}${p}1 -F 32 -n BOOT
+#install syslinux
+dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/mbr/gptmbr.bin of=/dev/$1
+syslinux --install /dev/${1}${p}1
+#get syslinux files
+mkdir sda1
+mount /dev/${1}${p}1 sda1
+cp /root/syslinux_live.cfg sda1/syslinux.cfg
+cp /boot/ipxe.lkrn sda1/
+cp /usr/lib/syslinux/modules/bios/libutil.c32 sda1/
+cp /usr/lib/syslinux/modules/bios/menu.c32 sda1/
+cp /usr/lib/syslinux/modules/bios/ldlinux.c32 sda1/
+#uefi
+mkdir -p sda1/EFI/boot
+cp /root/syslinux_live.cfg sda1/EFI/boot/syslinux.cfg
+cp /usr/lib/SYSLINUX.EFI/efi64/syslinux.efi sda1/EFI/boot/bootx64.efi
+cp /usr/lib/syslinux/modules/efi64/libutil.c32 sda1/EFI/boot/
+cp /usr/lib/syslinux/modules/efi64/menu.c32 sda1/EFI/boot/
+cp /usr/lib/syslinux/modules/efi64/ldlinux.e64 sda1/EFI/boot/
+#install system
+mkdir sda1/live
+echo "copying the image..."
+pv /lib/live/mount/medium/live/filesystem.squashfs > sda1/live/filesystem.squashfs
+#get kernel and initrd
+echo "copying kernel and initrd"
+if test -f "/initrd.img"; then
+cp /initrd.img sda1/
+cp /vmlinuz sda1/
+fi
+if test -f "/boot/initrd.img"; then
+cp /boot/initrd.img sda1/
+cp /boot/vmlinuz sda1/
+fi
+umount sda1
+rmdir sda1
