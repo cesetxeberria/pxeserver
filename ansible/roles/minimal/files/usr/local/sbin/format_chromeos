@@ -1,9 +1,0 @@
-#!/bin/bash
-if [ $# -eq 0 ]
-  then
-    echo "You have to choose a disk"
-    lsblk | grep disk
-    exit
-fi
-wget "https://dl.google.com/chromeos-flex/images/latest.bin.zip"
-gunzip -c latest.bin.zip | pv | dd of=/dev/$1
