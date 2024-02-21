@@ -1,0 +1,10 @@
+[Match]
+Name=en*
+
+[Network]
+DHCP=ipv4
+LinkLocalAddressing=ipv6
+
+[DHCP]
+RouteMetric=100
+UseMTU=true
