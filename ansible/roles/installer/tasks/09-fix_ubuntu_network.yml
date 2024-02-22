@@ -1,0 +1,37 @@
+#fix ubuntu's network configuration. Install network manager and configure netplan to use it.
+---
+- name: Install network-manager.
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+  vars:
+    packages:
+    - network-manager
+
+- name: Let NetworkManager manage all devices on this system. Ubuntu.
+  copy:
+    src: "{{ role_path }}/files/etc/netplan/001-network-manager-all.yaml"
+    dest: "/etc/netplan/01-network-manager-all.yaml"
+    mode: 0644
+
+#this fixes live systems but fails on installed systems
+#- name: Configure ubuntu network with systemd
+#  copy:
+#    src: "{{ role_path }}/files/etc/systemd/network/10-eth0.network"
+#    dest: "/etc/systemd/network/10-eth0.network"
+#    mode: 0600
+
+#this fixes installed systems but fails on live systems
+#- name: Configure ubuntu network with netplan
+#  copy:
+#    src: "{{ role_path }}/files/etc/netplan/001-default.yaml"
+#    dest: "/etc/netplan/001-default.yaml"
+#    mode: 0600
+
+#this fixes live and installed systems but I prefer to use network-manager
+#DNS aren't configured in our ubuntu live system, I don't know why. Disabling DNSStubListener fixes the problem.
+#- name: Disable DNSStubListener.
+#  replace:
+#    dest: "/etc/systemd/resolved.conf"
+#    regexp: "#DNSStubListener=yes"
+#    replace: "DNSStubListener=no"
