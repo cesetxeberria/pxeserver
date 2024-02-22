@@ -47,18 +47,3 @@
     insertafter: 'GRUB_TIMEOUT=2'
     line: 'GRUB_RECORDFAIL_TIMEOUT=2'
   when: ansible_distribution == 'Ubuntu'
-
-- name: Let NetworkManager manage all devices on this system. Ubuntu.
-  copy:
-    src: "{{ role_path }}/files/etc/netplan/01-network-manager-all.yaml"
-    dest: "/etc/netplan/01-network-manager-all.yaml"
-    mode: 0644
-  when: ansible_distribution == 'Ubuntu'
-
-#DNS aren't configured in our ubuntu live system, I don't know why. Disabling DNSStubListener fixes the problem.
-- name: Disable DNSStubListener.
-  replace:
-    dest: "/etc/systemd/resolved.conf"
-    regexp: "#DNSStubListener=yes"
-    replace: "DNSStubListener=no"
-  when: ansible_distribution == 'Ubuntu'
