@@ -37,3 +37,10 @@
   apt:
     name: grub-efi-amd64-signed
   when: ansible_architecture == 'x86_64'
+
+- name: Fix ubuntu's 30 second bug in grub.
+  lineinfile:
+    path: /etc/default/grub
+    insertafter: '^(.*)GRUB_TIMEOUT=(.*)$'
+    line: 'GRUB_RECORDFAIL_TIMEOUT=2'
+  when: ansible_distribution == 'Ubuntu'
