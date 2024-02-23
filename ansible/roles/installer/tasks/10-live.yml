@@ -29,21 +29,6 @@
     - "/etc/systemd/system/ifup@.service.d/override.conf"
   when: ansible_distribution == 'Debian'
 
-#- name: Configure ubuntu network
-#  copy:
-#    src: "{{ role_path }}/files/etc/systemd/network/10-eth0.network"
-#    dest: "/etc/systemd/network/10-eth0.network"
-#    mode: 0600
-#  when: ansible_distribution == 'Ubuntu'
-
-#DNS aren't configured in our ubuntu live system, I don't know why. Disabling DNSStubListener fixes the problem.
-#- name: Disable DNSStubListener.
-#  replace:
-#    dest: "/etc/systemd/resolved.conf"
-#    regexp: "#DNSStubListener=yes"
-#    replace: "DNSStubListener=no"
-#  when: ansible_distribution == 'Ubuntu'
-
 - name: Dont save systemd journal. This is a live system we dont need it.
   replace:
     dest: /etc/systemd/journald.conf
