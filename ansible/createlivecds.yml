@@ -14,6 +14,8 @@
     - include_tasks: prepare.yml
     - include_role:
         name: installer
+#    - include_role:
+#        name: minimal
     - include_tasks: exit.yml
 
 - hosts: desktops
@@ -22,8 +24,6 @@
     ansible_host: "{{ inventory_hostname }}/live/squashfs-root"
   tasks:
     - include_tasks: prepare.yml
-    - include_role:
-        name: minimal
     - include_role:
         name: desktop
     - include_tasks: exit.yml

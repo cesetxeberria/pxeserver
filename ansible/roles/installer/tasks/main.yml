@@ -1,5 +1,7 @@
-#this task will configure basque locale, keyboard and timezone. will add some repositories and install basic packages
-#it will add some config tweaks, custom scripts and add a user with sudo privileges
+#this task will replicate the debian installer steps
+#configure locale, keyboard and timezone
+#add users with sudo privileges
+#install kernel, add some repositories and install basic packages (tasksel)
 ---
   - include_vars: "{{ ansible_distribution }}.yml"
 
@@ -7,17 +9,17 @@
 
   - include_tasks: 02-keyboard.yml
 
-  - include_tasks: 03-timezone.yml
-
-  - include_tasks: 04-repositories.yml
-
-  - include_tasks: 05-kernel.yml
-
-  - include_tasks: 06-tasksel.yml
-
-  - include_tasks: 07-users.yml
-
-  - include_tasks: 08-live.yml
-
-  - include_tasks: 09-fix_ubuntu_network.yml
+  - include_tasks: 03-fix_ubuntu_network.yml
     when: ansible_distribution == 'Ubuntu'
+
+  - include_tasks: 04-users.yml
+
+  - include_tasks: 05-timezone.yml
+
+  - include_tasks: 06-kernel.yml
+
+  - include_tasks: 07-repositories.yml
+
+  - include_tasks: 08-tasksel.yml
+
+  - include_tasks: 09-live.yml

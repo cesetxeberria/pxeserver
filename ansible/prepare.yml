@@ -21,6 +21,20 @@
     fstype: devpts
     state: mounted
 
+#debootstrap gets network configuration from the server but when modifying a previous installation there is no config file
+- name: Check if resolv.conf exists.
+  stat:
+    path: "/etc/resolv.conf"
+  register: resolvconf
+
+- name: Configure resolv.conf.
+  blockinfile:
+    dest: "/etc/resolv.conf"
+    create: "true"
+    block: |
+     nameserver 8.8.8.8
+  when: resolvconf.stat.exists == False
+
 - name: inside chroot ansible gets server's architecture, so we fix it
   set_fact:
     ansible_architecture: i386

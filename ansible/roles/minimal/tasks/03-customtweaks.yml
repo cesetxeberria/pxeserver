@@ -40,3 +40,14 @@
      - { old: '^(.*)GRUB_TIMEOUT_STYLE=(.*)$', new: 'GRUB_TIMEOUT_STYLE="menu"' }
      - { old: '^(.*)GRUB_CMDLINE_LINUX_DEFAULT=(.*)$', new: 'GRUB_CMDLINE_LINUX_DEFAULT=""' }
      - { old: '^(.*)GRUB_DISABLE_OS_PROBER=(.*)$', new: 'GRUB_DISABLE_OS_PROBER="true"' }
+
+#ubuntu original
+#GRUB_TIMEOUT_STYLE=hidden
+#GRUB_TIMEOUT=0
+#GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+##GRUB_DISABLE_OS_PROBER=false
+
+#debian original
+#GRUB_TIMEOUT=5
+#GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+##GRUB_DISABLE_OS_PROBER=false
