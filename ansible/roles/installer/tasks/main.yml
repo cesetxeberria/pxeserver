@@ -22,4 +22,6 @@
 
   - include_tasks: 08-tasksel.yml
 
-  - include_tasks: 09-live.yml
+  - include_tasks: 09-grub.yml
+
+  - include_tasks: 10-live.yml

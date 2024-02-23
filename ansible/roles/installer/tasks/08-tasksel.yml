@@ -1,16 +1,24 @@
 #Install tasksel and standard packages. If you want to know what's installed...
+#tasksel --new-install install standard --debconf-apt-progress "--logfile packages"
 ---
+- name: Install some non-free firwmares. Debian.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - firmware-linux
+    - firmware-linux-nonfree
+  when: ansible_distribution == 'Debian'
+
 - name: Install tasksel.
   apt:
     name: tasksel
     install_recommends: no
-#  when: ansible_distribution == 'Debian'
 
 #- name: Install standard tasksel packages.
 #  command: /usr/bin/tasksel --new-install install standard
 #  when: ansible_distribution == 'Debian'
 
-#tasksel --new-install install standard --debconf-apt-progress "--logfile packages"
 - name: Install standard tasksel packages. Ubuntu.
   apt:
     name: "{{ packages }}"
