@@ -8,13 +8,13 @@
     - "deb"
     - "deb-src"
 
-- name: add backports repo.
-  apt_repository:
-    repo: "{{ item  }} {{ repo }} {{ ansible_distribution_release }}-backports {{ compo }}"
-    state: present
-  with_items:
-    - "deb"
-    - "deb-src"
+#- name: add backports repo.
+#  apt_repository:
+#    repo: "{{ item  }} {{ repo }} {{ ansible_distribution_release }}-backports {{ compo }}"
+#    state: present
+#  with_items:
+#    - "deb"
+#    - "deb-src"
 
 - name: add Debian security repo.
   apt_repository:
