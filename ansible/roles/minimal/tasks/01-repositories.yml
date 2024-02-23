@@ -1,0 +1,52 @@
+#this task configures ubuntu or debian repositories
+---
+- name: add updates repo.
+  apt_repository:
+    repo: "{{ item  }} {{ repo }} {{ ansible_distribution_release }}-updates {{ compo }}"
+    state: present
+  with_items:
+    - "deb"
+    - "deb-src"
+
+- name: add backports repo.
+  apt_repository:
+    repo: "{{ item  }} {{ repo }} {{ ansible_distribution_release }}-backports {{ compo }}"
+    state: present
+  with_items:
+    - "deb"
+    - "deb-src"
+
+- name: add Debian security repo.
+  apt_repository:
+    repo: "{{ item }} http://security.debian.org/debian-security {{ ansible_distribution_release }}-security {{ compo }}"
+    state: present
+  with_items:
+    - "deb"
+    - "deb-src"
+  when: ansible_distribution == 'Debian'
+
+- name: add Ubuntu security repo.
+  apt_repository:
+    repo: "{{ item }} http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security {{ compo }}"
+    state: present
+  with_items:
+    - "deb"
+    - "deb-src"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Remove original sources.list.
+  file:
+    path="/etc/apt/sources.list"
+    state=absent
+
+- name: Add standard repo.
+  apt_repository:
+    repo: "{{ item  }} {{ repo }} {{ ansible_distribution_release }} {{ compo }}"
+    state: present
+  with_items:
+    - "deb"
+    - "deb-src"
+
+- name: "apt-get update"
+  apt:
+    update_cache: yes
