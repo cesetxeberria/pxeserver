@@ -4,6 +4,7 @@
   apt:
     name: tasksel
     install_recommends: no
+#  when: ansible_distribution == 'Debian'
 
 #- name: Install standard tasksel packages.
 #  command: /usr/bin/tasksel --new-install install standard
