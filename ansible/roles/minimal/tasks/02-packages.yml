@@ -4,6 +4,15 @@
   apt:
     upgrade: dist
 
+- name: Install some non-free firwmares. Debian.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - firmware-linux
+    - firmware-linux-nonfree
+  when: ansible_distribution == 'Debian'
+
 - name: Install my custom pacakges.
   apt:
     name: "{{ packages }}"
