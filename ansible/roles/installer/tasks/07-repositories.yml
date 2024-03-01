@@ -27,7 +27,7 @@
   when: ansible_distribution == 'Ubuntu'
 
 - name: Remove original sources.list.
-  file: 
+  file:
     path="/etc/apt/sources.list"
     state=absent
 
