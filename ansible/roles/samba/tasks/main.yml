@@ -14,7 +14,12 @@
 #     - libpam-winbind
 #     - libnss-winbind
 
-- name: Configure domain
+- name: Remove original samba configuration.
+  file:
+    path="/etc/samba/smb.conf"
+    state=absent
+
+- name: Configure domain.
   ansible.builtin.command:
     argv:
       - /usr/bin/samba-tool
@@ -27,7 +32,7 @@
       - --domain=PROBA
       - --adminpass=Hauprobada2
 
-- name: Copy kerberos configuration
+- name: Copy kerberos configuration.
   copy:
     src: "/var/lib/samba/private/krb5.conf"
     dest: "/etc/krb5.conf"
