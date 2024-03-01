@@ -1,0 +1,22 @@
+#this task will set up Samba as an Active Directory Domain Controller
+#https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller#Provisioning_Samba_AD_in_Non-interactive_Mode
+---
+- name: Install dependencies.
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+     - samba
+
+- name: Configure domain
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/samba-tool
+      - domain
+      - provision
+      - --server-role=dc
+#      - --use-rfc2307
+      - --dns-backend=SAMBA_INTERNAL
+      - --realm=SAMDOM.EXAMPLE.COM
+      - --domain=SAMDOM
+      - --adminpass=Passw0rd
