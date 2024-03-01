@@ -43,3 +43,22 @@
     src: "/var/lib/samba/private/krb5.conf"
     dest: "/etc/krb5.conf"
     mode: 0600
+
+- name: Remove original resolv.conf.
+  file:
+    path="/etc/resolv.conf"
+    state=absent
+
+- name: Create new resolv.conf.
+  blockinfile:
+    dest: "/etc/resolv.conf"
+    create: "true"
+    block: |
+     nameserver 127.0.0.1
+
+- name: Ensure resolv.conf is immutable.
+  file:
+    path: /etc/resolv.conf
+    attr: +i
+  register: resolv_file
+  changed_when: "'i' not in resolv_file.diff.before.attributes"
