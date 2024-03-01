@@ -7,6 +7,12 @@
   vars:
     packages:
      - samba
+#     - krb5-user
+#     - krb5-config
+#     - winbind
+#     - smbclient
+#     - libpam-winbind
+#     - libnss-winbind
 
 - name: Configure domain
   ansible.builtin.command:
@@ -17,6 +23,12 @@
       - --server-role=dc
 #      - --use-rfc2307
       - --dns-backend=SAMBA_INTERNAL
-      - --realm=SAMDOM.EXAMPLE.COM
-      - --domain=SAMDOM
-      - --adminpass=Passw0rd
+      - --realm=PROBA.ORG
+      - --domain=PROBA
+      - --adminpass=Hauprobada2
+
+- name: Copy kerberos configuration
+  copy:
+    src: "/var/lib/samba/private/krb5.conf"
+    dest: "/etc/krb5.conf"
+    mode: 0600
