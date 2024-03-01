@@ -1,0 +1,6 @@
+#this is a simple playbook to execute the pxeserver role in localhost
+---
+- hosts: localhost
+  connection: local
+  roles:
+    - pxeserver
