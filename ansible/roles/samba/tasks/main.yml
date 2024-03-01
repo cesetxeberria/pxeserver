@@ -54,6 +54,8 @@
     dest: "/etc/resolv.conf"
     create: "true"
     block: |
+     domain proba.org
+     search proba.org
      nameserver 127.0.0.1
 
 - name: Ensure resolv.conf is immutable.
