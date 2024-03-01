@@ -1,6 +1,11 @@
 #this task will set up Samba as an Active Directory Domain Controller
 #https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller#Provisioning_Samba_AD_in_Non-interactive_Mode
 ---
+- name: Set hostname
+  hostname:
+    name: DC1
+
+#https://stackoverflow.com/questions/51784208/stop-network-manager-from-updating-resolv-conf
 - name: Install dependencies.
   apt:
     name: "{{ packages }}"
