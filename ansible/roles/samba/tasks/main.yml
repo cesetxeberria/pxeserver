@@ -65,21 +65,25 @@
   register: resolv_file
   changed_when: "'i' not in resolv_file.diff.before.attributes"
 
-- name: Stop services.
+- name: Stop smbd service.
   service:
-    name: "{{ services }}"
+    name: smbd
     state: stopped
-  vars:
-    services:
-    - smbd
-    - nmbd
-    - winbind
-    - samba
 
-- name: Start samba service.
+- name: Stop nmbd service.
+  service:
+    name: nmbd
+    state: stopped
+
+- name: Stop winbind service.
+  service:
+    name: winbind
+    state: stopped
+
+- name: Restart samba service.
   service:
     name: samba
-    state: started
+    state: restarted
 
 - name: Create user.
   ansible.builtin.command:
