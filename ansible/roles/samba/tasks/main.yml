@@ -80,3 +80,12 @@
   service:
     name: samba
     state: started
+
+- name: Create user.
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/samba-tool
+      - user
+      - add
+      - sambauser
+      - Password2
