@@ -6,7 +6,6 @@
   hostname:
     name: DC1
 
-#https://stackoverflow.com/questions/51784208/stop-network-manager-from-updating-resolv-conf
 - name: Install dependencies.
   apt:
     name: "{{ packages }}"
@@ -34,9 +33,9 @@
       - --server-role=dc
 #      - --use-rfc2307
       - --dns-backend=SAMBA_INTERNAL
-      - --realm=PROBA.ORG
-      - --domain=PROBA
-      - --adminpass=Hauprobada2
+      - --realm=MYDOMAIN.ORG
+      - --domain=MYDOMAIN
+      - --adminpass=DomainPass2
 
 - name: Copy kerberos configuration.
   copy:
@@ -54,8 +53,8 @@
     dest: "/etc/resolv.conf"
     create: "true"
     block: |
-     domain proba.org
-     search proba.org
+     domain mydomain.org
+     search mydomain.org
      nameserver 127.0.0.1
 
 - name: Ensure resolv.conf is immutable.
@@ -92,4 +91,13 @@
       - user
       - add
       - sambauser
+      - Password2
+
+- name: Create functional ldap user.
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/samba-tool
+      - user
+      - add
+      - ldap
       - Password2
