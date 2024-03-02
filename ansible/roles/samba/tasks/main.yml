@@ -64,3 +64,19 @@
     attr: +i
   register: resolv_file
   changed_when: "'i' not in resolv_file.diff.before.attributes"
+
+- name: Stop services.
+  service:
+    name: "{{ services }}"
+    state: stopped
+  vars:
+    services:
+    - smbd
+    - nmbd
+    - winbind
+    - samba
+
+- name: Start samba service.
+  service:
+    name: samba
+    state: started
