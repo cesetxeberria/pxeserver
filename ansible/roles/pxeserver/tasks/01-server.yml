@@ -27,11 +27,23 @@
     block: |
      {{ tftp_root }}       *(ro,async,no_subtree_check)
 
-- name: Restart services.
+- name: Restart dnsmasq.
   service:
-    name: "{{ services }}"
+    name: dnsmasq
     state: restarted
-  vars:
-    services:
-    - dnsmasq
-    - nfs-kernel-server
+
+- name: Restart nfs-kernel-server.
+  service:
+    name: nfs-kernel-server
+    state: restarted
+
+#this module does not currently support using glob patterns
+#this is why I restart each service at once
+#- name: Restart services.
+#  service:
+#    name: "{{ services }}"
+#    state: restarted
+#  vars:
+#    services:
+#    - dnsmasq
+#    - nfs-kernel-server
