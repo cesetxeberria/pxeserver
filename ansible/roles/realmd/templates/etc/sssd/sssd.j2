@@ -1,0 +1,21 @@
+[sssd]
+domains = {{ domain_name }}
+config_file_version = 2
+#services = nss, pam
+
+[domain/{{ domain_name }}]
+id_provider = ldap
+ldap_uri = {{ ldap_uri }}
+ldap_search_base = {{ search_base }}
+ldap_default_bind_dn = {{ bind_dn }}
+ldap_default_authtok_type = obfuscated_password
+ldap_default_authtok = {{ bind_passwd }}
+ldap_tls_reqcert = allow
+ldap_id_mapping = True
+ldap_schema = ad
+ldap_referrals = False
+cache_credentials = True
+default_shell = /bin/bash
+use_fully_qualified_names = False
+fallback_homedir = /home/%u@%d
+

@@ -1,0 +1,6 @@
+---
+domain_name: "mydomain"
+ldap_uri: "ldaps://dc1.mydomain.org"
+search_base: "dc=mydomain,dc=org"
+bind_dn: "cn=ldap,cn=Users,dc=mydomain,dc=org"
+bind_passwd: "AAAQALR32Nf7tUznzcK4OUsAysb6ACchQ6fJs2izB2Y7TvDVRhc2Ghcwm+hVr05DkjQWwRYQGvf33H5TKr6NzBE7jHUAAQID"

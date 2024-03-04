@@ -1,0 +1,37 @@
+#connect the client to AD using ldap backend
+---
+  - name: Install LDAP dependencies.
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+       - realmd
+       - libpam-mount
+       - cifs-utils
+       - sssd-tools
+       - sssd
+       - libnss-sss
+       - libpam-sss
+       - adcli
+       - packagekit
+       - nss-updatedb
+
+#sss_obfuscate -d <domain_name>
+  - name: Configure sssd using a template.
+    template:
+      src: "{{ role_path }}/templates/etc/sssd/sssd.j2"
+      dest: "/etc/sssd/sssd.conf"
+      mode: 0600
+    register: sssd
+
+  - name: Create home dir at login.
+    replace:
+      dest: /usr/share/pam-configs/mkhomedir
+      regexp: 'Default: no'
+      replace: 'Default: yes'
+    register: mkhomedir
+
+  - name: Update pam configuration.
+    command: pam-auth-update --package --enable mkhomedir
+    args:
+    when: (sssd.changed  == true) or (mkhomedir.changed == true)
