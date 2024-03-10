@@ -26,6 +26,13 @@
     mode: 0644
     remote_src: true
 
+#- name: Configure debian network with systemd
+#  copy:
+#    src: "/lib/systemd/network/80-ethernet.network.example"
+#    dest: "/etc/systemd/network/80-ethernet.network"
+#    mode: 0644
+#    remote_src: true
+
 #3rd solution
 #this fixes installed systems but fails on live systems
 #- name: Configure ubuntu network with netplan
