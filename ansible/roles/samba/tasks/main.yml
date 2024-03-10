@@ -6,3 +6,9 @@
 #  - include_vars: "{{ ansible_distribution }}.yml"
 
   - include_tasks: 01-packages.yml
+
+  - include_tasks: 02-network.yml
+
+  - include_tasks: 03-domain.yml
+
+  - include_tasks: 04-users.yml
