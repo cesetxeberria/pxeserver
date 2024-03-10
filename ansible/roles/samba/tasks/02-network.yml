@@ -4,6 +4,11 @@
   hostname:
     name: DC1
 
+- name: Ensure resolv.conf is not immutable.
+  file:
+    path: /etc/resolv.conf
+    attr: -i
+
 - name: Remove original resolv.conf.
   file:
     path="/etc/resolv.conf"
