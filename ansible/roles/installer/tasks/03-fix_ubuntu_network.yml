@@ -3,27 +3,28 @@
 ---
 #1st solution
 #Install network manager and configure netplan to use it. This fixes everything.
-- name: Install network-manager.
-  apt:
-    name: "{{ packages }}"
-    install_recommends: no
-  vars:
-    packages:
-    - network-manager
+#- name: Install network-manager.
+#  apt:
+#    name: "{{ packages }}"
+#    install_recommends: no
+#  vars:
+#    packages:
+#    - network-manager
 
-- name: Let NetworkManager manage all devices on this system. Ubuntu.
-  copy:
-    src: "{{ role_path }}/files/etc/netplan/001-network-manager-all.yaml"
-    dest: "/etc/netplan/01-network-manager-all.yaml"
-    mode: 0644
+#- name: Let NetworkManager manage all devices on this system. Ubuntu.
+#  copy:
+#    src: "{{ role_path }}/files/etc/netplan/001-network-manager-all.yaml"
+#    dest: "/etc/netplan/01-network-manager-all.yaml"
+#    mode: 0644
 
 #2nd solution
 #this fixes live systems but fails on installed systems
-#- name: Configure ubuntu network with systemd
-#  copy:
-#    src: "{{ role_path }}/files/etc/systemd/network/10-eth0.network"
-#    dest: "/etc/systemd/network/10-eth0.network"
-#    mode: 0600
+- name: Configure ubuntu network with systemd
+  copy:
+    src: "/lib/systemd/network/89-ethernet.network.example"
+    dest: "/etc/systemd/network/89-ethernet.network"
+    mode: 0600
+    remote_src: true
 
 #3rd solution
 #this fixes installed systems but fails on live systems
