@@ -23,7 +23,7 @@
   copy:
     src: "/lib/systemd/network/89-ethernet.network.example"
     dest: "/etc/systemd/network/89-ethernet.network"
-    mode: 0600
+    mode: 0644
     remote_src: true
 
 #3rd solution
