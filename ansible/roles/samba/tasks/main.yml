@@ -1,4 +1,7 @@
-#this task will configure a samba server
+#this task will set up Samba as an Active Directory Domain Controller
+#https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller#Provisioning_Samba_AD_in_Non-interactive_Mode
+#https://samba.tranquil.it/doc/en/samba_config_server/debian/server_install_samba_debian.html
+
 ---
 #  - include_vars: "{{ ansible_distribution }}.yml"
 

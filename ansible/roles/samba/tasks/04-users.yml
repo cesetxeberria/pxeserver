@@ -1,0 +1,19 @@
+#This task adds two users to the domain
+---
+- name: Create user.
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/samba-tool
+      - user
+      - add
+      - sambauser
+      - Password2
+
+- name: Create functional ldap user.
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/samba-tool
+      - user
+      - add
+      - ldap
+      - Password2
