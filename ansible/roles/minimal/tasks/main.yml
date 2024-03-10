@@ -8,3 +8,5 @@
   - include_tasks: 02-packages.yml
 
   - include_tasks: 03-customtweaks.yml
+
+  - include_tasks: 04-networkmanager.yml

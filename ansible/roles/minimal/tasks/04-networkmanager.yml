@@ -1,0 +1,13 @@
+#Install network manager and configure netplan to use it in ubuntu.
+---
+- name: Install network-manager.
+  apt:
+    name: "network-manager"
+    install_recommends: no
+
+- name: Let NetworkManager manage all devices on this system. Ubuntu.
+  copy:
+    src: "{{ role_path }}/files/etc/netplan/001-network-manager-all.yaml"
+    dest: "/etc/netplan/01-network-manager-all.yaml"
+    mode: 0644
+  when: ansible_distribution == 'Ubuntu'

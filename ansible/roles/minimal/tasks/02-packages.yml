@@ -32,7 +32,6 @@
     - p7zip-full
     - dosfstools
     - ipxe
-    - network-manager
     - sudo
     - inxi
     - ntfs-3g

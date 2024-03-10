@@ -19,6 +19,8 @@
 
 #2nd solution
 #this fixes live systems but fails on installed systems
+#so we install dhclient to configure network on installed systems
+#it's also possible to enable systemd-networkd service
 - name: Configure ubuntu network with systemd
   copy:
     src: "/lib/systemd/network/89-ethernet.network.example"
@@ -26,12 +28,10 @@
     mode: 0644
     remote_src: true
 
-#- name: Configure debian network with systemd
-#  copy:
-#    src: "/lib/systemd/network/80-ethernet.network.example"
-#    dest: "/etc/systemd/network/80-ethernet.network"
-#    mode: 0644
-#    remote_src: true
+- name: Install isc-dhcp-client.
+  apt:
+    name: "isc-dhcp-client"
+    install_recommends: no
 
 #3rd solution
 #this fixes installed systems but fails on live systems
