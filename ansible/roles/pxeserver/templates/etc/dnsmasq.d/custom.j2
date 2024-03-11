@@ -1,5 +1,6 @@
 #custom dnsmaq configuration file
 interface={{ ansible_default_ipv4.interface }}
+port=0
 bind-dynamic
 dhcp-range={{ ansible_default_ipv4.network }},proxy
 enable-tftp
