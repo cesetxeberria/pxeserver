@@ -15,6 +15,7 @@
        - adcli
        - packagekit
        - nss-updatedb
+       - krb5-user
        - krb5-pkinit
 
 #sss_obfuscate -d <domain_name>
