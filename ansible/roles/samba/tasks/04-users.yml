@@ -17,3 +17,11 @@
       - add
       - ldap
       - Password2
+
+- name: Export keytab.
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/samba-tool
+      - domain
+      - exportkeytab
+      - /root/my.keytab
