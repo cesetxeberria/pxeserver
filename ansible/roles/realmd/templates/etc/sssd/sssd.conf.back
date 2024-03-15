@@ -15,3 +15,4 @@ ad_domain = mydomain.org
 use_fully_qualified_names = True
 ldap_id_mapping = True
 access_provider = ad
+ad_gpo_access_control = permissive
