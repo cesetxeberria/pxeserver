@@ -5,10 +5,10 @@ services = nss, pam
 
 [domain/mydomain.org]
 default_shell = /bin/bash
-krb5_store_password_if_offline = True
-cache_credentials = True
+#krb5_store_password_if_offline = True
+3cache_credentials = True
 krb5_realm = MYDOMAIN.ORG
-realmd_tags = manages-system joined-with-adcli
+#realmd_tags = manages-system joined-with-adcli
 id_provider = ad
 fallback_homedir = /home/%u@%d
 ad_domain = mydomain.org
@@ -16,3 +16,5 @@ use_fully_qualified_names = True
 ldap_id_mapping = True
 access_provider = ad
 ad_gpo_access_control = permissive
+ad_gpo_ignore_unreadable = True
+debug_level=9

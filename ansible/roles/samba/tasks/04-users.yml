@@ -15,8 +15,17 @@
       - /usr/bin/samba-tool
       - user
       - add
-      - ldap
+      - ldap-bind
       - Password2
+
+- name: Add spn.
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/samba-tool
+      - spn
+      - add
+      - LDAP/mydomain.org
+      - ldap-bind
 
 - name: Export keytab.
   ansible.builtin.command:
@@ -25,3 +34,4 @@
       - domain
       - exportkeytab
       - /root/my.keytab
+      - --principal=ldap-bind
