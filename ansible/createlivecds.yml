@@ -14,8 +14,10 @@
     - include_tasks: prepare.yml
     - include_role:
         name: installer
-#    - include_role:
-#        name: minimal
+    - include_role:
+        name: minimal
+    - include_role:
+        name: realmd
     - include_tasks: exit.yml
 
 - hosts: desktops

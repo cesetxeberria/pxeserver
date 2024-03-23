@@ -16,39 +16,30 @@
        - packagekit
        - nss-updatedb
 
-  - name: Check if there is a keytab.
-    stat:
-      path: "/root/ldap.keytab"
-    register: keytab
-
-  - name: Zoom karpeta sortu.
-    file:
-      path: /root/zoom
-      state: directory
-
   #sss_obfuscate -d <domain_name>
-  - name: Configure sssd with LDAP.
-    template:
-      src: "{{ role_path }}/templates/etc/sssd/sssd_ldap.j2"
-      dest: "/etc/sssd/sssd.conf"
-      mode: 0600
-    register: sssd
-    when: keytab.stat.exists == False
-
-  - name: Configure sssd with kerberos.
-    template:
-      src: "{{ role_path }}/templates/etc/sssd/sssd_ad.j2"
-      dest: "/etc/sssd/sssd.conf"
-      mode: 0600
-    register: sssd
-    when: keytab.stat.exists == True
-
   - name: Copy ldap keytab.
     copy:
       src: "/root/ldap.keytab"
       dest: "/etc/krb5.keytab"
       mode: 0600
-    when: keytab.stat.exists == True
+    register: keytab
+    ignore_errors: true
+
+  - name: If there is no keytab, configure sssd with LDAP.
+    template:
+      src: "{{ role_path }}/templates/etc/sssd/sssd_ldap.j2"
+      dest: "/etc/sssd/sssd.conf"
+      mode: 0600
+    register: sssd
+    when: keytab.failed == true
+
+  - name: If there is a keytab, configure sssd with kerberos.
+    template:
+      src: "{{ role_path }}/templates/etc/sssd/sssd_ad.j2"
+      dest: "/etc/sssd/sssd.conf"
+      mode: 0600
+    register: sssd
+    when: keytab.failed == false
 
   - name: Create home dir at login.
     replace:

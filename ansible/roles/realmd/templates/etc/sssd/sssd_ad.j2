@@ -1,13 +1,13 @@
 [sssd]
-domains = {{ domain_name }}
+domains = {{ full_domain_name }}
 config_file_version = 2
 
-[domain/{{ domain_name }}]
+[domain/{{ full_domain_name }}]
 id_provider = ad
 ldap_id_mapping = True
-krb5_realm = {{ domain_name }}
+krb5_realm = {{ full_domain_name }}
 access_provider = ad
-ad_domain = {{ domain_name }}
+ad_domain = {{ full_domain_name }}
 cache_credentials = True
 krb5_store_password_if_offline = True
 default_shell = /bin/bash

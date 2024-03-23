@@ -1,5 +1,6 @@
 ---
 domain_name: "mydomain"
+full_domain_name: "mydomain.org"
 ldap_uri: "ldaps://dc1.mydomain.org"
 search_base: "dc=mydomain,dc=org"
 bind_dn: "cn=ldap-bind,cn=Users,dc=mydomain,dc=org"
