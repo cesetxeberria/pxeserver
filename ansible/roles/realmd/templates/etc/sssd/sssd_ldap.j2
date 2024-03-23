@@ -1,7 +1,6 @@
 [sssd]
 domains = {{ domain_name }}
 config_file_version = 2
-#services = nss, pam
 
 [domain/{{ domain_name }}]
 id_provider = ldap
@@ -17,8 +16,4 @@ ldap_referrals = False
 cache_credentials = True
 default_shell = /bin/bash
 use_fully_qualified_names = False
-fallback_homedir = /home/%u@%d
-
-#ldap_sasl_mech = gssapi
-#ldap_sasl_authid = host/machine.fqdn@REALM
-#ldap_krb5_keytab = /etc/krb5.keytab
+fallback_homedir = /home/%u
