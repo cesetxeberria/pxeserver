@@ -1,6 +1,6 @@
 #connect the client to AD using ldap backend
 ---
-  - name: Install LDAP dependencies.
+  - name: Install dependencies.
     apt:
       name: "{{ packages }}"
     vars:
@@ -15,16 +15,27 @@
        - adcli
        - packagekit
        - nss-updatedb
-       - krb5-user
-       - krb5-pkinit
 
 #sss_obfuscate -d <domain_name>
-  - name: Configure sssd using a template.
+#  - name: Configure sssd with LDAP.
+#    template:
+#      src: "{{ role_path }}/templates/etc/sssd/sssd_ldap.j2"
+#      dest: "/etc/sssd/sssd.conf"
+#      mode: 0600
+#    register: sssd
+
+  - name: Configure sssd with kerberos.
     template:
-      src: "{{ role_path }}/templates/etc/sssd/sssd.j2"
+      src: "{{ role_path }}/templates/etc/sssd/sssd_ad.j2"
       dest: "/etc/sssd/sssd.conf"
       mode: 0600
     register: sssd
+
+  - name: Copy ldap keytab.
+    copy:
+      src: "/root/ldap.keytab"
+      dest: "/etc/krb5.keytab"
+      mode: 0600
 
   - name: Create home dir at login.
     replace:
