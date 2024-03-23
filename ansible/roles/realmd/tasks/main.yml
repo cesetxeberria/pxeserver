@@ -16,13 +16,24 @@
        - packagekit
        - nss-updatedb
 
-#sss_obfuscate -d <domain_name>
-#  - name: Configure sssd with LDAP.
-#    template:
-#      src: "{{ role_path }}/templates/etc/sssd/sssd_ldap.j2"
-#      dest: "/etc/sssd/sssd.conf"
-#      mode: 0600
-#    register: sssd
+  - name: Check if there is a keytab.
+    stat:
+      path: "/root/ldap.keytab"
+    register: keytab
+
+  - name: Zoom karpeta sortu.
+    file:
+      path: /root/zoom
+      state: directory
+
+  #sss_obfuscate -d <domain_name>
+  - name: Configure sssd with LDAP.
+    template:
+      src: "{{ role_path }}/templates/etc/sssd/sssd_ldap.j2"
+      dest: "/etc/sssd/sssd.conf"
+      mode: 0600
+    register: sssd
+    when: keytab.stat.exists == False
 
   - name: Configure sssd with kerberos.
     template:
@@ -30,12 +41,14 @@
       dest: "/etc/sssd/sssd.conf"
       mode: 0600
     register: sssd
+    when: keytab.stat.exists == True
 
   - name: Copy ldap keytab.
     copy:
       src: "/root/ldap.keytab"
       dest: "/etc/krb5.keytab"
       mode: 0600
+    when: keytab.stat.exists == True
 
   - name: Create home dir at login.
     replace:
