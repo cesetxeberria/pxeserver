@@ -18,7 +18,7 @@
 
   - include_tasks: 06-kernel.yml
 
-  - include_tasks: 07-repositories.yml
+#  - include_tasks: 07-repositories.yml
 
   - include_tasks: 08-tasksel.yml
 
