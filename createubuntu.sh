@@ -9,7 +9,7 @@ mkdir live
 echo "debootstrap new ubuntu installation"
 debootstrap --arch=amd64 --merged-usr \
  --components=main,restricted,universe,multiverse \
-lunar live/squashfs-root http://es.archive.ubuntu.com/ubuntu/
+noble live/squashfs-root http://es.archive.ubuntu.com/ubuntu/
 
 #copy the script named insideubuntu.sh in our new installation directory
 echo "copy insideubuntu.sh"
