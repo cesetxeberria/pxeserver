@@ -7,7 +7,7 @@ mkdir live
 #create a new debian installation inside live/squashfs-root directory using debootstrap
 #release is bullseye, architecture amd64 and we are using french repository
 echo "debootstrap new debian installation"
-debootstrap --arch=amd64 --include=locales,keyboard-configuration,console-setup \
+debootstrap --arch=amd64 \
 --components=main,contrib,non-free,non-free-firmware --merged-usr \
 bookworm live/squashfs-root http://deb.debian.org/debian
 

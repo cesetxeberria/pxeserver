@@ -7,7 +7,7 @@ mount -t devpts none /dev/pts
 
 #configure spanish locale
 echo "installing locales"
-apt -y install language-pack-es
+DEBIAN_FRONTEND=noninteractive apt -y install language-pack-es
 echo "configuring locales"
 update-locale LANG=es_ES.UTF-8
 
@@ -30,7 +30,7 @@ sed -i.bak 's/#Storage=auto/Storage=none/g' /etc/systemd/journald.conf
 
 #install minimum packages.
 echo "installing packages"
-apt-get -y install linux-image-generic live-boot tasksel haveged
+DEBIAN_FRONTEND=noninteractive apt -y install linux-image-generic live-boot tasksel haveged
 tasksel --new-install install standard
 
 #fix dns

@@ -21,12 +21,14 @@ echo "LANG=C.UTF-8" >> /usr/local/bin/prepare
 chmod +x /usr/local/bin/prepare
 
 #configure spanish locale
+DEBIAN_FRONTEND=noninteractive apt -y install locales
 echo "configuring locales"
 sed -i.bak 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g' /etc/locale.gen
 dpkg-reconfigure --frontend=noninteractive locales
 update-locale LANG=es_ES.UTF-8
 
 #configure spanish keyboard
+DEBIAN_FRONTEND=noninteractive apt -y install keyboard-configuration console-setup
 echo "configuring keyboard"
 sed -i.bak 's/XKBLAYOUT="us"/XKBLAYOUT="es"/g' /etc/default/keyboard
 dpkg-reconfigure --frontend=noninteractive keyboard-configuration
@@ -54,8 +56,8 @@ sed -i.bak 's/#Storage=auto/Storage=none/g' /etc/systemd/journald.conf
 
 #install minimum packages
 echo "installing packages"
-apt -y install linux-image-amd64 live-boot sudo openssl
-#apt-get -y install grub-efi-amd64-signed
+DEBIAN_FRONTEND=noninteractive apt -y install linux-image-amd64 live-boot sudo openssl
+#apt -y install grub-efi-amd64-signed
 #this is optional, install debian standard system utilities with tasksel
 tasksel --new-install install standard
 
