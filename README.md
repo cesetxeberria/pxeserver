@@ -1,3 +1,7 @@
+moved to https://codeberg.org/cesetxeberria/pxeserver
+
+
+
 # Build your own PXE server
 Here I will document how to create your own pxe server with debian and some use cases for it. This is nothing new, just a compilation of howtows & wikis I read through the internet. I wanted to have all the documentation centralized somewhere and I think this is a good way to share my knowledge. Hope you find it useful.
 
